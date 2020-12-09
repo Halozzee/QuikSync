@@ -1,5 +1,3 @@
-# TcpDirectorySyncronizer
-
 Explanation of this existing
 ========================
 What's that?
