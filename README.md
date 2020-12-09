@@ -38,3 +38,4 @@ All the stuff I could say from not is just link to this guide about [How to cont
 
 I will be posting issues so, you could get one or several.
 
+If you want to contribute, please send me a mail to Seagulmp3@gmail.com
