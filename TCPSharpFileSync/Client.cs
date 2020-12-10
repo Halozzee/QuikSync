@@ -223,7 +223,7 @@ namespace TCPSharpFileSync
 
         public SyncResponse SendMessage(string msg)
         {
-            byte[] b = Encoding.Convert(Encoding.Default, Encoding.Unicode, Encoding.Default.GetBytes(msg));
+            byte[] b = Encoding.Convert(Encoding.Default, Encoding.BigEndianUnicode, Encoding.Default.GetBytes(msg));
             return clientH.SendAndWait(msBeforeTimeOut, b);
         }
 

@@ -66,6 +66,11 @@ namespace TCPSharpFileSync
             return System.Text.Encoding.Unicode.GetString(b);
         }
 
+        public byte[] GetBytesFromString(string s)
+        {
+            return Encoding.Unicode.GetBytes(s);
+        }
+
         public static string GetLocalIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());

@@ -58,7 +58,7 @@ namespace TCPSharpFileSync
         {
             servH.Events.StreamReceived -= StreamReceived;
             string cmd = GetStringFromBytes(arg.Data);
-            SyncResponse sr = new SyncResponse(arg, ConvertToUnicode("NotRecognized"));
+            SyncResponse sr = new SyncResponse(arg, GetBytesFromString("NotRecognized"));
             if (cmd.Contains("!qq"))
             {
                 servH.DisconnectClients();
@@ -69,13 +69,13 @@ namespace TCPSharpFileSync
             {
                 cmd = cmd.Replace("!getHashes ", "");
                 string hashes = GetAllAskedHashesToSeparatedString(cmd);
-                sr = new SyncResponse(arg, ConvertToUnicode(hashes));
+                sr = new SyncResponse(arg, GetBytesFromString(hashes));
             }
             else if (cmd.Contains("!getFile "))
             {
                 cmd = cmd.Replace("!getFile ", "");
                 UploadFile(arg.IpPort, cmd);
-                sr = new SyncResponse(arg, ConvertToUnicode("!dd"));
+                sr = new SyncResponse(arg, GetBytesFromString("!dd"));
             }
             else if (cmd.Contains("!catchFile "))
             {
@@ -85,16 +85,16 @@ namespace TCPSharpFileSync
                 }
 
                 DownloadFileTo = filer.rootPath + cmd.Replace("!catchFile ", "");
-                sr = new SyncResponse(arg, ConvertToUnicode("!dd"));
+                sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 servH.Events.StreamReceived += StreamReceived;
             }
             else if (cmd.Contains("!exists "))
             {
                 cmd = cmd.Replace("!exists ", "");
                 if (filer.CheckFileExistanceFromRelative(cmd))
-                    sr = new SyncResponse(arg, ConvertToUnicode("!Yes"));
+                    sr = new SyncResponse(arg, GetBytesFromString("!Yes"));
                 else
-                    sr = new SyncResponse(arg, ConvertToUnicode("!No"));
+                    sr = new SyncResponse(arg, GetBytesFromString("!No"));
             }
             else if (cmd.Contains("!getFileList"))
             {
@@ -106,27 +106,22 @@ namespace TCPSharpFileSync
                 cmd = cmd.Replace("!sessiondone", "");
                 filer = new Filer(filer.rootPath);
                 hasher.UpdateHasherBasedOnUpdatedFiler(filer);
-                sr = new SyncResponse(arg, ConvertToUnicode("!dd"));
+                sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 LogHandler.WriteLog("Session done!", Color.Green);
             }
             else if (cmd.Contains("!rm "))
             {
                 cmd = cmd.Replace("!rm ", "");
                 File.Delete(filer.GetLocalFromRelative(cmd));
-                sr = new SyncResponse(arg, ConvertToUnicode("!dd"));
+                sr = new SyncResponse(arg, GetBytesFromString("!dd"));
             }
             else if (cmd.Contains("!getFileInfo "))
             {
                 cmd = cmd.Replace("!getFileInfo ", "");
                 FileInfo fi = filer.GetLocalFileInfoFromRelative(cmd);
-                sr = new SyncResponse(arg, ConvertToUnicode($"{fi.Length}\n{fi.LastAccessTime.ToString()}"));
+                sr = new SyncResponse(arg, GetBytesFromString($"{fi.Length}\n{fi.LastAccessTime.ToString()}"));
             }
             return sr;
-        }
-
-        public byte[] ConvertToUnicode(string s) 
-        {
-            return Encoding.Convert(Encoding.Default, Encoding.Unicode, Encoding.Default.GetBytes(s));
         }
 
         private void StreamReceived(object sender, StreamReceivedFromClientEventArgs args)
@@ -280,7 +275,9 @@ namespace TCPSharpFileSync
                     sendString += "\n";
             }
 
-            return new SyncResponse(arg, ConvertToUnicode(sendString));
+            byte[] b = GetBytesFromString(sendString);
+
+            return new SyncResponse(arg, b);
         }
     }
 }
