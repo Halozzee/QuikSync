@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using WatsonTcp;
 
 namespace TCPSharpFileSync
@@ -149,11 +144,11 @@ namespace TCPSharpFileSync
             LogHandler.WriteLog($"Downloaded {DownloadFileTo.Replace(filer.rootPath, "")}", Color.Green);
 
             DownloadFileTo = "";
-            servH.Events.StreamReceived -= StreamReceived; 
+            servH.Events.StreamReceived -= StreamReceived;
             gettingFile = false;
         }
 
-        private string GetAllAskedHashesToSeparatedString(string requested) 
+        private string GetAllAskedHashesToSeparatedString(string requested)
         {
             string response = "";
             List<string> toBeProcessed = requested.Split(new string[] { "?" }, StringSplitOptions.RemoveEmptyEntries).ToList();
