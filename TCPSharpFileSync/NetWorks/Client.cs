@@ -33,12 +33,6 @@ namespace TCPSharpFileSync
             clientH.Connect();
         }
 
-        //private void MessageReceived(object sender, MessageReceivedFromServerEventArgs e)
-        //{
-        //    string recieved = GetStringFromBytes(e.Data);
-        //    LogHandler.WriteLog($"Server: {recieved}");
-        //}
-
         private void ServerDisconnected(object sender, EventArgs e)
         {
             LogHandler.WriteLog($"Disconnected from server!", Color.Red);
@@ -127,28 +121,6 @@ namespace TCPSharpFileSync
             List<string> locFiles = filer.GetRelativeFiles();
 
             hashesGotFromServer = new List<string>();
-
-            //foreach (var item in locFiles)
-            //{
-            //    if (filesGotFromServer.FindIndex(x => x == item) == -1)
-            //    {
-            //        SyncResponse sr = SendMessage("!getHash " + item);
-            //        hashesGotFromServer.Add(GetStringFromBytes(sr.Data));
-            //    }
-            //    else
-            //    { 
-            //        if (AskServerForFileExistance(item))
-            //        {
-            //            SyncResponse sr = SendMessage("!getHash " + item);
-            //            hashesGotFromServer.Add(GetStringFromBytes(sr.Data));
-            //        }
-            //        else
-            //        {
-            //            hashesGotFromServer.Add("-");
-            //            diffList.Add(item);
-            //        } 
-            //    }
-            //}
 
             //1 billion chars is max so, you have to track these values
             // ? - is restricted char in file naming on windows so use it as separator for requests

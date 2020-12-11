@@ -63,7 +63,7 @@ namespace TCPSharpFileSync
 
         protected string GetStringFromBytes(byte[] b) 
         {
-            return System.Text.Encoding.Unicode.GetString(b);
+            return Encoding.Unicode.GetString(b);
         }
 
         public byte[] GetBytesFromString(string s)
