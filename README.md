@@ -34,7 +34,7 @@ Contributing
 ~~The project could not be commented well but I will be working on it~~
 
 If you would like to make some stuff along with this code - feel free to use it, and even if you want to help me developing it I would be even more feeling better about this working. 
-All the stuff I could say from not is just link to this guide about [How to contribute](https://github.com/firstcontributions/first-contributions) any stuff, and say that you have to write down all the things you've done.
+All the stuff I could say for now is just link to this guide about [How to contribute](https://github.com/firstcontributions/first-contributions) any stuff, and say that you have to write down all the things you've done.
 
 I will be posting issues so, you could get one or several.
 
