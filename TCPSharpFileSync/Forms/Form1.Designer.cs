@@ -47,6 +47,8 @@
             this.ifndefOnServerCheckBox = new System.Windows.Forms.CheckBox();
             this.ifndefOnClientCheckBox = new System.Windows.Forms.CheckBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.chooseDirBtn = new System.Windows.Forms.Button();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeOutNumericUpDown)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -98,7 +100,7 @@
             // 
             // syncBtn
             // 
-            this.syncBtn.Location = new System.Drawing.Point(360, 18);
+            this.syncBtn.Location = new System.Drawing.Point(360, 14);
             this.syncBtn.Name = "syncBtn";
             this.syncBtn.Size = new System.Drawing.Size(104, 26);
             this.syncBtn.TabIndex = 12;
@@ -121,6 +123,7 @@
             this.localDirTextBox.Name = "localDirTextBox";
             this.localDirTextBox.Size = new System.Drawing.Size(156, 20);
             this.localDirTextBox.TabIndex = 8;
+            this.localDirTextBox.TextChanged += new System.EventHandler(this.localDirTextBox_TextChanged);
             // 
             // textBox1
             // 
@@ -191,9 +194,9 @@
             // 
             this.groupBox2.Controls.Add(this.doDownloadCheckBox);
             this.groupBox2.Controls.Add(this.doUploadCheckBox);
-            this.groupBox2.Location = new System.Drawing.Point(179, 18);
+            this.groupBox2.Location = new System.Drawing.Point(179, 71);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(83, 121);
+            this.groupBox2.Size = new System.Drawing.Size(83, 68);
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Actions";
@@ -252,11 +255,22 @@
             this.progressBar.Size = new System.Drawing.Size(451, 23);
             this.progressBar.TabIndex = 25;
             // 
+            // chooseDirBtn
+            // 
+            this.chooseDirBtn.Location = new System.Drawing.Point(171, 15);
+            this.chooseDirBtn.Name = "chooseDirBtn";
+            this.chooseDirBtn.Size = new System.Drawing.Size(100, 24);
+            this.chooseDirBtn.TabIndex = 26;
+            this.chooseDirBtn.Text = "Choose directory";
+            this.chooseDirBtn.UseVisualStyleBackColor = true;
+            this.chooseDirBtn.Click += new System.EventHandler(this.chooseDirBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(472, 450);
+            this.Controls.Add(this.chooseDirBtn);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.ifndefOnClientCheckBox);
             this.Controls.Add(this.ifndefOnServerCheckBox);
@@ -304,6 +318,8 @@
         private System.Windows.Forms.CheckBox ifndefOnServerCheckBox;
         private System.Windows.Forms.CheckBox ifndefOnClientCheckBox;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Button chooseDirBtn;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }
 

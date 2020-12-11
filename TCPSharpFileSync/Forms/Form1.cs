@@ -63,7 +63,7 @@ namespace TCPSharpFileSync
             {
                 TCPSettings tcp = new TCPSettings(localDirTextBox.Text, "", int.Parse(textBox1.Text), (int)timeOutNumericUpDown.Value);
                 s = new Server(tcp);
-                textBox2.Text = Server.GetLocalIPAddress();
+                textBox2.Text = TCPFileWorker.GetLocalIPAddress();
             }
             else
             {
@@ -104,6 +104,19 @@ namespace TCPSharpFileSync
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void localDirTextBox_TextChanged(object sender, EventArgs e)
+        {
+            folderBrowserDialog.SelectedPath = localDirTextBox.Text;
+        }
+
+        private void chooseDirBtn_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                localDirTextBox.Text = folderBrowserDialog.SelectedPath;
+            }
         }
     }
 }
