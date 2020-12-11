@@ -35,21 +35,25 @@
             this.syncBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.localDirTextBox = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.portTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.ipTextBox = new System.Windows.Forms.TextBox();
             this.timeOutNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.actionsGroupBox = new System.Windows.Forms.GroupBox();
             this.doDownloadCheckBox = new System.Windows.Forms.CheckBox();
             this.doUploadCheckBox = new System.Windows.Forms.CheckBox();
             this.ifndefOnServerCheckBox = new System.Windows.Forms.CheckBox();
             this.ifndefOnClientCheckBox = new System.Windows.Forms.CheckBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.chooseDirBtn = new System.Windows.Forms.Button();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.setupFromFilebtn = new System.Windows.Forms.Button();
+            this.setupFileOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeOutNumericUpDown)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.actionsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // logRichTextBox
@@ -98,7 +102,7 @@
             // 
             // syncBtn
             // 
-            this.syncBtn.Location = new System.Drawing.Point(360, 18);
+            this.syncBtn.Location = new System.Drawing.Point(360, 14);
             this.syncBtn.Name = "syncBtn";
             this.syncBtn.Size = new System.Drawing.Size(104, 26);
             this.syncBtn.TabIndex = 12;
@@ -121,14 +125,15 @@
             this.localDirTextBox.Name = "localDirTextBox";
             this.localDirTextBox.Size = new System.Drawing.Size(156, 20);
             this.localDirTextBox.TabIndex = 8;
+            this.localDirTextBox.TextChanged += new System.EventHandler(this.localDirTextBox_TextChanged);
             // 
-            // textBox1
+            // portTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 120);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(156, 20);
-            this.textBox1.TabIndex = 16;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.portTextBox.Location = new System.Drawing.Point(9, 120);
+            this.portTextBox.Name = "portTextBox";
+            this.portTextBox.Size = new System.Drawing.Size(156, 20);
+            this.portTextBox.TabIndex = 16;
+            this.portTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label3
             // 
@@ -148,13 +153,12 @@
             this.label4.TabIndex = 19;
             this.label4.Text = "Ip";
             // 
-            // textBox2
+            // ipTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(9, 79);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(156, 20);
-            this.textBox2.TabIndex = 18;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.ipTextBox.Location = new System.Drawing.Point(9, 79);
+            this.ipTextBox.Name = "ipTextBox";
+            this.ipTextBox.Size = new System.Drawing.Size(156, 20);
+            this.ipTextBox.TabIndex = 18;
             // 
             // timeOutNumericUpDown
             // 
@@ -177,6 +181,7 @@
             0,
             0,
             0});
+            this.timeOutNumericUpDown.Visible = false;
             // 
             // label1
             // 
@@ -186,18 +191,19 @@
             this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 21;
             this.label1.Text = "ms before timeout";
+            this.label1.Visible = false;
             // 
-            // groupBox2
+            // actionsGroupBox
             // 
-            this.groupBox2.Controls.Add(this.doDownloadCheckBox);
-            this.groupBox2.Controls.Add(this.doUploadCheckBox);
-            this.groupBox2.Location = new System.Drawing.Point(179, 18);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(83, 121);
-            this.groupBox2.TabIndex = 22;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Actions";
-            this.groupBox2.Visible = false;
+            this.actionsGroupBox.Controls.Add(this.doDownloadCheckBox);
+            this.actionsGroupBox.Controls.Add(this.doUploadCheckBox);
+            this.actionsGroupBox.Location = new System.Drawing.Point(179, 71);
+            this.actionsGroupBox.Name = "actionsGroupBox";
+            this.actionsGroupBox.Size = new System.Drawing.Size(83, 68);
+            this.actionsGroupBox.TabIndex = 22;
+            this.actionsGroupBox.TabStop = false;
+            this.actionsGroupBox.Text = "Actions";
+            this.actionsGroupBox.Visible = false;
             // 
             // doDownloadCheckBox
             // 
@@ -252,21 +258,47 @@
             this.progressBar.Size = new System.Drawing.Size(451, 23);
             this.progressBar.TabIndex = 25;
             // 
+            // chooseDirBtn
+            // 
+            this.chooseDirBtn.Location = new System.Drawing.Point(171, 15);
+            this.chooseDirBtn.Name = "chooseDirBtn";
+            this.chooseDirBtn.Size = new System.Drawing.Size(100, 24);
+            this.chooseDirBtn.TabIndex = 26;
+            this.chooseDirBtn.Text = "Choose directory";
+            this.chooseDirBtn.UseVisualStyleBackColor = true;
+            this.chooseDirBtn.Click += new System.EventHandler(this.chooseDirBtn_Click);
+            // 
+            // setupFromFilebtn
+            // 
+            this.setupFromFilebtn.Location = new System.Drawing.Point(274, 15);
+            this.setupFromFilebtn.Name = "setupFromFilebtn";
+            this.setupFromFilebtn.Size = new System.Drawing.Size(70, 24);
+            this.setupFromFilebtn.TabIndex = 27;
+            this.setupFromFilebtn.Text = "Set up";
+            this.setupFromFilebtn.UseVisualStyleBackColor = true;
+            this.setupFromFilebtn.Click += new System.EventHandler(this.setupFromFilebtn_Click);
+            // 
+            // setupFileOpenDialog
+            // 
+            this.setupFileOpenDialog.Filter = "ini file|*.ini";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(472, 450);
+            this.Controls.Add(this.setupFromFilebtn);
+            this.Controls.Add(this.chooseDirBtn);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.ifndefOnClientCheckBox);
             this.Controls.Add(this.ifndefOnServerCheckBox);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.actionsGroupBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.timeOutNumericUpDown);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.ipTextBox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.portTextBox);
             this.Controls.Add(this.logRichTextBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.syncBtn);
@@ -277,8 +309,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeOutNumericUpDown)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.actionsGroupBox.ResumeLayout(false);
+            this.actionsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -292,18 +324,22 @@
         private System.Windows.Forms.Button syncBtn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox localDirTextBox;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox portTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox ipTextBox;
         private System.Windows.Forms.NumericUpDown timeOutNumericUpDown;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox actionsGroupBox;
         private System.Windows.Forms.CheckBox doDownloadCheckBox;
         private System.Windows.Forms.CheckBox doUploadCheckBox;
         private System.Windows.Forms.CheckBox ifndefOnServerCheckBox;
         private System.Windows.Forms.CheckBox ifndefOnClientCheckBox;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Button chooseDirBtn;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.Button setupFromFilebtn;
+        private System.Windows.Forms.OpenFileDialog setupFileOpenDialog;
     }
 }
 

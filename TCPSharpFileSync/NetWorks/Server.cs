@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using WatsonTcp;
 
 namespace TCPSharpFileSync
@@ -149,11 +144,11 @@ namespace TCPSharpFileSync
             LogHandler.WriteLog($"Downloaded {DownloadFileTo.Replace(filer.rootPath, "")}", Color.Green);
 
             DownloadFileTo = "";
-            servH.Events.StreamReceived -= StreamReceived; 
+            servH.Events.StreamReceived -= StreamReceived;
             gettingFile = false;
         }
 
-        private string GetAllAskedHashesToSeparatedString(string requested) 
+        private string GetAllAskedHashesToSeparatedString(string requested)
         {
             string response = "";
             List<string> toBeProcessed = requested.Split(new string[] { "?" }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -184,72 +179,6 @@ namespace TCPSharpFileSync
             }
             LogHandler.WriteLog($"Uploaded {rel}", Color.Green);
         }
-
-        //private void UploadFile(string rel, string IpPort) 
-        //{
-        //    string loc = filer.GetLocalFromRelative(rel);
-
-        //    if (loc == null) 
-        //    {
-        //        servH.Send(IpPort, "DoesNotExist");
-        //        return;
-        //    }
-
-        //    using (FileStream fs = new FileStream(loc, FileMode.Open))
-        //    {
-        //        byte[] bs = new byte[bufferSize];
-        //        byte[] readyToSend;
-        //        int read = 0;
-        //        while (fs.Position != fs.Length)
-        //        {
-        //            read = fs.Read(bs, (int)fs.Position, (int)bufferSize);
-
-        //            readyToSend = new byte[read];
-        //            Array.Copy(bs, readyToSend, read);
-
-        //            SyncResponse sr = servH.SendAndWait(msBeforeTimeOut, IpPort, readyToSend);
-
-        //            string response = GetStringFromBytes(sr.Data);
-
-        //            while (response != "Got")
-        //            {
-        //                sr = servH.SendAndWait(msBeforeTimeOut, IpPort, readyToSend);
-        //                response = GetStringFromBytes(sr.Data);
-        //            }
-        //        }
-        //    }
-
-        //    servH.Send(IpPort, "FileDone");
-        //}
-        //private void DownloadFile() 
-        //{
-        //    string loc = filer.rootPath + rel;
-
-        //    using (FileStream fs = new FileStream(loc, FileMode.Open))
-        //    {
-        //        byte[] bs = new byte[bufferSize];
-        //        byte[] readyToCatch;
-        //        int read = 0;
-        //        while (fs.Position != fs.Length)
-        //        {
-        //            read = fs.Read(bs, (int)fs.Position, (int)bufferSize);
-
-        //            readyToSend = new byte[read];
-        //            Array.Copy(bs, readyToSend, read);
-
-        //            SyncResponse sr = servH.SendAndWait(msBeforeTimeOut, IpPort, readyToSend);
-
-        //            string response = GetStringFromBytes(sr.Data);
-
-        //            while (response != "Got")
-        //            {
-        //                sr = servH.SendAndWait(msBeforeTimeOut, IpPort, readyToSend);
-        //                response = GetStringFromBytes(sr.Data);
-        //            }
-        //        }
-        //    }
-        //}
-
         private void ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
             clients = servH.ListClients().ToList();

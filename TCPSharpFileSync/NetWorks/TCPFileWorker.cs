@@ -29,6 +29,7 @@ namespace TCPSharpFileSync
             timeouter = msToTimeout;
             rmIfnDefOnClient = false;
             rmIfnDefOnServer = false;
+            ValidateTheDirPathSlashes();
         }
         public TCPSettings(string ptd, string i, int p, bool dd, bool du, bool rmifndefc, bool rmifndefs, int msToTimeout)
         {
@@ -40,7 +41,29 @@ namespace TCPSharpFileSync
             timeouter = msToTimeout;
             rmIfnDefOnClient = rmifndefc;
             rmIfnDefOnServer = rmifndefs;
+            ValidateTheDirPathSlashes();
         }
+
+        /// <summary>
+        /// Validate if the last char is '\' or '/'
+        /// </summary>
+        /// <param name="dirPth">The path that needs to be validated</param>
+        private void ValidateTheDirPathSlashes()
+        {
+            if (pathToSyncDir[pathToSyncDir.Length - 1] != '/' && pathToSyncDir[pathToSyncDir.Length - 1] != '\\')
+            {
+                // Checking for what type of slash has to be added 
+                if (pathToSyncDir.Contains("\\"))
+                {
+                    pathToSyncDir += "\\";
+                }
+                else
+                {
+                    pathToSyncDir += "/";
+                }
+            }
+        }
+
     }
 
     public abstract class TCPFileWorker
@@ -63,7 +86,7 @@ namespace TCPSharpFileSync
 
         protected string GetStringFromBytes(byte[] b) 
         {
-            return System.Text.Encoding.Unicode.GetString(b);
+            return Encoding.Unicode.GetString(b);
         }
 
         public byte[] GetBytesFromString(string s)
