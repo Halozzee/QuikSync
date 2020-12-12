@@ -13,11 +13,11 @@ I've made more than one syncronizer for some purposes, but this one is the one I
 >Why don't use a ready from-the-box file share thing to keep files in cloud, so you could take these wherever and whenever you want?
 
 That's a complicated question to answer, but I would like to wrap things up.
-1. I love doing things my own. Especially if they require some knowledge oh how is this supposed to be done ~~, but that's not really the case~~
-1. That's a some kind of practise of doing application that might be really useful
-1. I dont trust all the clouds because the keep atleast log of action, which might be not really cool to think about sometimes
-1. I love do the things that I want them to be working
-1. I need to take my freetime to make some stuff that I happy be dealing with
+1. I love doing things my own. Especially if they require some knowledge oh how is this supposed to be done ~~, but that's not really the case~~.
+1. That's a some kind of practise of doing application that might be really useful.
+1. I dont trust all the clouds because the keep atleast log of action, which might be not really cool to think about sometimes.
+1. I love do the things that way I want them to be working.
+1. I need to take my freetime to make some stuff that I happy be dealing with.
 
 Concept
 ----------------------
