@@ -8,7 +8,7 @@
 
 ### Optional
 
-Several devices to make tests on
+* Several devices to make tests on
 
 ## Please try to follow these guidelines when contributing to this project
 
