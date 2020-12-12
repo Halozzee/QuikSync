@@ -15,7 +15,13 @@ namespace TCPSharpFileSync
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Server object that used for containing everything if the program runs as server.
+        /// </summary>
         Server s;
+        /// <summary>
+        /// Client object that used for containing everything if the program runs as client.
+        /// </summary>
         Client c;
 
         public Form1()
@@ -24,9 +30,12 @@ namespace TCPSharpFileSync
             InitializeLogHandler();
         }
 
+        /// <summary>
+        /// Procedure that initialize LogHandler static object.
+        /// </summary>
         private void InitializeLogHandler()
         {
-            LogHandler.LogDelegate = (string s, Color color) => logRichTextBox.BeginInvoke(new MethodInvoker(() =>
+            LogHandler.RichTextBoxWriteDelegate = (string s, Color color) => logRichTextBox.BeginInvoke(new MethodInvoker(() =>
             {
                 logRichTextBox.SelectionStart = logRichTextBox.TextLength;
                 logRichTextBox.SelectionLength = 0;
@@ -61,18 +70,21 @@ namespace TCPSharpFileSync
 
         private void syncBtn_Click_1(object sender, EventArgs e)
         {
+            // If starting as server.
             if (asServerRadioButton.Checked)
             {
                 TCPSettings tcp = new TCPSettings(localDirTextBox.Text, "", int.Parse(portTextBox.Text), (int)timeOutNumericUpDown.Value);
                 s = new Server(tcp);
                 ipTextBox.Text = TCPFileWorker.GetLocalIPAddress();
             }
+            // If starting as client.
             else
             {
                 TCPSettings tcp = new TCPSettings(localDirTextBox.Text, ipTextBox.Text, int.Parse(portTextBox.Text), 
                     doDownloadCheckBox.Checked, doUploadCheckBox.Checked, ifndefOnClientCheckBox.Checked, ifndefOnServerCheckBox.Checked, (int)timeOutNumericUpDown.Value);
                 c = new Client(tcp);
 
+                // Starting syncronization as a background thread so it does not freeze the main form.
                 Thread InstanceCaller = new Thread( new ThreadStart(c.Syncronize));
                 InstanceCaller.IsBackground = true;
                 // Start the thread.
@@ -91,6 +103,7 @@ namespace TCPSharpFileSync
 
         private void asClientRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            // Showing every client input field for starting program as client.
             actionsGroupBox.Visible         = true;
             ifndefOnClientCheckBox.Visible  = true;
             ifndefOnServerCheckBox.Visible  = true;
@@ -100,6 +113,7 @@ namespace TCPSharpFileSync
 
         private void asServerRadioButton_CheckedChanged(object sender, EventArgs e)
         {
+            // Hiding every client input field for starting program as server.
             actionsGroupBox.Visible         = false;
             ifndefOnClientCheckBox.Visible  = false;
             ifndefOnServerCheckBox.Visible  = false;
@@ -127,26 +141,26 @@ namespace TCPSharpFileSync
 
         private void setupFromFilebtn_Click(object sender, EventArgs e)
         {
-            // If the dialog goes with OK result
+            // If the dialog goes with OK result.
             if (setupFileOpenDialog.ShowDialog() == DialogResult.OK)
             {
-                // General - is a section for information for both server and client
+                // General - is a section for information for both server and client.
                 try
                 {
-                    // Getting what are we going to read data for server or client
+                    // Getting what are we going to read data for server or client.
                     string goFor = asServerRadioButton.Checked ? "Server" : "Client";
 
-                    // Initializing parser
+                    // Initializing parser.
                     var parser = new FileIniDataParser();
                     IniData data = parser.ReadFile(setupFileOpenDialog.FileName);
 
-                    // Reading path to directory that needs to be syncronized
+                    // Reading path to directory that needs to be syncronized.
                     localDirTextBox.Text = data["General"]["directoryPath"];
 
-                    // Reading IP and Port data
+                    // Reading IP and Port data.
                     portTextBox.Text = data["General"]["port"];
 
-                    // If we are dealing with client on this launch - then read some extra data
+                    // If we are dealing with client on this launch - then read some extra data.
                     if (goFor == "Client")
                     {
                         ipTextBox.Text = data[goFor]["ip"];
@@ -159,6 +173,7 @@ namespace TCPSharpFileSync
                 }
                 catch (Exception ex)
                 {
+                    // If the file isnt loading for some reason - show the exception text in messagebox.
                     MessageBox.Show(ex.Message);
                 }
             }

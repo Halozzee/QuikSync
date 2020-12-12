@@ -14,17 +14,44 @@ namespace TCPSharpFileSync
     {
         //======Inputs======
         //fi is FileInfo
+        /// <summary>
+        /// fi representing client files.
+        /// </summary>
         private List<string> fiClient;
+        /// <summary>
+        /// fi representing server files.
+        /// </summary>
         private List<string> fiServer;
+        /// <summary>
+        /// Relative path on both server and client.
+        /// </summary>
         private List<string> fileName;
 
         //======Outputs======
+        /// <summary>
+        /// List of strings. Each string represents Relative path that will be downloaded from server.
+        /// </summary>
         public List<string> getFromServer;
+        /// <summary>
+        /// List of strings. Each string represents Relative path that will be uploaded from server.
+        /// </summary>
         public List<string> uploadToServer;
+        /// <summary>
+        /// List of strings. Each string represents Relative path that will be skipped.
+        /// </summary>
         public List<string> skips;
+        /// <summary>
+        /// List of strings. Each string represents Relative path that will be removed from both server and client.
+        /// </summary>
         public List<string> removeEverywhere;
 
+        /// <summary>
+        /// Counter for showing fileName from the list.
+        /// </summary>
         int solverCounter = 0;
+        /// <summary>
+        /// The "barrier" value for showing with solverCounter.
+        /// </summary>
         int limit = 0;
 
         public ConflictSolverForm(List<string> fiC, List<string> fiS, List<string> fn)
@@ -40,6 +67,10 @@ namespace TCPSharpFileSync
             AskForSolve(solverCounter);
         }
 
+        /// <summary>
+        /// Asks user for how the current fileName[i] conflict has to be solved.
+        /// </summary>
+        /// <param name="i">The index of Relative path in fileName path</param>
         private void AskForSolve(int i) 
         {
             if (solverCounter != limit)
@@ -69,6 +100,9 @@ namespace TCPSharpFileSync
         {
 
         }
+
+        //Below this line - event handlers that just adding the file to the corresponding list and asks for solving the next file name.
+        //==============================================================
 
         private void chooseClientVarbtn_Click(object sender, EventArgs e)
         {

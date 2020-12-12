@@ -9,10 +9,23 @@ namespace TCPSharpFileSync
 {
     public class Server : TCPFileWorker
     {
+        /// <summary>
+        /// WatsonTcpServer class for wrap TCP works.
+        /// </summary>
         WatsonTcpServer servH;
-        // list clients
+        /// <summary>
+        /// List of all clients.
+        /// </summary>
         List<string> clients;
+        /// <summary>
+        /// Variable that represents a Local path that's the current file is downloading to.
+        /// </summary>
         string DownloadFileTo;
+
+        /// <summary>
+        /// Constructor that initializes Server object based on given TCPSettings.
+        /// </summary>
+        /// <param name="c">TCPSettings for server work.</param>
         public Server(TCPSettings c)
         {
             ts = c;
@@ -26,7 +39,7 @@ namespace TCPSharpFileSync
 
             servH.Keepalive.EnableTcpKeepAlives = true;
             servH.Keepalive.TcpKeepAliveInterval = 10;
-            servH.Keepalive.TcpKeepAliveTime = 10;
+            servH.Keepalive.TcpKeepAliveTime = msBeforeTimeOut;
             servH.Keepalive.TcpKeepAliveRetryCount = 10;
 
             FileScan(ts.pathToSyncDir);
@@ -34,6 +47,11 @@ namespace TCPSharpFileSync
             LogHandler.WriteLog($"Server started!", Color.Green);
         }
 
+        /// <summary>
+        /// Event handler for SyncRequest being received by server.
+        /// </summary>
+        /// <param name="arg">The SyncRequest that recieved.</param>
+        /// <returns></returns>
         //======Client requests======
         //!qq = Exit
         //!getHash *relative path to file* = get file hash to client
@@ -79,14 +97,14 @@ namespace TCPSharpFileSync
 
                 }
 
-                DownloadFileTo = filer.rootPath + cmd.Replace("!catchFile ", "");
+                DownloadFileTo = Filed.RootPath + cmd.Replace("!catchFile ", "");
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 servH.Events.StreamReceived += StreamReceived;
             }
             else if (cmd.Contains("!exists "))
             {
                 cmd = cmd.Replace("!exists ", "");
-                if (filer.CheckFileExistanceFromRelative(cmd))
+                if (Filed.CheckFileExistanceFromRelative(cmd))
                     sr = new SyncResponse(arg, GetBytesFromString("!Yes"));
                 else
                     sr = new SyncResponse(arg, GetBytesFromString("!No"));
@@ -94,31 +112,36 @@ namespace TCPSharpFileSync
             else if (cmd.Contains("!getFileList"))
             {
                 cmd = cmd.Replace("!getFileList", "");
-                sr = SendFileList(arg);
+                sr = new SyncResponse(arg, GetBytesFromString(GetFileList()));
             }
             else if (cmd.Contains("!sessiondone"))
             {
                 cmd = cmd.Replace("!sessiondone", "");
-                filer = new Filer(filer.rootPath);
-                hasher.UpdateHasherBasedOnUpdatedFiler(filer);
+                Filed = new Filer(Filed.RootPath);
+                Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 LogHandler.WriteLog("Session done!", Color.Green);
             }
             else if (cmd.Contains("!rm "))
             {
                 cmd = cmd.Replace("!rm ", "");
-                File.Delete(filer.GetLocalFromRelative(cmd));
+                File.Delete(Filed.GetLocalFromRelative(cmd));
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
             }
             else if (cmd.Contains("!getFileInfo "))
             {
                 cmd = cmd.Replace("!getFileInfo ", "");
-                FileInfo fi = filer.GetLocalFileInfoFromRelative(cmd);
+                FileInfo fi = Filed.GetLocalFileInfoFromRelative(cmd);
                 sr = new SyncResponse(arg, GetBytesFromString($"{fi.Length}\n{fi.LastAccessTime.ToString()}"));
             }
             return sr;
         }
 
+        /// <summary>
+        /// Event handler for receiving stream from client. Currently made for downloading files.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void StreamReceived(object sender, StreamReceivedFromClientEventArgs args)
         {
             gettingFile = true;
@@ -141,13 +164,18 @@ namespace TCPSharpFileSync
                 }
             }
 
-            LogHandler.WriteLog($"Downloaded {DownloadFileTo.Replace(filer.rootPath, "")}", Color.Green);
+            LogHandler.WriteLog($"Downloaded {DownloadFileTo.Replace(Filed.RootPath, "")}", Color.Green);
 
             DownloadFileTo = "";
             servH.Events.StreamReceived -= StreamReceived;
             gettingFile = false;
         }
 
+        /// <summary>
+        /// Function made for collecting all requested by client hashed and made them into a string with delimiter.
+        /// </summary>
+        /// <param name="requested">String that contains Relative pathes to get hashes of.</param>
+        /// <returns>String with delimited full of hashes that were asked.</returns>
         private string GetAllAskedHashesToSeparatedString(string requested)
         {
             string response = "";
@@ -156,9 +184,9 @@ namespace TCPSharpFileSync
 
             foreach (var item in toBeProcessed)
             {
-                if (File.Exists(filer.rootPath + item))
+                if (File.Exists(Filed.RootPath + item))
                 {
-                    recievedHashes.Add(hasher.GetHashMD5FromLocal(filer.rootPath + item));
+                    recievedHashes.Add(Hashed.GetHashMD5FromLocal(Filed.RootPath + item));
                 }
                 else
                     recievedHashes.Add("-");
@@ -169,9 +197,14 @@ namespace TCPSharpFileSync
             return response;
         }
 
+        /// <summary>
+        /// Function that uploads file to a client based on Relative path and IP:Port that it has to upload to.
+        /// </summary>
+        /// <param name="IpPost">IP:Port that it has to upload to.</param>
+        /// <param name="rel"> Relative path of uploading file.</param>
         public void UploadFile(string IpPost, string rel)
         {
-            string loc = filer.GetLocalFromRelative(rel);
+            string loc = Filed.GetLocalFromRelative(rel);
 
             using (FileStream fs = new FileStream(loc, FileMode.Open))
             {
@@ -191,9 +224,13 @@ namespace TCPSharpFileSync
             LogHandler.WriteLog($"{e.IpPort} connected!", Color.Green);
         }
 
-        private SyncResponse SendFileList(SyncRequest arg)
+        /// <summary>
+        /// Function that makes a string full of Relative pathes of existing files on this device. 
+        /// </summary>
+        /// <returns>String full of Relative pathes of existing files on this device.</returns>
+        private string GetFileList()
         {
-            var fileList = filer.GetRelativeFiles();
+            var fileList = Filed.RelativeFilePathes;
             string sendString = "";
 
             for (int i = 0; i < fileList.Count; i++)
@@ -204,9 +241,7 @@ namespace TCPSharpFileSync
                     sendString += "\n";
             }
 
-            byte[] b = GetBytesFromString(sendString);
-
-            return new SyncResponse(arg, b);
+            return sendString;
         }
     }
 }

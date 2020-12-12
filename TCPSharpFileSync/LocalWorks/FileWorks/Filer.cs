@@ -5,54 +5,92 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// typedef for better understanding and not using <>.
+using StringList = System.Collections.Generic.List<string>;
+
 namespace TCPSharpFileSync
 {
+    /// <summary>
+    /// Class that made for file working on device. Main purpose is to take "relative" pathes from "local" ones.
+    /// </summary>
     public class Filer
     {
-        public string rootPath { get; private set; }
-        private List<string> filePathes;
-        private List<string> relativeFilePathes;
+        /// <summary>
+        /// Path to a directory that need to be syncronized.
+        /// </summary>
+        public string RootPath { get; private set; }
 
+        /// <summary>
+        /// List of strings. Each string represents path to a file on this device (full path included RootPath).
+        /// </summary>
+        public StringList LocalFilePathes { get; private set; }
+
+        /// <summary>
+        /// List of strings. Each string represents path to a file inside the syncronization filesystem (RootPath cutted out).
+        /// </summary>
+        public StringList RelativeFilePathes { get; private set; }
+
+        /// <summary>
+        /// The constructor that initializes Filer class, filling both of the Relative and Local lists.
+        /// </summary>
+        /// <param name="pathToDir">Path to a directory that has to be syncronized.</param>
         public Filer(string pathToDir) 
         {
-            rootPath = pathToDir;
-            filePathes = Directory.GetFiles(pathToDir, "*.*", SearchOption.AllDirectories).ToList();
-            FillCuttedPathes();
+            RootPath = pathToDir;
+            LocalFilePathes = Directory.GetFiles(pathToDir, "*.*", SearchOption.AllDirectories).ToList();
+            FillRelativePathes();
         }
 
-        public List<string> GetLocalFiles() 
+        /// <summary>
+        /// Procedure that fills the RelativeFilePathes based on LocalFilePathes.
+        /// </summary>
+        private void FillRelativePathes() 
         {
-            return filePathes;
-        }
+            RelativeFilePathes = new StringList();
 
-        public List<string> GetRelativeFiles()
-        {
-            return relativeFilePathes;
-        }
-        private void FillCuttedPathes() 
-        {
-            relativeFilePathes = new List<string>();
-
-            for (int i = 0; i < filePathes.Count; i++)
+            for (int i = 0; i < LocalFilePathes.Count; i++)
             {
-                string s = filePathes[i].Replace(rootPath, "");
-                relativeFilePathes.Add(s);
+                string s = LocalFilePathes[i].Replace(RootPath, "");
+                RelativeFilePathes.Add(s);
             }
         }
+
+        /// <summary>
+        /// Function that finds Relative equivalent based on Local path.
+        /// </summary>
+        /// <param name="loc">Local path to find Relative equivalent of.</param>
+        /// <returns>Relative equivalent of given Local path.</returns>
         public string GetRelativeFromLocal(string loc) 
         {
-            return relativeFilePathes[filePathes.FindIndex(x => x == loc)];
+            return RelativeFilePathes[LocalFilePathes.FindIndex(x => x == loc)];
         }
+
+        /// <summary>
+        /// Function that finds Local equivalent based on Relative path.
+        /// </summary>
+        /// <param name="loc">Relative path to find Local equivalent of.</param>
+        /// <returns>Local equivalent of given Relative path.</returns>
         public string GetLocalFromRelative(string rel)
         {
             rel.Replace("?", "");
-            return filePathes[relativeFilePathes.FindIndex(x => x == rel)];
-        }
-        public bool CheckFileExistanceFromRelative(string rel) 
-        {
-            return relativeFilePathes.FindIndex(x => x == rel) != -1;
+            return LocalFilePathes[RelativeFilePathes.FindIndex(x => x == rel)];
         }
 
+        /// <summary>
+        /// Function that looks if file exists in a Relative list based on given value.
+        /// </summary>
+        /// <param name="rel">Given value to check existance of.</param>
+        /// <returns>true if file does exist, false if it's not.</returns>
+        public bool CheckFileExistanceFromRelative(string rel) 
+        {
+            return RelativeFilePathes.FindIndex(x => x == rel) != -1;
+        }
+
+        /// <summary>
+        /// Function that returns FileInfo object based of given Relative path.
+        /// </summary>
+        /// <param name="rel">Relative path for looking FileInfo.</param>
+        /// <returns>FileInfo object, that represents information about Local file found from given Relative value.</returns>
         public FileInfo GetLocalFileInfoFromRelative(string rel) 
         {
             FileInfo fi = new FileInfo(GetLocalFromRelative(rel));

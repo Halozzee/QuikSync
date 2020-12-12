@@ -5,18 +5,49 @@ using System.Text;
 using System.Threading.Tasks;
 using WatsonTcp;
 
+// typedef for better understanding and not using <>.
+using StringList = System.Collections.Generic.List<string>;
+
 namespace TCPSharpFileSync
 {
+    /// <summary>
+    /// Class made for solving file existance and hash conflicts.
+    /// </summary>
     public class Syncronizer
     {
-        public List<string> FilesDoesntExistInFirst { get; private set; }
-        public List<string> FilesDoesntExistInSecond { get; private set; }
+        /// <summary>
+        /// List of strings. Each string represents Relative path that doesnt exist on local device.
+        /// </summary>
+        public StringList FilesDoesntExistOnLocal { get; private set; }
+        /// <summary>
+        /// List of strings. Each string represents Relative path that doesnt exist on remote device.
+        /// </summary>
+        public StringList FilesDoesntExistOnRemote { get; private set; }
 
-        List<string> LocalFiles = new List<string>();
-        List<string> RemoteFiles = new List<string>();
-        List<string> LocalHashes = new List<string>();
-        List<string> RemoteHashes = new List<string>();
-        private List<string> GetDifferenceListBasedOnFirst(List<string> First, List<string> Second)
+        /// <summary>
+        /// List of strings. Each string represents Relative path of file that exists on local device.
+        /// </summary>
+        StringList LocalFiles = new StringList();
+        /// <summary>
+        /// List of strings. Each string represents Relative path of file that exists on remote device.
+        /// </summary>
+        StringList RemoteFiles = new StringList();
+        /// <summary>
+        /// List of strings. Each string represents hash of file that exists on local device and calculated from files with the same index from LocalFiles list. 
+        /// </summary>
+        StringList LocalHashes = new StringList();
+        /// <summary>
+        /// List of strings. Each string represents hash of file that exists on remote device and calculated from files with the same index from RemoteFiles list. 
+        /// </summary>
+        StringList RemoteHashes = new StringList();
+
+        /// <summary>
+        /// Function that returns list of relative pathes that doesnt exist in First but does in Second.
+        /// </summary>
+        /// <param name="First">List of relative pathes to find not existing from.</param>
+        /// <param name="Second">List of relative pathes to find not existing in.</param>
+        /// <returns></returns>
+        private StringList GetDifferenceListBasedOnFirst(StringList First, StringList Second)
         {
             HashSet<string> diff = new HashSet<string>();
 
@@ -30,32 +61,40 @@ namespace TCPSharpFileSync
 
             return diff.ToList();
         }
-        public Syncronizer(List<string> First, List<string> Second, List<string> localhashes, List<string> remotehashes)
+        /// <summary>
+        /// Constructor that initializing Syncronizer object.
+        /// </summary>
+        /// <param name="local">List of strings. Each string represents Relative path of file that exists on local device.</param>
+        /// <param name="remote">List of strings. Each string represents Relative path of file that exists on remote device.</param>
+        /// <param name="localhashes">List of strings. Each string represents hash of file that exists on local device and calculated from files with the same index from LocalFiles list.</param>
+        /// <param name="remotehashes">List of strings. Each string represents hash of file that exists on remote device and calculated from files with the same index from RemoteFiles list.</param>
+        public Syncronizer(StringList local, StringList remote, StringList localhashes, StringList remotehashes)
         {
-            FilesDoesntExistInFirst = GetDifferenceListBasedOnFirst(First, Second);
-            FilesDoesntExistInSecond = GetDifferenceListBasedOnFirst(Second, First);
-            LocalFiles = First;
-            RemoteFiles = Second;
+            FilesDoesntExistOnLocal = GetDifferenceListBasedOnFirst(local, remote);
+            FilesDoesntExistOnRemote = GetDifferenceListBasedOnFirst(remote, local);
+            LocalFiles = local;
+            RemoteFiles = remote;
             LocalHashes = localhashes;
             RemoteHashes = remotehashes;
         }
-        public List<string> CompareHashes()
-        {
-            List<string> RetVal = new List<string>();
 
-            for (int i = 0; i < LocalHashes.Count; i++)
-            {
-                if (LocalHashes[i] != RemoteHashes[i])
-                {
-                    RetVal.Add(LocalHashes[i]);
-                }
-            }
+        //public StringList CompareHashes()
+        //{
+        //    StringList RetVal = new StringList();
 
-            return RetVal;
-        }
+        //    for (int i = 0; i < LocalHashes.Count; i++)
+        //    {
+        //        if (LocalHashes[i] != RemoteHashes[i])
+        //        {
+        //            RetVal.Add(LocalHashes[i]);
+        //        }
+        //    }
+
+        //    return RetVal;
+        //}
 
         /// <summary>
-        /// 
+        /// Function that finds conflicts based on hash values both of remote and local files.
         /// </summary>
         /// <returns>Returns the list of indexes on local files that hashes does not match hashes from server</returns>
         public List<int> FindConflicts()
