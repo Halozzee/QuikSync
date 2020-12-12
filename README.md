@@ -41,6 +41,7 @@ Server option say to the program that it has to be answering on requests sent fr
 To start working you have to host the server with the Directory and port textboxes filled. After you have the server up, you have to connect that one with a client. 
 
 Client is a bit complicated.
+
 Since the client do all the work about calcualating mismatches (atleast for now), it has more options that you have to deal with. on client you can choose do you want to download the files or upload them or both or none of them. You can choose what files has to be removed based on their existance on client or their existance on server or both or none of them, as well.
 To connect to the server you have to insert the ip address that shown on the servers side (it's a local ip address).
 You also can edit the timeout option. It's responsable for keeping connection even if server isnt responsing to the client (the time is in milliseconds). After the timeout it's throwing an exception about server not responding in time.
