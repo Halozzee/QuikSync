@@ -2,13 +2,13 @@
 
 ### Must have
 
-Windows 10
-Visual Studio 2015 or higher
-.NET framework 4.7.2
+* Windows 10
+* Visual Studio 2015 or higher
+* .NET framework 4.7.2
 
 ### Optional
 
-Empty for now
+Several devices to make tests on
 
 ## Please try to follow these guidelines when contributing to this project
 
