@@ -29,7 +29,6 @@ namespace TCPSharpFileSync
         public Server(TCPSettings c)
         {
             ts = c;
-            ts.ip = GetLocalIPAddress();
             msBeforeTimeOut = ts.msTimeout;
             servH = new WatsonTcpServer(ts.ip, ts.port);
             servH.Events.ClientConnected += ClientConnected;

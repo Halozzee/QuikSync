@@ -29,7 +29,9 @@ namespace TCPSharpFileSync
             InitializeComponent();
             InitializeLogHandler();
 
-            currentTcpSettings = new TCPSettings();
+            // Initialization of the TCPSetting being used for work.
+            // "//" used for skipping through the validation that were throwing out exceptions of out of index.
+            currentTcpSettings = new TCPSettings("//", "", 0, true, true, false, false, (int)timeOutNumericUpDown.Value);
         }
 
         /// <summary>
@@ -77,8 +79,8 @@ namespace TCPSharpFileSync
             // If starting as server.
             if (asServerRadioButton.Checked)
             {
-                s = new Server(currentTcpSettings);
                 ipTextBox.Text = TCPFileWorker.GetLocalIPAddress();
+                s = new Server(currentTcpSettings);
             }
             // If starting as client.
             else
@@ -121,6 +123,7 @@ namespace TCPSharpFileSync
         private void localDirTextBox_TextChanged(object sender, EventArgs e)
         {
             folderBrowserDialog.SelectedPath = localDirTextBox.Text;
+            currentTcpSettings.directoryPath = localDirTextBox.Text;
         }
 
         private void chooseDirBtn_Click(object sender, EventArgs e)
@@ -203,5 +206,20 @@ namespace TCPSharpFileSync
         {
             e.Handled = !(Char.IsDigit(e.KeyChar));
         }
-    }
+
+        private void doUploadCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            currentTcpSettings.doUpload = doUploadCheckBox.Checked;
+        }
+
+        private void doDownloadCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            currentTcpSettings.doDownload = doDownloadCheckBox.Checked;
+        }
+
+		private void Form1_Load(object sender, EventArgs e)
+		{
+
+		}
+	}
 }
