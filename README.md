@@ -68,4 +68,4 @@ If you want to contribute, please send me a mail to Seagulmp3@gmail.com
 Posting issues
 -----------------------
 If you want to be posting issues you have to see how are these issues has to look like.
-For now there are templates for [Bug](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/.github/ISSUE_TEMPLATE/bug_report.md) and [New feature](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/.github/ISSUE_TEMPLATE/bug_report.md) issues.
+For now there are templates for [Bug](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/.github/ISSUE_TEMPLATE/bug_report.md) and [New feature](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/.github/ISSUE_TEMPLATE/feature_request.md) issues.
