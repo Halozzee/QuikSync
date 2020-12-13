@@ -48,6 +48,8 @@ You also can edit the timeout option. It's responsable for keeping connection ev
 
 Contributing
 ========================
+Making your own contribute
+------------------------
 ~~The project could not be commented well but I will be working on it~~
 
 If you would like to make some stuff along with this code - feel free to use it, and even if you want to help me developing it I would be even more feeling better about this working. 
@@ -56,4 +58,11 @@ The [contributing guide](https://github.com/Halozzee/TcpDirectorySyncronizer/blo
 
 I will be posting issues so, you could get one or several.
 
+Having problems with understanding the code? You can ask me, I'm here daily.
+
 If you want to contribute, please send me a mail to Seagulmp3@gmail.com
+
+Posting issues
+-----------------------
+If you want to be posting issues you have to see how are these issues has to look like.
+For now there are templates for [Bug](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/.github/ISSUE_TEMPLATE/bug_report.md) and [New feature](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/.github/ISSUE_TEMPLATE/bug_report.md) issues.
