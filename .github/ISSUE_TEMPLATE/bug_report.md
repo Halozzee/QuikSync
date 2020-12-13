@@ -8,23 +8,25 @@ assignees: ''
 ---
 
 ## Bug description
-Server is not taking new files state after the syncronizing files.
+A clear and concise description of what the bug is.
 
 ## To Reproduce
 Steps to reproduce the behavior:
-1. Setup server and client
-2. Make syncronization
-3. Try to make it again
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
 4. See error
 
 ## Expected behavior
-The program has to not be syncronizing files, because it's already syncronized.
+A clear and concise description of what you expected to happen.
 
 ## Screenshots
-None
+If applicable, add screenshots to help explain your problem.
 
 ## Desktop (please complete the following information)
-- Algorithm problems.
+ - OS: [e.g. iOS]
+ - Version you used
+ - (**If that's an algorithmic problem just write that and write non of OS information)
 
 ## Additional context
-The server activity has to be reworked.
+Add any other context about the problem here.
