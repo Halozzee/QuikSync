@@ -39,14 +39,14 @@ namespace TCPSharpFileSync
         public Client(TCPSettings c)
         {
             ts = c;
-            msBeforeTimeOut = ts.timeouter;
+            msBeforeTimeOut = ts.msTimeout;
             clientH = new WatsonTcpClient(ts.ip, ts.port);
             clientH.Events.ServerConnected += ServerConnected;
             clientH.Events.ServerDisconnected += ServerDisconnected;
             clientH.Events.StreamReceived += StreamReceived;
             //clientH.Events.MessageReceived += MessageReceived;
             //clientH.Callbacks.SyncRequestReceived = SyncRequestReceived;
-            FileScan(ts.pathToSyncDir);
+            FileScan(ts.directoryPath);
             clientH.Connect();
         }
 
@@ -279,7 +279,7 @@ namespace TCPSharpFileSync
             List<int> conflicted = sync.FindConflicts();
             SolveConflicted(conflicted);
 
-            if (ts.doDownload && !ts.rmIfnDefOnClient)
+            if (ts.doDownload && !ts.removeIfNotOnClient)
             {
                 foreach (var item in sync.FilesDoesntExistOnLocal)
                 {
@@ -287,7 +287,7 @@ namespace TCPSharpFileSync
                 }
             }
 
-            if (ts.rmIfnDefOnClient)
+            if (ts.removeIfNotOnClient)
             {
                 foreach (var item in sync.FilesDoesntExistOnLocal)
                 {
@@ -297,7 +297,7 @@ namespace TCPSharpFileSync
 
             List<string> ls = hs.ToList();
 
-            if (ts.doUpload && !ts.rmIfnDefOnServer)
+            if (ts.doUpload && !ts.removeIfNotOnServer)
             {
                 foreach (var item in ls)
                 {
@@ -305,7 +305,7 @@ namespace TCPSharpFileSync
                 }
             }
 
-            if (ts.rmIfnDefOnServer)
+            if (ts.removeIfNotOnServer)
             {
                 foreach (var item in ls)
                 {

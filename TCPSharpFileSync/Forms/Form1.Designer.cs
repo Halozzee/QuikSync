@@ -133,7 +133,8 @@
             this.portTextBox.Name = "portTextBox";
             this.portTextBox.Size = new System.Drawing.Size(156, 20);
             this.portTextBox.TabIndex = 16;
-            this.portTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.portTextBox.TextChanged += new System.EventHandler(this.portTextBox_TextChanged);
+            this.portTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.portTextBox_KeyPress);
             // 
             // label3
             // 
@@ -159,6 +160,7 @@
             this.ipTextBox.Name = "ipTextBox";
             this.ipTextBox.Size = new System.Drawing.Size(156, 20);
             this.ipTextBox.TabIndex = 18;
+            this.ipTextBox.TextChanged += new System.EventHandler(this.ipTextBox_TextChanged);
             // 
             // timeOutNumericUpDown
             // 
@@ -181,7 +183,7 @@
             0,
             0,
             0});
-            this.timeOutNumericUpDown.Visible = false;
+            this.timeOutNumericUpDown.ValueChanged += new System.EventHandler(this.timeOutNumericUpDown_ValueChanged);
             // 
             // label1
             // 
@@ -191,7 +193,6 @@
             this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 21;
             this.label1.Text = "ms before timeout";
-            this.label1.Visible = false;
             // 
             // actionsGroupBox
             // 
@@ -239,6 +240,7 @@
             this.ifndefOnServerCheckBox.Text = "If doesnt exist on server remove on client";
             this.ifndefOnServerCheckBox.UseVisualStyleBackColor = true;
             this.ifndefOnServerCheckBox.Visible = false;
+            this.ifndefOnServerCheckBox.CheckedChanged += new System.EventHandler(this.ifndefOnServerCheckBox_CheckedChanged);
             // 
             // ifndefOnClientCheckBox
             // 
@@ -250,6 +252,7 @@
             this.ifndefOnClientCheckBox.Text = "If doesnt exist on client remove on server";
             this.ifndefOnClientCheckBox.UseVisualStyleBackColor = true;
             this.ifndefOnClientCheckBox.Visible = false;
+            this.ifndefOnClientCheckBox.CheckedChanged += new System.EventHandler(this.ifndefOnClientCheckBox_CheckedChanged);
             // 
             // progressBar
             // 
@@ -306,6 +309,7 @@
             this.Controls.Add(this.localDirTextBox);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeOutNumericUpDown)).EndInit();

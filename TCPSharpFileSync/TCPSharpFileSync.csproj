@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IniFile\IniParserWrapper.cs" />
     <Compile Include="NetWorks\Client.cs" />
     <Compile Include="Forms\ConflictSolverForm.cs">
       <SubType>Form</SubType>

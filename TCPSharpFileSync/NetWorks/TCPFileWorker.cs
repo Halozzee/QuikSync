@@ -8,43 +8,68 @@ using System.Threading.Tasks;
 
 namespace TCPSharpFileSync
 {
+
     /// <summary>
     /// Structure that represent settings for TCP actions.
     /// </summary>
-    public struct TCPSettings 
+    public class TCPSettings 
     {
         /// <summary>
         /// Path to directory that has to be syncronized. 
         /// </summary>
-        public string pathToSyncDir;
+        [Saving(Section = "General")]
+        [Reading(Section = "General")]
+        public string directoryPath;
         /// <summary>
         /// IP value the connection is going to establish to/listen to.
         /// </summary>
+        [Saving(Section = "Client")]
+        [Reading(Section = "Client")]
         public string ip;
         /// <summary>
         /// Port value that program will be listening to/send messages out.
         /// </summary>
+        [Saving(Section = "General")]
+        [Reading(Section = "General")]
         public int port;
         /// <summary>
         /// Flag that represents if client will be downloading files.
         /// </summary>
+        [Saving(Section = "Client")]
+        [Reading(Section = "Client")]
         public bool doDownload;
         /// <summary>
         /// Flag that represents if client will be uploading files.
         /// </summary>
+        [Saving(Section = "Client")]
+        [Reading(Section = "Client")]
         public bool doUpload;
         /// <summary>
         /// Time in milliseconds before timeout exception come up.
         /// </summary>
-        public int timeouter;
+        [Saving(Section = "General")]
+        [Reading(Section = "General")]
+        public int msTimeout;
         /// <summary>
         /// Flag that represents if the files that doesnt exist on client side will be deleted on server.
         /// </summary>
-        public bool rmIfnDefOnClient;
+        [Saving(Section = "Client")]
+        [Reading(Section = "Client")]
+        public bool removeIfNotOnClient;
         /// <summary>
         /// Flag that represents if the files that doesnt exist on server side will be deleted on client.
         /// </summary>
-        public bool rmIfnDefOnServer;
+        [Saving(Section = "Client")]
+        [Reading(Section = "Client")]
+        public bool removeIfNotOnServer;
+
+        /// <summary>
+        /// Empty constructor for empty initialization.
+        /// </summary>
+        public TCPSettings() 
+        {
+
+        }
 
         /// <summary>
         /// Constructor made for server that contain only server params.
@@ -55,14 +80,14 @@ namespace TCPSharpFileSync
         /// <param name="msToTimeout">Time in milliseconds before timeout exception come up.</param>
         public TCPSettings(string ptd, string i, int p, int msToTimeout) 
         {
-            pathToSyncDir = ptd;
+            directoryPath = ptd;
             ip = i;
             port = p;
             doDownload = false;
             doUpload = false;
-            timeouter = msToTimeout;
-            rmIfnDefOnClient = false;
-            rmIfnDefOnServer = false;
+            msTimeout = msToTimeout;
+            removeIfNotOnClient = false;
+            removeIfNotOnServer = false;
             ValidateTheDirPathSlashes();
         }
         /// <summary>
@@ -78,14 +103,14 @@ namespace TCPSharpFileSync
         /// <param name="msToTimeout">Time in milliseconds before timeout exception come up.</param>
         public TCPSettings(string ptd, string i, int p, bool dd, bool du, bool rmifndefc, bool rmifndefs, int msToTimeout)
         {
-            pathToSyncDir = ptd;
+            directoryPath = ptd;
             ip = i;
             port = p;
             doDownload = dd;
             doUpload = du;
-            timeouter = msToTimeout;
-            rmIfnDefOnClient = rmifndefc;
-            rmIfnDefOnServer = rmifndefs;
+            msTimeout = msToTimeout;
+            removeIfNotOnClient = rmifndefc;
+            removeIfNotOnServer = rmifndefs;
             ValidateTheDirPathSlashes();
         }
 
@@ -95,16 +120,16 @@ namespace TCPSharpFileSync
         /// <param name="dirPth">The path that needs to be validated</param>
         private void ValidateTheDirPathSlashes()
         {
-            if (pathToSyncDir[pathToSyncDir.Length - 1] != '/' && pathToSyncDir[pathToSyncDir.Length - 1] != '\\')
+            if (directoryPath[directoryPath.Length - 1] != '/' && directoryPath[directoryPath.Length - 1] != '\\')
             {
                 // Checking for what type of slash has to be added 
-                if (pathToSyncDir.Contains("\\"))
+                if (directoryPath.Contains("\\"))
                 {
-                    pathToSyncDir += "\\";
+                    directoryPath += "\\";
                 }
                 else
                 {
-                    pathToSyncDir += "/";
+                    directoryPath += "/";
                 }
             }
         }

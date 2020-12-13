@@ -30,7 +30,7 @@ namespace TCPSharpFileSync
         {
             ts = c;
             ts.ip = GetLocalIPAddress();
-            msBeforeTimeOut = ts.timeouter;
+            msBeforeTimeOut = ts.msTimeout;
             servH = new WatsonTcpServer(ts.ip, ts.port);
             servH.Events.ClientConnected += ClientConnected;
             servH.Events.ClientDisconnected += ClientDisconnected;
@@ -42,7 +42,7 @@ namespace TCPSharpFileSync
             servH.Keepalive.TcpKeepAliveTime = msBeforeTimeOut;
             servH.Keepalive.TcpKeepAliveRetryCount = 10;
 
-            FileScan(ts.pathToSyncDir);
+            FileScan(ts.directoryPath);
             servH.Start();
             LogHandler.WriteLog($"Server started!", Color.Green);
         }

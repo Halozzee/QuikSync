@@ -28,6 +28,8 @@ namespace TCPSharpFileSync
         {
             InitializeComponent();
             InitializeLogHandler();
+
+            currentTcpSettings = new TCPSettings();
         }
 
         /// <summary>
@@ -68,24 +70,23 @@ namespace TCPSharpFileSync
         {
         }
 
+        TCPSettings currentTcpSettings;
+
         private void syncBtn_Click_1(object sender, EventArgs e)
         {
             // If starting as server.
             if (asServerRadioButton.Checked)
             {
-                TCPSettings tcp = new TCPSettings(localDirTextBox.Text, "", int.Parse(portTextBox.Text), (int)timeOutNumericUpDown.Value);
-                s = new Server(tcp);
+                s = new Server(currentTcpSettings);
                 ipTextBox.Text = TCPFileWorker.GetLocalIPAddress();
             }
             // If starting as client.
             else
             {
-                TCPSettings tcp = new TCPSettings(localDirTextBox.Text, ipTextBox.Text, int.Parse(portTextBox.Text), 
-                    doDownloadCheckBox.Checked, doUploadCheckBox.Checked, ifndefOnClientCheckBox.Checked, ifndefOnServerCheckBox.Checked, (int)timeOutNumericUpDown.Value);
-                c = new Client(tcp);
+                c = new Client(currentTcpSettings);
 
                 // Starting syncronization as a background thread so it does not freeze the main form.
-                Thread InstanceCaller = new Thread( new ThreadStart(c.Syncronize));
+                Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
                 InstanceCaller.IsBackground = true;
                 // Start the thread.
                 InstanceCaller.Start();
@@ -107,8 +108,6 @@ namespace TCPSharpFileSync
             actionsGroupBox.Visible         = true;
             ifndefOnClientCheckBox.Visible  = true;
             ifndefOnServerCheckBox.Visible  = true;
-            timeOutNumericUpDown.Visible    = true;
-            label1.Visible                  = true;
         }
 
         private void asServerRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -117,13 +116,6 @@ namespace TCPSharpFileSync
             actionsGroupBox.Visible         = false;
             ifndefOnClientCheckBox.Visible  = false;
             ifndefOnServerCheckBox.Visible  = false;
-            timeOutNumericUpDown.Visible    = false;
-            label1.Visible                  = false;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void localDirTextBox_TextChanged(object sender, EventArgs e)
@@ -148,27 +140,22 @@ namespace TCPSharpFileSync
                 try
                 {
                     // Getting what are we going to read data for server or client.
-                    string goFor = asServerRadioButton.Checked ? "Server" : "Client";
+                    DealingWithDataOf goFor = asServerRadioButton.Checked ? DealingWithDataOf.Server : DealingWithDataOf.Client;
 
-                    // Initializing parser.
-                    var parser = new FileIniDataParser();
-                    IniData data = parser.ReadFile(setupFileOpenDialog.FileName);
+                    currentTcpSettings = IniParserWrapper.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
 
-                    // Reading path to directory that needs to be syncronized.
-                    localDirTextBox.Text = data["General"]["directoryPath"];
-
-                    // Reading IP and Port data.
-                    portTextBox.Text = data["General"]["port"];
+                    portTextBox.Text                    = currentTcpSettings.port.ToString();
+                    localDirTextBox.Text                = currentTcpSettings.directoryPath;
+                    timeOutNumericUpDown.Value          = currentTcpSettings.msTimeout;
 
                     // If we are dealing with client on this launch - then read some extra data.
-                    if (goFor == "Client")
+                    if (goFor == DealingWithDataOf.Client)
                     {
-                        ipTextBox.Text = data[goFor]["ip"];
-                        doUploadCheckBox.Checked = data[goFor]["upload"] == "Yes";
-                        doDownloadCheckBox.Checked = data[goFor]["download"] == "Yes";
-                        timeOutNumericUpDown.Value = Int32.Parse(data[goFor]["msTimeout"]);
-                        ifndefOnServerCheckBox.Checked = data[goFor]["removeIfNotOnServer"] == "Yes";
-                        ifndefOnClientCheckBox.Checked = data[goFor]["removeIfNotOnClient"] == "Yes";
+                        ipTextBox.Text                  = currentTcpSettings.ip;
+                        doUploadCheckBox.Checked        = currentTcpSettings.doUpload;
+                        doDownloadCheckBox.Checked      = currentTcpSettings.doDownload;
+                        ifndefOnServerCheckBox.Checked  = currentTcpSettings.removeIfNotOnServer;
+                        ifndefOnClientCheckBox.Checked  = currentTcpSettings.removeIfNotOnClient;
                     }
                 }
                 catch (Exception ex)
@@ -177,6 +164,44 @@ namespace TCPSharpFileSync
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Saving setup", "Do you want this setup to be saved?", MessageBoxButtons.YesNo) == DialogResult.Yes) 
+            {
+                IniParserWrapper.WriteTCPSettingToFile(@"testSaveSetupFiles/setup1.ini", currentTcpSettings);
+            }
+        }
+
+        private void ipTextBox_TextChanged(object sender, EventArgs e)
+        {
+            currentTcpSettings.ip = ipTextBox.Text;
+        }
+
+        private void portTextBox_TextChanged(object sender, EventArgs e)
+        {
+            currentTcpSettings.port = int.Parse(portTextBox.Text);
+        }
+
+        private void ifndefOnServerCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            currentTcpSettings.removeIfNotOnServer = ifndefOnServerCheckBox.Checked;
+        }
+
+        private void ifndefOnClientCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            currentTcpSettings.removeIfNotOnClient = ifndefOnClientCheckBox.Checked;
+        }
+
+        private void timeOutNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            currentTcpSettings.msTimeout = (int)timeOutNumericUpDown.Value;
+        }
+
+        private void portTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !(Char.IsDigit(e.KeyChar));
         }
     }
 }
