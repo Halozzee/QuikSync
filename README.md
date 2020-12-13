@@ -31,6 +31,9 @@ It's all pretty raw and I guess it will comeout to something greater than that.
 
 How to use it
 ========================
+
+##### Now it's only local network tested!
+
 The usage of this is really simple. You have 2 options to choose from
 
 * Server
