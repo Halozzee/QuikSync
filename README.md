@@ -56,4 +56,6 @@ The [contributing guide](https://github.com/Halozzee/TcpDirectorySyncronizer/blo
 
 I will be posting issues so, you could get one or several.
 
+Having problems with understanding the code? You can ask me, I'm here daily.
+
 If you want to contribute, please send me a mail to Seagulmp3@gmail.com
