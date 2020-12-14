@@ -89,6 +89,12 @@ namespace TCPSharpFileSync
             return tcp;
         }
 
+        /// <summary>
+        /// Function that saves a TCPSettings object to the location new setup file path.
+        /// </summary>
+        /// <param name="newSetupFile">Path to a new setup file TCPSetting will be save to.</param>
+        /// <param name="tcp">TCPSetting that has to be saved.</param>
+        /// <returns></returns>
         public static void WriteTCPSettingToFile(string newSetupFile, TCPSettings tcp) 
         {
             IniData id = GetSectionTemplate();

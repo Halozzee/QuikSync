@@ -171,9 +171,13 @@ namespace TCPSharpFileSync
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Saving setup file
             if (MessageBox.Show("Saving setup", "Do you want this setup to be saved?", MessageBoxButtons.YesNo) == DialogResult.Yes) 
             {
-                IniParserWrapper.WriteTCPSettingToFile(@"testSaveSetupFiles/setup1.ini", currentTcpSettings);
+                if (saveSetupFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    IniParserWrapper.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
+                }
             }
         }
 
@@ -204,6 +208,7 @@ namespace TCPSharpFileSync
 
         private void portTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Setting Digit-only mode
             e.Handled = !(Char.IsDigit(e.KeyChar));
         }
 
