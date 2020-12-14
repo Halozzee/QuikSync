@@ -171,7 +171,7 @@ namespace TCPSharpFileSync
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Saving setup file
+            // Saving setup file.
             if (MessageBox.Show("Saving setup", "Do you want this setup to be saved?", MessageBoxButtons.YesNo) == DialogResult.Yes) 
             {
                 if (saveSetupFileDialog.ShowDialog() == DialogResult.OK)
