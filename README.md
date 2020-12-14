@@ -4,7 +4,7 @@ What's that?
 -----------------------
 That's just another way of syncronizing files but via TCP protocol.
 
-What is could be needed for?
+What it could be needed for?
 -----------------------
 That's personal, but I do use this one myself for syncronizing files between different devices via the wifi.
 
