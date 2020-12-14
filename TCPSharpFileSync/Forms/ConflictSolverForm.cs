@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TCPSharpFileSync
@@ -71,12 +67,12 @@ namespace TCPSharpFileSync
         /// Asks user for how the current fileName[i] conflict has to be solved.
         /// </summary>
         /// <param name="i">The index of Relative path in fileName path</param>
-        private void AskForSolve(int i) 
+        private void AskForSolve(int i)
         {
             if (solverCounter != limit)
             {
                 var dataClient = fiClient[solverCounter].Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                var dataServer= fiServer[solverCounter].Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var dataServer = fiServer[solverCounter].Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
                 currentFileNameTextBox.Text = fileName[solverCounter];
                 clientFileInfoTextBox.Text = "Size: \t" + dataClient[0] + "\n" + "Last time modified: \t" + dataClient[1];

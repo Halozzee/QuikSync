@@ -73,7 +73,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="LocalWorks\FileWorks\Hasher.cs" />
-    <Compile Include="LocalWorks\LogHandler.cs" />
+    <Compile Include="Forms\UIHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NetWorks\Server.cs" />

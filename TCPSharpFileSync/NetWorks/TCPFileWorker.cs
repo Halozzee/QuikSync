@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TCPSharpFileSync
 {
@@ -12,7 +9,7 @@ namespace TCPSharpFileSync
     /// <summary>
     /// Structure that represent settings for TCP actions.
     /// </summary>
-    public class TCPSettings 
+    public class TCPSettings
     {
         /// <summary>
         /// Path to directory that has to be syncronized. 
@@ -66,7 +63,7 @@ namespace TCPSharpFileSync
         /// <summary>
         /// Empty constructor for empty initialization.
         /// </summary>
-        public TCPSettings() 
+        public TCPSettings()
         {
 
         }
@@ -78,7 +75,7 @@ namespace TCPSharpFileSync
         /// <param name="i">IP value the connection is going to establish to/listen to.</param>
         /// <param name="p">Port value that program will be listening to/send messages out</param>
         /// <param name="msToTimeout">Time in milliseconds before timeout exception come up.</param>
-        public TCPSettings(string ptd, string i, int p, int msToTimeout) 
+        public TCPSettings(string ptd, string i, int p, int msToTimeout)
         {
             directoryPath = ptd;
             ip = i;
@@ -181,7 +178,7 @@ namespace TCPSharpFileSync
         /// </summary>
         /// <param name="s">Byte array to get string from.</param>
         /// <returns>String from given byte array.</returns>
-        protected string GetStringFromBytes(byte[] b) 
+        protected string GetStringFromBytes(byte[] b)
         {
             return Encoding.Unicode.GetString(b);
         }

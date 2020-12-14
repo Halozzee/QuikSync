@@ -2,10 +2,6 @@
 using IniParser.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TCPSharpFileSync
@@ -37,7 +33,7 @@ namespace TCPSharpFileSync
         /// Function that returns IniData template.
         /// </summary>
         /// <returns>IniData template with x on key values.</returns>
-        public static IniData GetSectionTemplate() 
+        public static IniData GetSectionTemplate()
         {
             IniData id = new IniData();
 
@@ -55,7 +51,7 @@ namespace TCPSharpFileSync
         /// <param name="setupFile">Path to a setup file.</param>
         /// <param name="ldt">Answers on a question loading server or client data.</param>
         /// <returns></returns>
-        public static TCPSettings ReadTCPSettingsFromFile(string setupFile, DealingWithDataOf ldt) 
+        public static TCPSettings ReadTCPSettingsFromFile(string setupFile, DealingWithDataOf ldt)
         {
             // Returnable value.
             TCPSettings tcp = new TCPSettings();
@@ -95,7 +91,7 @@ namespace TCPSharpFileSync
         /// <param name="newSetupFile">Path to a new setup file TCPSetting will be save to.</param>
         /// <param name="tcp">TCPSetting that has to be saved.</param>
         /// <returns></returns>
-        public static void WriteTCPSettingToFile(string newSetupFile, TCPSettings tcp) 
+        public static void WriteTCPSettingToFile(string newSetupFile, TCPSettings tcp)
         {
             IniData id = GetSectionTemplate();
 

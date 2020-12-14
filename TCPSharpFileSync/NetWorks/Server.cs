@@ -43,7 +43,7 @@ namespace TCPSharpFileSync
 
             FileScan(ts.directoryPath);
             servH.Start();
-            LogHandler.WriteLog($"Server started!", Color.Green);
+            UIHandler.WriteLog($"Server started!", Color.Green);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace TCPSharpFileSync
                 Filed = new Filer(Filed.RootPath);
                 Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
-                LogHandler.WriteLog("Session done!", Color.Green);
+                UIHandler.WriteLog("Session done!", Color.Green);
             }
             else if (cmd.Contains("!rm "))
             {
@@ -163,7 +163,7 @@ namespace TCPSharpFileSync
                 }
             }
 
-            LogHandler.WriteLog($"Downloaded {DownloadFileTo.Replace(Filed.RootPath, "")}", Color.Green);
+            UIHandler.WriteLog($"Downloaded {DownloadFileTo.Replace(Filed.RootPath, "")}", Color.Green);
 
             DownloadFileTo = "";
             servH.Events.StreamReceived -= StreamReceived;
@@ -209,18 +209,18 @@ namespace TCPSharpFileSync
             {
                 servH.Send(IpPost, fs.Length, fs);
             }
-            LogHandler.WriteLog($"Uploaded {rel}", Color.Green);
+            UIHandler.WriteLog($"Uploaded {rel}", Color.Green);
         }
         private void ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
             clients = servH.ListClients().ToList();
-            LogHandler.WriteLog(e.IpPort + $" disconnected! (Reason: {e.Reason})", Color.Red);
+            UIHandler.WriteLog(e.IpPort + $" disconnected! (Reason: {e.Reason})", Color.Red);
         }
 
         private void ClientConnected(object sender, ClientConnectedEventArgs e)
         {
             clients = servH.ListClients().ToList();
-            LogHandler.WriteLog($"{e.IpPort} connected!", Color.Green);
+            UIHandler.WriteLog($"{e.IpPort} connected!", Color.Green);
         }
 
         /// <summary>

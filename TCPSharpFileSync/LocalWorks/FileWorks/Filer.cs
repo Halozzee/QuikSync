@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 // typedef for better understanding and not using <>.
 using StringList = System.Collections.Generic.List<string>;
@@ -34,7 +30,7 @@ namespace TCPSharpFileSync
         /// The constructor that initializes Filer class, filling both of the Relative and Local lists.
         /// </summary>
         /// <param name="pathToDir">Path to a directory that has to be syncronized.</param>
-        public Filer(string pathToDir) 
+        public Filer(string pathToDir)
         {
             RootPath = pathToDir;
             LocalFilePathes = Directory.GetFiles(pathToDir, "*.*", SearchOption.AllDirectories).ToList();
@@ -44,7 +40,7 @@ namespace TCPSharpFileSync
         /// <summary>
         /// Procedure that fills the RelativeFilePathes based on LocalFilePathes.
         /// </summary>
-        private void FillRelativePathes() 
+        private void FillRelativePathes()
         {
             RelativeFilePathes = new StringList();
 
@@ -60,7 +56,7 @@ namespace TCPSharpFileSync
         /// </summary>
         /// <param name="loc">Local path to find Relative equivalent of.</param>
         /// <returns>Relative equivalent of given Local path.</returns>
-        public string GetRelativeFromLocal(string loc) 
+        public string GetRelativeFromLocal(string loc)
         {
             return RelativeFilePathes[LocalFilePathes.FindIndex(x => x == loc)];
         }
@@ -81,7 +77,7 @@ namespace TCPSharpFileSync
         /// </summary>
         /// <param name="rel">Given value to check existance of.</param>
         /// <returns>true if file does exist, false if it's not.</returns>
-        public bool CheckFileExistanceFromRelative(string rel) 
+        public bool CheckFileExistanceFromRelative(string rel)
         {
             return RelativeFilePathes.FindIndex(x => x == rel) != -1;
         }
@@ -91,7 +87,7 @@ namespace TCPSharpFileSync
         /// </summary>
         /// <param name="rel">Relative path for looking FileInfo.</param>
         /// <returns>FileInfo object, that represents information about Local file found from given Relative value.</returns>
-        public FileInfo GetLocalFileInfoFromRelative(string rel) 
+        public FileInfo GetLocalFileInfoFromRelative(string rel)
         {
             FileInfo fi = new FileInfo(GetLocalFromRelative(rel));
 
