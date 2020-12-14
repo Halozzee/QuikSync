@@ -63,6 +63,11 @@ I will be posting issues so, you could get one or several.
 
 Having problems with understanding the code? You can ask me, I'm here daily.
 
+Still dont what to do?
+-----------------------
+
+No worries, just come to [this](https://github.com/firstcontributions/first-contributions) repository and try it yourself!
+
 Posting issues
 -----------------------
 If you want to be posting issues you have to see how are these issues has to look like.
