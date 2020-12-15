@@ -159,7 +159,7 @@ namespace TCPSharpFileSync
         public List<string> GetAllExistingOnLocalHashesFromServer()
         {
             List<string> diffList = new List<string>();
-            List<string> locFiles = Filed.RelativeFilePathes;
+            List<string> locFiles = Filed.RelativePathes;
 
             hashesGotFromServer = new List<string>();
 
@@ -187,7 +187,7 @@ namespace TCPSharpFileSync
         /// <param name="conflicted">Indexes of Relative pathes of local devices that conflicted with remote ones.</param>
         public void SolveConflicted(List<int> conflicted)
         {
-            List<string> rels = Filed.RelativeFilePathes;
+            List<string> rels = Filed.RelativePathes;
             List<string> fiLoc = new List<string>();
             List<string> fiServer = new List<string>();
             List<string> fiNames = new List<string>();
@@ -262,7 +262,7 @@ namespace TCPSharpFileSync
             UIHandler.WriteLog($"Recieved server file list!", Color.Green);
             List<string> doesntExist = GetAllExistingOnLocalHashesFromServer();
             UIHandler.WriteLog($"Recieved server hash list!", Color.Green);
-            Syncronizer sync = new Syncronizer(Filed.RelativeFilePathes, filesGotFromServer, Hashed.HashesMD5, hashesGotFromServer);
+            Syncronizer sync = new Syncronizer(Filed.RelativePathes, filesGotFromServer, Hashed.HashesMD5, hashesGotFromServer);
 
             HashSet<string> hs = new HashSet<string>(doesntExist);
 

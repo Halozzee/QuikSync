@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Security.Cryptography;
 // typedef for better understanding and not using <>.
@@ -15,7 +17,7 @@ namespace TCPSharpFileSync
         /// <summary>
         /// List of strings. Each string represents path to a file on this device (full path included RootPath).
         /// </summary>
-        StringList localPathes;
+        public StringList LocalPathes { get; private set; }
 
         /// <summary>
         /// List of strings. Each string represents MD5 hash related to a Local path with the same index the hash has.
@@ -28,10 +30,19 @@ namespace TCPSharpFileSync
         /// <param name="lp">List of Local pathes.</param>
         public Hasher(StringList lp)
         {
-            localPathes = lp;
+            LocalPathes = lp;
             HashesMD5 = new StringList();
-            ComputeAllHashesBasedOnLocalPathes();
+
+            for (int i = 0; i < LocalPathes.Count; i++)
+            {
+                HashesMD5.Add("");
+            }
         }
+
+        /// <summary>
+        /// Flag that shows if read some hashes from the .hsh file.
+        /// </summary>
+        public bool loadedFromFile = false;
 
         /// <summary>
         /// Procedure that compute all of the hashes based on Local pathes stored in localPathes list. Contain Progress bar works.
@@ -39,10 +50,27 @@ namespace TCPSharpFileSync
         public void ComputeAllHashesBasedOnLocalPathes()
         {
             UIHandler.WriteLog("Calculating hashes...");
-            UIHandler.SetProgressBarMaxValue(localPathes.Count);
-            foreach (var item in localPathes)
+            UIHandler.SetProgressBarMaxValue(LocalPathes.Count);
+
+            int startFrom = 0;
+
+            if (loadedFromFile)
             {
-                HashesMD5.Add(CalculateMD5(item));
+                while (HashesMD5[startFrom] != "")
+                {
+                    startFrom++;
+
+                    if (startFrom == HashesMD5.Count)
+                    {
+                        startFrom = 0;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = startFrom; i < LocalPathes.Count; i++)
+            {
+                HashesMD5[i] = CalculateMD5(LocalPathes[i]);
                 UIHandler.IncrementProgressBarValue();
             }
             UIHandler.ResetProgressBarValue();
@@ -72,7 +100,7 @@ namespace TCPSharpFileSync
         /// <returns>String that represent calculated value of MD5 hash related to the given Local path.</returns>
         public string GetHashMD5FromLocal(string loc)
         {
-            return HashesMD5[localPathes.FindIndex(x => x == loc)];
+            return HashesMD5[LocalPathes.FindIndex(x => x == loc)];
         }
 
         /// <summary>
@@ -81,7 +109,7 @@ namespace TCPSharpFileSync
         /// <param name="f">Updated Filer object to recalculate hashed based on its pathes.</param>
         public void UpdateHasherBasedOnUpdatedFiler(Filer f)
         {
-            List<string> updatedLocs = f.LocalFilePathes;
+            List<string> updatedLocs = f.LocalPathes;
 
             //TODO: make this NOT CALCULATING ALL THE STUFF AGAIN - TOO TIME CONSUMING
 

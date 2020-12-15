@@ -229,7 +229,7 @@ namespace TCPSharpFileSync
         /// <returns>String full of Relative pathes of existing files on this device.</returns>
         private string GetFileList()
         {
-            var fileList = Filed.RelativeFilePathes;
+            var fileList = Filed.RelativePathes;
             string sendString = "";
 
             for (int i = 0; i < fileList.Count; i++)
