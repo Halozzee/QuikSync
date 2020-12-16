@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 // typedef for better understanding and not using <>.
 using StringList = System.Collections.Generic.List<string>;
@@ -23,35 +19,35 @@ namespace TCPSharpFileSync
         /// <summary>
         /// List of strings. Each string represents path to a file on this device (full path included RootPath).
         /// </summary>
-        public StringList LocalFilePathes { get; private set; }
+        public StringList LocalPathes { get; private set; }
 
         /// <summary>
         /// List of strings. Each string represents path to a file inside the syncronization filesystem (RootPath cutted out).
         /// </summary>
-        public StringList RelativeFilePathes { get; private set; }
+        public StringList RelativePathes { get; private set; }
 
         /// <summary>
         /// The constructor that initializes Filer class, filling both of the Relative and Local lists.
         /// </summary>
         /// <param name="pathToDir">Path to a directory that has to be syncronized.</param>
-        public Filer(string pathToDir) 
+        public Filer(string pathToDir)
         {
             RootPath = pathToDir;
-            LocalFilePathes = Directory.GetFiles(pathToDir, "*.*", SearchOption.AllDirectories).ToList();
+            LocalPathes = Directory.GetFiles(pathToDir, "*.*", SearchOption.AllDirectories).ToList();
             FillRelativePathes();
         }
 
         /// <summary>
         /// Procedure that fills the RelativeFilePathes based on LocalFilePathes.
         /// </summary>
-        private void FillRelativePathes() 
+        private void FillRelativePathes()
         {
-            RelativeFilePathes = new StringList();
+            RelativePathes = new StringList();
 
-            for (int i = 0; i < LocalFilePathes.Count; i++)
+            for (int i = 0; i < LocalPathes.Count; i++)
             {
-                string s = LocalFilePathes[i].Replace(RootPath, "");
-                RelativeFilePathes.Add(s);
+                string s = LocalPathes[i].Replace(RootPath, "");
+                RelativePathes.Add(s);
             }
         }
 
@@ -60,9 +56,9 @@ namespace TCPSharpFileSync
         /// </summary>
         /// <param name="loc">Local path to find Relative equivalent of.</param>
         /// <returns>Relative equivalent of given Local path.</returns>
-        public string GetRelativeFromLocal(string loc) 
+        public string GetRelativeFromLocal(string loc)
         {
-            return RelativeFilePathes[LocalFilePathes.FindIndex(x => x == loc)];
+            return RelativePathes[LocalPathes.FindIndex(x => x == loc)];
         }
 
         /// <summary>
@@ -73,7 +69,7 @@ namespace TCPSharpFileSync
         public string GetLocalFromRelative(string rel)
         {
             rel.Replace("?", "");
-            return LocalFilePathes[RelativeFilePathes.FindIndex(x => x == rel)];
+            return LocalPathes[RelativePathes.FindIndex(x => x == rel)];
         }
 
         /// <summary>
@@ -81,9 +77,9 @@ namespace TCPSharpFileSync
         /// </summary>
         /// <param name="rel">Given value to check existance of.</param>
         /// <returns>true if file does exist, false if it's not.</returns>
-        public bool CheckFileExistanceFromRelative(string rel) 
+        public bool CheckFileExistanceFromRelative(string rel)
         {
-            return RelativeFilePathes.FindIndex(x => x == rel) != -1;
+            return RelativePathes.FindIndex(x => x == rel) != -1;
         }
 
         /// <summary>
@@ -91,11 +87,16 @@ namespace TCPSharpFileSync
         /// </summary>
         /// <param name="rel">Relative path for looking FileInfo.</param>
         /// <returns>FileInfo object, that represents information about Local file found from given Relative value.</returns>
-        public FileInfo GetLocalFileInfoFromRelative(string rel) 
+        public FileInfo GetLocalFileInfoFromRelative(string rel)
         {
             FileInfo fi = new FileInfo(GetLocalFromRelative(rel));
 
             return fi;
+        }
+
+        public string MakeLocalPathFromRelative(string rel) 
+        {
+            return (RootPath + rel);
         }
     }
 }

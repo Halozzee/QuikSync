@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
-using WatsonTcp;
 using System.IO;
-using System.Windows.Forms;
-using System.Threading;
+using System.Linq;
+using WatsonTcp;
 
 namespace TCPSharpFileSync
 {
@@ -52,12 +47,12 @@ namespace TCPSharpFileSync
 
         private void ServerDisconnected(object sender, EventArgs e)
         {
-            LogHandler.WriteLog($"Disconnected from server!", Color.Red);
+            UIHandler.WriteLog($"Disconnected from server!", Color.Red);
         }
 
         private void ServerConnected(object sender, EventArgs e)
         {
-            LogHandler.WriteLog($"Connected to server!", Color.Green);
+            UIHandler.WriteLog($"Connected to server!", Color.Green);
         }
 
         /// <summary>
@@ -110,7 +105,7 @@ namespace TCPSharpFileSync
                 clientH.Send(fs.Length, fs);
             }
 
-            LogHandler.WriteLog($"Uploaded {rel}", Color.Green);
+            UIHandler.WriteLog($"Uploaded {rel}", Color.Green);
         }
 
         /// <summary>
@@ -128,7 +123,7 @@ namespace TCPSharpFileSync
             DownloadFileTo = Filed.RootPath + rel;
             SyncResponse sr = SendMessage("!getFile " + rel);
             clientH.Events.StreamReceived += StreamReceived;
-            LogHandler.WriteLog($"Downloaded {rel}", Color.Green);
+            UIHandler.WriteLog($"Downloaded {rel}", Color.Green);
         }
 
         /// <summary>
@@ -164,7 +159,7 @@ namespace TCPSharpFileSync
         public List<string> GetAllExistingOnLocalHashesFromServer()
         {
             List<string> diffList = new List<string>();
-            List<string> locFiles = Filed.RelativeFilePathes;
+            List<string> locFiles = Filed.RelativePathes;
 
             hashesGotFromServer = new List<string>();
 
@@ -192,7 +187,7 @@ namespace TCPSharpFileSync
         /// <param name="conflicted">Indexes of Relative pathes of local devices that conflicted with remote ones.</param>
         public void SolveConflicted(List<int> conflicted)
         {
-            List<string> rels = Filed.RelativeFilePathes;
+            List<string> rels = Filed.RelativePathes;
             List<string> fiLoc = new List<string>();
             List<string> fiServer = new List<string>();
             List<string> fiNames = new List<string>();
@@ -264,10 +259,10 @@ namespace TCPSharpFileSync
         public void Syncronize()
         {
             GetServersFileListOfRelatieves();
-            LogHandler.WriteLog($"Recieved server file list!", Color.Green);
+            UIHandler.WriteLog($"Recieved server file list!", Color.Green);
             List<string> doesntExist = GetAllExistingOnLocalHashesFromServer();
-            LogHandler.WriteLog($"Recieved server hash list!", Color.Green);
-            Syncronizer sync = new Syncronizer(Filed.RelativeFilePathes, filesGotFromServer, Hashed.HashesMD5, hashesGotFromServer);
+            UIHandler.WriteLog($"Recieved server hash list!", Color.Green);
+            Syncronizer sync = new Syncronizer(Filed.RelativePathes, filesGotFromServer, Hashed.HashesMD5, hashesGotFromServer);
 
             HashSet<string> hs = new HashSet<string>(doesntExist);
 

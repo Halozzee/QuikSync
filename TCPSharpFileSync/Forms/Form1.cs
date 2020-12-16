@@ -1,14 +1,6 @@
-﻿using IniParser;
-using IniParser.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TCPSharpFileSync
@@ -27,7 +19,10 @@ namespace TCPSharpFileSync
         public Form1()
         {
             InitializeComponent();
-            InitializeLogHandler();
+            InitializeUIHandler();
+
+            // Checking if all the needed folders does exist.
+            FolderHandler.InitializeNeededDirectories();
 
             // Initialization of the TCPSetting being used for work.
             // "//" used for skipping through the validation that were throwing out exceptions of out of index.
@@ -37,9 +32,9 @@ namespace TCPSharpFileSync
         /// <summary>
         /// Procedure that initialize LogHandler static object.
         /// </summary>
-        private void InitializeLogHandler()
+        private void InitializeUIHandler()
         {
-            LogHandler.RichTextBoxWriteDelegate = (string s, Color color) => logRichTextBox.BeginInvoke(new MethodInvoker(() =>
+            UIHandler.RichTextBoxWriteDelegate = (string s, Color color) => logRichTextBox.BeginInvoke(new MethodInvoker(() =>
             {
                 logRichTextBox.SelectionStart = logRichTextBox.TextLength;
                 logRichTextBox.SelectionLength = 0;
@@ -48,9 +43,9 @@ namespace TCPSharpFileSync
                 logRichTextBox.AppendText(s + "\n");
                 logRichTextBox.SelectionColor = logRichTextBox.ForeColor;
             }));
-            LogHandler.SetProgressBarMax = (int max) => progressBar.Invoke(new MethodInvoker(() => progressBar.Maximum = max));
-            LogHandler.IncrementProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value++));
-            LogHandler.ResetProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value = 0));
+            UIHandler.SetProgressBarMax = (int max) => progressBar.Invoke(new MethodInvoker(() => progressBar.Maximum = max));
+            UIHandler.IncrementProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value++));
+            UIHandler.ResetProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value = 0));
         }
 
         private void syncBtn_Click(object sender, EventArgs e)
@@ -63,9 +58,9 @@ namespace TCPSharpFileSync
 
         }
 
-        public void WriteInRichBox(string s, Color color) 
+        public void WriteInRichBox(string s, Color color)
         {
-           
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -107,17 +102,17 @@ namespace TCPSharpFileSync
         private void asClientRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             // Showing every client input field for starting program as client.
-            actionsGroupBox.Visible         = true;
-            ifndefOnClientCheckBox.Visible  = true;
-            ifndefOnServerCheckBox.Visible  = true;
+            actionsGroupBox.Visible = true;
+            ifndefOnClientCheckBox.Visible = true;
+            ifndefOnServerCheckBox.Visible = true;
         }
 
         private void asServerRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             // Hiding every client input field for starting program as server.
-            actionsGroupBox.Visible         = false;
-            ifndefOnClientCheckBox.Visible  = false;
-            ifndefOnServerCheckBox.Visible  = false;
+            actionsGroupBox.Visible = false;
+            ifndefOnClientCheckBox.Visible = false;
+            ifndefOnServerCheckBox.Visible = false;
         }
 
         private void localDirTextBox_TextChanged(object sender, EventArgs e)
@@ -145,20 +140,20 @@ namespace TCPSharpFileSync
                     // Getting what are we going to read data for server or client.
                     DealingWithDataOf goFor = asServerRadioButton.Checked ? DealingWithDataOf.Server : DealingWithDataOf.Client;
 
-                    currentTcpSettings = IniParserWrapper.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
+                    currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
 
-                    portTextBox.Text                    = currentTcpSettings.port.ToString();
-                    localDirTextBox.Text                = currentTcpSettings.directoryPath;
-                    timeOutNumericUpDown.Value          = currentTcpSettings.msTimeout;
+                    portTextBox.Text = currentTcpSettings.port.ToString();
+                    localDirTextBox.Text = currentTcpSettings.directoryPath;
+                    timeOutNumericUpDown.Value = currentTcpSettings.msTimeout;
 
                     // If we are dealing with client on this launch - then read some extra data.
                     if (goFor == DealingWithDataOf.Client)
                     {
-                        ipTextBox.Text                  = currentTcpSettings.ip;
-                        doUploadCheckBox.Checked        = currentTcpSettings.doUpload;
-                        doDownloadCheckBox.Checked      = currentTcpSettings.doDownload;
-                        ifndefOnServerCheckBox.Checked  = currentTcpSettings.removeIfNotOnServer;
-                        ifndefOnClientCheckBox.Checked  = currentTcpSettings.removeIfNotOnClient;
+                        ipTextBox.Text = currentTcpSettings.ip;
+                        doUploadCheckBox.Checked = currentTcpSettings.doUpload;
+                        doDownloadCheckBox.Checked = currentTcpSettings.doDownload;
+                        ifndefOnServerCheckBox.Checked = currentTcpSettings.removeIfNotOnServer;
+                        ifndefOnClientCheckBox.Checked = currentTcpSettings.removeIfNotOnClient;
                     }
                 }
                 catch (Exception ex)
@@ -171,12 +166,12 @@ namespace TCPSharpFileSync
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Saving setup file
-            if (MessageBox.Show("Saving setup", "Do you want this setup to be saved?", MessageBoxButtons.YesNo) == DialogResult.Yes) 
+            // Saving setup file.
+            if (MessageBox.Show("Saving setup", "Do you want this setup to be saved?", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 if (saveSetupFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    IniParserWrapper.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
+                    SetupFileHandler.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
                 }
             }
         }
@@ -222,9 +217,14 @@ namespace TCPSharpFileSync
             currentTcpSettings.doDownload = doDownloadCheckBox.Checked;
         }
 
-		private void Form1_Load(object sender, EventArgs e)
-		{
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
-		}
-	}
+        }
+
+        private void makeNewSetupBtn_Click(object sender, EventArgs e)
+        {
+            SetupFileHandler.InitializeSetupToFile("Setups/s.ini", "test.HaDi");
+        }
+    }
 }

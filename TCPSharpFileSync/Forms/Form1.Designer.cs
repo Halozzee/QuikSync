@@ -52,6 +52,7 @@
             this.setupFromFilebtn = new System.Windows.Forms.Button();
             this.setupFileOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveSetupFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.makeNewSetupBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timeOutNumericUpDown)).BeginInit();
             this.actionsGroupBox.SuspendLayout();
@@ -276,7 +277,7 @@
             // 
             // setupFromFilebtn
             // 
-            this.setupFromFilebtn.Location = new System.Drawing.Point(274, 15);
+            this.setupFromFilebtn.Location = new System.Drawing.Point(383, 46);
             this.setupFromFilebtn.Name = "setupFromFilebtn";
             this.setupFromFilebtn.Size = new System.Drawing.Size(70, 24);
             this.setupFromFilebtn.TabIndex = 27;
@@ -293,11 +294,22 @@
             this.saveSetupFileDialog.FileName = "setup.ini";
             this.saveSetupFileDialog.Filter = "Ini file|*.ini";
             // 
+            // makeNewSetupBtn
+            // 
+            this.makeNewSetupBtn.Location = new System.Drawing.Point(291, 46);
+            this.makeNewSetupBtn.Name = "makeNewSetupBtn";
+            this.makeNewSetupBtn.Size = new System.Drawing.Size(86, 24);
+            this.makeNewSetupBtn.TabIndex = 28;
+            this.makeNewSetupBtn.Text = "New setup";
+            this.makeNewSetupBtn.UseVisualStyleBackColor = true;
+            this.makeNewSetupBtn.Click += new System.EventHandler(this.makeNewSetupBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(472, 450);
+            this.Controls.Add(this.makeNewSetupBtn);
             this.Controls.Add(this.setupFromFilebtn);
             this.Controls.Add(this.chooseDirBtn);
             this.Controls.Add(this.progressBar);
@@ -354,6 +366,7 @@
         private System.Windows.Forms.Button setupFromFilebtn;
         private System.Windows.Forms.OpenFileDialog setupFileOpenDialog;
         private System.Windows.Forms.SaveFileDialog saveSetupFileDialog;
+        private System.Windows.Forms.Button makeNewSetupBtn;
     }
 }
 

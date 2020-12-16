@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WatsonTcp;
 
 // typedef for better understanding and not using <>.
 using StringList = System.Collections.Generic.List<string>;

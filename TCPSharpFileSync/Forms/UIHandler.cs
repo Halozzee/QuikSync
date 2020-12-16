@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TCPSharpFileSync
 {
     /// <summary>
-    /// Class that represents all the log working, including progress that's shown to user.
+    /// Class that represents all the UI working, including progress that's shown to user.
     /// </summary>
-    public static class LogHandler
+    public static class UIHandler
     {
         /// <summary>
         /// Delegate that invokes writing given text to a RichTextBox with specific color.
@@ -55,7 +51,7 @@ namespace TCPSharpFileSync
         /// Function that invokes delegate that sets ProgressBat max value.
         /// </summary>
         /// <param name="max">Value that has to be set.</param>
-        public static void SetProgressBarMaxValue(int max) 
+        public static void SetProgressBarMaxValue(int max)
         {
             SetProgressBarMax.Invoke(max);
         }
@@ -63,7 +59,7 @@ namespace TCPSharpFileSync
         /// <summary>
         /// Function that invokes delegate that increments ProgressBar value by 1.
         /// </summary>
-        public static void IncrementProgressBarValue() 
+        public static void IncrementProgressBarValue()
         {
             IncrementProgressBar.Invoke();
         }
