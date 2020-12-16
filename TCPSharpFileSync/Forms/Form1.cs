@@ -21,6 +21,9 @@ namespace TCPSharpFileSync
             InitializeComponent();
             InitializeUIHandler();
 
+            // Checking if all the needed folders does exist.
+            FolderHandler.InitializeNeededDirectories();
+
             // Initialization of the TCPSetting being used for work.
             // "//" used for skipping through the validation that were throwing out exceptions of out of index.
             currentTcpSettings = new TCPSettings("//", "", 0, true, true, false, false, (int)timeOutNumericUpDown.Value);
@@ -137,7 +140,7 @@ namespace TCPSharpFileSync
                     // Getting what are we going to read data for server or client.
                     DealingWithDataOf goFor = asServerRadioButton.Checked ? DealingWithDataOf.Server : DealingWithDataOf.Client;
 
-                    currentTcpSettings = IniParserWrapper.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
+                    currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
 
                     portTextBox.Text = currentTcpSettings.port.ToString();
                     localDirTextBox.Text = currentTcpSettings.directoryPath;
@@ -168,7 +171,7 @@ namespace TCPSharpFileSync
             {
                 if (saveSetupFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    IniParserWrapper.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
+                    SetupFileHandler.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
                 }
             }
         }
@@ -217,6 +220,11 @@ namespace TCPSharpFileSync
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void makeNewSetupBtn_Click(object sender, EventArgs e)
+        {
+            SetupFileHandler.InitializeSetupToFile("Setups/s.ini", "test.HaDi");
         }
     }
 }

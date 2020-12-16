@@ -27,7 +27,7 @@ namespace TCPSharpFileSync
         public string Section;
     }
 
-    public static class IniParserWrapper
+    public static class SetupFileHandler
     {
         /// <summary>
         /// Function that returns IniData template.
@@ -121,6 +121,58 @@ namespace TCPSharpFileSync
                             break;
                         case "Boolean":
                             id.Sections[attrVal.Section].AddKey(item.Name, ((bool)item.GetValue(tcp) ? "Yes" : "No"));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            FileIniDataParser fidp = new FileIniDataParser();
+            fidp.SaveFile(newSetupFile, id);
+        }
+
+        /// <summary>
+        /// Function that saves and empty setup files with X values on all places, except HashDictionary.
+        /// </summary>
+        /// <param name="newSetupFile">Path to a new setup file TCPSetting will be save to.</param>
+        public static void InitializeSetupToFile(string newSetupFile, string hashDictionaryFileName) 
+        {
+            IniData id = GetSectionTemplate();
+
+            // Field data of the class that has to be filled up.
+            var fields = new TCPSettings().GetType().GetFields();
+
+            // Making the .HaDi file.
+            HasherIO.InitializeHashDictionaryFile(hashDictionaryFileName);
+
+            foreach (var item in fields)
+            {
+                // Getting if the attribute does exist on the field.
+                var attr = (Reading[])item.GetCustomAttributes(typeof(Reading), false);
+
+                // Going while several Reading sections is going. 
+                foreach (var attrVal in attr)
+                {
+                    // Getting field type to make right cast.
+                    var ft = item.FieldType;
+
+                    // Casting to get the right value.
+                    // The data in file has to be made right for this to work!
+                    switch (ft.Name)
+                    {
+                        case "String":
+
+                            if(item.Name == "hashDictionaryName")
+                                id.Sections[attrVal.Section].AddKey(item.Name, hashDictionaryFileName);
+                            else
+                                id.Sections[attrVal.Section].AddKey(item.Name, "x");
+                            break;
+                        case "Int32":
+                            id.Sections[attrVal.Section].AddKey(item.Name, "x");
+                            break;
+                        case "Boolean":
+                            id.Sections[attrVal.Section].AddKey(item.Name, "x");
                             break;
                         default:
                             break;

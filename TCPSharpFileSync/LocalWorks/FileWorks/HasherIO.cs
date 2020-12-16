@@ -20,9 +20,6 @@ namespace TCPSharpFileSync
         /// <param name="Filed">A Filer object that data will be written to the file(Relative pathes).</param>
         public static void WriteHasherToFile(string fileName, Hasher Hashed, Filer Filed) 
         {
-            // Checking and creating if not exists the directory that contains HashDictionaries.
-            if (!Directory.Exists("HashDictionaries"))
-                Directory.CreateDirectory("HashDictionaries");
 
             // Create a file to write to.
             using (StreamWriter sw = File.CreateText("HashDictionaries\\"+fileName))
@@ -76,6 +73,11 @@ namespace TCPSharpFileSync
                     }
                 }
             }
+        }
+
+        public static void InitializeHashDictionaryFile(string fileName) 
+        {
+            File.Create("HashDictionaries/"+ fileName);
         }
     }
 }

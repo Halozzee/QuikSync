@@ -55,7 +55,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IniFile\IniParserWrapper.cs" />
+    <Compile Include="IniFile\SetupFileHandler.cs" />
+    <Compile Include="LocalWorks\FileWorks\FolderHandler.cs" />
     <Compile Include="LocalWorks\FileWorks\HasherIO.cs" />
     <Compile Include="NetWorks\Client.cs" />
     <Compile Include="Forms\ConflictSolverForm.cs">

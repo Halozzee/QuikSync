@@ -56,14 +56,17 @@ namespace TCPSharpFileSync
 
             if (loadedFromFile)
             {
-                while (HashesMD5[startFrom] != "")
+                if (HashesMD5.Count > 0)
                 {
-                    startFrom++;
-
-                    if (startFrom == HashesMD5.Count)
+                    while (HashesMD5[startFrom] != "")
                     {
-                        startFrom = 0;
-                        break;
+                        startFrom++;
+
+                        if (startFrom == HashesMD5.Count)
+                        {
+                            startFrom = 0;
+                            break;
+                        }
                     }
                 }
             }
@@ -109,11 +112,17 @@ namespace TCPSharpFileSync
         /// <param name="f">Updated Filer object to recalculate hashed based on its pathes.</param>
         public void UpdateHasherBasedOnUpdatedFiler(Filer f)
         {
-            List<string> updatedLocs = f.LocalPathes;
+            LocalPathes = f.LocalPathes;
 
             //TODO: make this NOT CALCULATING ALL THE STUFF AGAIN - TOO TIME CONSUMING
 
-            HashesMD5 = new List<string>();
+            HashesMD5 = new StringList();
+
+            for (int i = 0; i < LocalPathes.Count; i++)
+            {
+                HashesMD5.Add("");
+            }
+
             ComputeAllHashesBasedOnLocalPathes();
         }
     }
