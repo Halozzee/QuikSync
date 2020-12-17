@@ -3,9 +3,14 @@ using IniParser.Model;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using TCPSharpFileSync.LocalWorks.FileWorks;
+using TCPSharpFileSync.NetWorks;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.LocalWorks.SetupWorks
 {
+    /// <summary>
+    /// Enum that shows which 
+    /// </summary>
     public enum DealingWithDataOf
     {
         Server,

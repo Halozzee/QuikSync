@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using TCPSharpFileSync.LocalWorks.FileWorks;
 using WatsonTcp;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.NetWorks
 {
     public class Client : TCPFileWorker
     {

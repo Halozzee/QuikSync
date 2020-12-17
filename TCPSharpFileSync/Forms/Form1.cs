@@ -2,6 +2,9 @@
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using TCPSharpFileSync.LocalWorks.FileWorks;
+using TCPSharpFileSync.LocalWorks.SetupWorks;
+using TCPSharpFileSync.NetWorks;
 
 namespace TCPSharpFileSync
 {

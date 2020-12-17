@@ -4,7 +4,7 @@ using System.Linq;
 // typedef for better understanding and not using <>.
 using StringList = System.Collections.Generic.List<string>;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.LocalWorks.FileWorks
 {
     /// <summary>
     /// Class that made for file working on device. Main purpose is to take "relative" pathes from "local" ones.

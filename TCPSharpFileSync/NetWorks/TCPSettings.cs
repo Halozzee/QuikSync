@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TCPSharpFileSync.LocalWorks.SetupWorks;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.NetWorks
 {
-
     /// <summary>
     /// Structure that represent settings for TCP actions.
     /// </summary>
@@ -75,25 +75,7 @@ namespace TCPSharpFileSync
         {
 
         }
-        /// <summary>
-        /// Constructor made for server that contain only server params.
-        /// </summary>
-        /// <param name="ptd">Path to directory that has to be syncronized.</param>
-        /// <param name="i">IP value the connection is going to establish to/listen to.</param>
-        /// <param name="p">Port value that program will be listening to/send messages out</param>
-        /// <param name="msToTimeout">Time in milliseconds before timeout exception come up.</param>
-        public TCPSettings(string ptd, string i, int p, int msToTimeout)
-        {
-            directoryPath = ptd;
-            ip = i;
-            port = p;
-            doDownload = false;
-            doUpload = false;
-            msTimeout = msToTimeout;
-            removeIfNotOnClient = false;
-            removeIfNotOnServer = false;
-            ValidateTheDirPathSlashes();
-        }
+
         /// <summary>
         /// Constructor made for client that contain all client params.
         /// </summary>
