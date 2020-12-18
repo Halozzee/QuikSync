@@ -81,7 +81,8 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
         /// <param name="fileName">File name that has to be initialized.</param>
         public static void InitializeHashDictionaryFile(string fileName) 
         {
-            File.Create("HashDictionaries/"+ fileName);
+            using (StreamWriter sr = new StreamWriter("HashDictionaries/" + fileName))
+            { }
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TCPSharpFileSync.LocalWorks.Attributes;
+using TCPSharpFileSync.LocalWorks.SessionsWorks;
 using TCPSharpFileSync.LocalWorks.SetupWorks;
 
 namespace TCPSharpFileSync.NetWorks
@@ -31,36 +33,11 @@ namespace TCPSharpFileSync.NetWorks
         [Reading(Section = "General")]
         public int port;
         /// <summary>
-        /// Flag that represents if client will be downloading files.
-        /// </summary>
-        [Saving(Section = "Client")]
-        [Reading(Section = "Client")]
-        public bool doDownload;
-        /// <summary>
-        /// Flag that represents if client will be uploading files.
-        /// </summary>
-        [Saving(Section = "Client")]
-        [Reading(Section = "Client")]
-        public bool doUpload;
-        /// <summary>
         /// Time in milliseconds before timeout exception come up.
         /// </summary>
         [Saving(Section = "General")]
         [Reading(Section = "General")]
         public int msTimeout;
-        /// <summary>
-        /// Flag that represents if the files that doesnt exist on client side will be deleted on server.
-        /// </summary>
-        [Saving(Section = "Client")]
-        [Reading(Section = "Client")]
-        public bool removeIfNotOnClient;
-        /// <summary>
-        /// Flag that represents if the files that doesnt exist on server side will be deleted on client.
-        /// </summary>
-        [Saving(Section = "Client")]
-        [Reading(Section = "Client")]
-        public bool removeIfNotOnServer;
-
         /// <summary>
         /// Name of a file that contains pre-calculated hashes for pathes. It's in a HashDictionaries folder.
         /// </summary>
@@ -82,23 +59,30 @@ namespace TCPSharpFileSync.NetWorks
         /// <param name="ptd">Path to directory that has to be syncronized.</param>
         /// <param name="i">IP value the connection is going to establish to/listen to.</param>
         /// <param name="p">Port value that program will be listening to/send messages out</param>
-        /// <param name="dd">Flag that represents if client will be downloading files.</param>
-        /// <param name="du">Flag that represents if client will be uploading files.</param>
-        /// <param name="rmifndefc">Flag that represents if the files that doesnt exist on client side will be deleted on server.</param>
-        /// <param name="rmifndefs">Flag that represents if the files that doesnt exist on server side will be deleted on client.</param>
         /// <param name="msToTimeout">Time in milliseconds before timeout exception come up.</param>
-        public TCPSettings(string ptd, string i, int p, bool dd, bool du, bool rmifndefc, bool rmifndefs, int msToTimeout)
+        public TCPSettings(string ptd, string i, int p, int msToTimeout)
         {
             directoryPath = ptd;
             ip = i;
             port = p;
-            doDownload = dd;
-            doUpload = du;
             msTimeout = msToTimeout;
-            removeIfNotOnClient = rmifndefc;
-            removeIfNotOnServer = rmifndefs;
             ValidateTheDirPathSlashes();
         }
+
+        /// <summary>
+        /// Constructor for making TCPSettings straight from SessionData since they are made for different purposes.
+        /// </summary>
+        /// <param name="sd">Session data that stores same values.</param>
+        /// <param name="msT">Time before timeout.</param>
+        public TCPSettings(SessionData sd, int msT)
+        {
+            directoryPath = sd.Directory;
+            ip = sd.Ip;
+            port = sd.Port;
+            msTimeout = msT;
+            ValidateTheDirPathSlashes();
+        }
+
         /// <summary>
         /// Validate if the last char is '\' or '/'
         /// </summary>

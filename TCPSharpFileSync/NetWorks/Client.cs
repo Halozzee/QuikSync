@@ -275,38 +275,26 @@ namespace TCPSharpFileSync.NetWorks
             List<int> conflicted = sync.FindConflicts();
             SolveConflicted(conflicted);
 
-            if (ts.doDownload && !ts.removeIfNotOnClient)
+            foreach (var item in sync.FilesDoesntExistOnLocal)
             {
-                foreach (var item in sync.FilesDoesntExistOnLocal)
-                {
-                    DownloadFile(item);
-                }
+                DownloadFile(item);
             }
 
-            if (ts.removeIfNotOnClient)
+            foreach (var item in sync.FilesDoesntExistOnLocal)
             {
-                foreach (var item in sync.FilesDoesntExistOnLocal)
-                {
-                    DeleteOnServer(item);
-                }
+                DeleteOnServer(item);
             }
 
             List<string> ls = hs.ToList();
 
-            if (ts.doUpload && !ts.removeIfNotOnServer)
+            foreach (var item in ls)
             {
-                foreach (var item in ls)
-                {
-                    UploadFile(item);
-                }
+                UploadFile(item);
             }
 
-            if (ts.removeIfNotOnServer)
+            foreach (var item in ls)
             {
-                foreach (var item in ls)
-                {
-                    File.Delete(Filed.GetLocalFromRelative(item));
-                }
+                File.Delete(Filed.GetLocalFromRelative(item));
             }
 
             SyncResponse sr = SendMessage("!sessiondone");

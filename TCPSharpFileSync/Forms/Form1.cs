@@ -2,7 +2,9 @@
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using TCPSharpFileSync.Forms;
 using TCPSharpFileSync.LocalWorks.FileWorks;
+using TCPSharpFileSync.LocalWorks.SessionsWorks;
 using TCPSharpFileSync.LocalWorks.SetupWorks;
 using TCPSharpFileSync.NetWorks;
 
@@ -19,205 +21,219 @@ namespace TCPSharpFileSync
         /// </summary>
         Client c;
 
+        TCPSettings currentTcpSettings;
+
         public Form1()
         {
             InitializeComponent();
-            InitializeUIHandler();
+            //InitializeUIHandler();
 
             // Checking if all the needed folders does exist.
             FolderHandler.InitializeNeededDirectories();
 
+            if (SessionsHandler.CheckSessionsStoryExistance())
+            {
+                SessionsHandler.TryReadSessionData();
+                SessionsHandler.LoadAllDataToDataOnDataGridView(ref dataGridView1);
+            }
+
             // Initialization of the TCPSetting being used for work.
             // "//" used for skipping through the validation that were throwing out exceptions of out of index.
-            currentTcpSettings = new TCPSettings("//", "", 0, true, true, false, false, (int)timeOutNumericUpDown.Value);
+            //currentTcpSettings = new TCPSettings("//", "", 0, true, true, false, false, (int)timeOutNumericUpDown.Value);
         }
 
-        /// <summary>
-        /// Procedure that initialize LogHandler static object.
-        /// </summary>
-        private void InitializeUIHandler()
-        {
-            UIHandler.RichTextBoxWriteDelegate = (string s, Color color) => logRichTextBox.BeginInvoke(new MethodInvoker(() =>
-            {
-                logRichTextBox.SelectionStart = logRichTextBox.TextLength;
-                logRichTextBox.SelectionLength = 0;
+        ///// <summary>
+        ///// Procedure that initialize LogHandler static object.
+        ///// </summary>
+        //private void InitializeUIHandler()
+        //{
+        //    UIHandler.RichTextBoxWriteDelegate = (string s, Color color) => logRichTextBox.BeginInvoke(new MethodInvoker(() =>
+        //    {
+        //        logRichTextBox.SelectionStart = logRichTextBox.TextLength;
+        //        logRichTextBox.SelectionLength = 0;
 
-                logRichTextBox.SelectionColor = color;
-                logRichTextBox.AppendText(s + "\n");
-                logRichTextBox.SelectionColor = logRichTextBox.ForeColor;
-            }));
-            UIHandler.SetProgressBarMax = (int max) => progressBar.Invoke(new MethodInvoker(() => progressBar.Maximum = max));
-            UIHandler.IncrementProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value++));
-            UIHandler.ResetProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value = 0));
-        }
+        //        logRichTextBox.SelectionColor = color;
+        //        logRichTextBox.AppendText(s + "\n");
+        //        logRichTextBox.SelectionColor = logRichTextBox.ForeColor;
+        //    }));
+        //    UIHandler.SetProgressBarMax = (int max) => progressBar.Invoke(new MethodInvoker(() => progressBar.Maximum = max));
+        //    UIHandler.IncrementProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value++));
+        //    UIHandler.ResetProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value = 0));
+        //}
 
-        private void syncBtn_Click(object sender, EventArgs e)
-        {
+        //private void syncBtn_Click(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
+        //private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
-        public void WriteInRichBox(string s, Color color)
-        {
+        //public void WriteInRichBox(string s, Color color)
+        //{
 
-        }
+        //}
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-        }
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //}
 
-        TCPSettings currentTcpSettings;
+        //TCPSettings currentTcpSettings;
 
-        private void syncBtn_Click_1(object sender, EventArgs e)
-        {
-            // If starting as server.
-            if (asServerRadioButton.Checked)
-            {
-                ipTextBox.Text = TCPFileWorker.GetLocalIPAddress();
-                s = new Server(currentTcpSettings);
-            }
-            // If starting as client.
-            else
-            {
-                c = new Client(currentTcpSettings);
+        //private void syncBtn_Click_1(object sender, EventArgs e)
+        //{
+        //    // If starting as server.
+        //    if (asServerRadioButton.Checked)
+        //    {
+        //        ipTextBox.Text = TCPFileWorker.GetLocalIPAddress();
+        //        s = new Server(currentTcpSettings);
+        //    }
+        //    // If starting as client.
+        //    else
+        //    {
+        //        c = new Client(currentTcpSettings);
 
-                // Starting syncronization as a background thread so it does not freeze the main form.
-                Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
-                InstanceCaller.IsBackground = true;
-                // Start the thread.
-                InstanceCaller.Start();
-            }
-        }
+        //        // Starting syncronization as a background thread so it does not freeze the main form.
+        //        Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
+        //        InstanceCaller.IsBackground = true;
+        //        // Start the thread.
+        //        InstanceCaller.Start();
+        //    }
+        //}
 
-        private void button2_Click(object sender, EventArgs e) 
-        {
-        }
+        //private void button2_Click(object sender, EventArgs e) 
+        //{
+        //}
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
+        //private void textBox2_TextChanged(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
-        private void asClientRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            // Showing every client input field for starting program as client.
-            actionsGroupBox.Visible = true;
-            ifndefOnClientCheckBox.Visible = true;
-            ifndefOnServerCheckBox.Visible = true;
-        }
+        //private void asClientRadioButton_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    // Showing every client input field for starting program as client.
+        //    actionsGroupBox.Visible = true;
+        //    ifndefOnClientCheckBox.Visible = true;
+        //    ifndefOnServerCheckBox.Visible = true;
+        //}
 
-        private void asServerRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            // Hiding every client input field for starting program as server.
-            actionsGroupBox.Visible = false;
-            ifndefOnClientCheckBox.Visible = false;
-            ifndefOnServerCheckBox.Visible = false;
-        }
+        //private void asServerRadioButton_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    // Hiding every client input field for starting program as server.
+        //    actionsGroupBox.Visible = false;
+        //    ifndefOnClientCheckBox.Visible = false;
+        //    ifndefOnServerCheckBox.Visible = false;
+        //}
 
-        private void localDirTextBox_TextChanged(object sender, EventArgs e)
-        {
-            folderBrowserDialog.SelectedPath = localDirTextBox.Text;
-            currentTcpSettings.directoryPath = localDirTextBox.Text;
-        }
+        //private void localDirTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    folderBrowserDialog.SelectedPath = localDirTextBox.Text;
+        //    currentTcpSettings.directoryPath = localDirTextBox.Text;
+        //}
 
-        private void chooseDirBtn_Click(object sender, EventArgs e)
-        {
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-            {
-                localDirTextBox.Text = folderBrowserDialog.SelectedPath;
-            }
-        }
+        //private void chooseDirBtn_Click(object sender, EventArgs e)
+        //{
+        //    if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+        //    {
+        //        localDirTextBox.Text = folderBrowserDialog.SelectedPath;
+        //    }
+        //}
 
-        private void setupFromFilebtn_Click(object sender, EventArgs e)
-        {
-            // If the dialog goes with OK result.
-            if (setupFileOpenDialog.ShowDialog() == DialogResult.OK)
-            {
-                // General - is a section for information for both server and client.
-                try
-                {
-                    // Getting what are we going to read data for server or client.
-                    DealingWithDataOf goFor = asServerRadioButton.Checked ? DealingWithDataOf.Server : DealingWithDataOf.Client;
+        //private void setupFromFilebtn_Click(object sender, EventArgs e)
+        //{
+        //    // If the dialog goes with OK result.
+        //    if (setupFileOpenDialog.ShowDialog() == DialogResult.OK)
+        //    {
+        //        // General - is a section for information for both server and client.
+        //        try
+        //        {
+        //            // Getting what are we going to read data for server or client.
+        //            DealingWithDataOf goFor = asServerRadioButton.Checked ? DealingWithDataOf.Server : DealingWithDataOf.Client;
 
-                    currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
+        //            currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
 
-                    portTextBox.Text = currentTcpSettings.port.ToString();
-                    localDirTextBox.Text = currentTcpSettings.directoryPath;
-                    timeOutNumericUpDown.Value = currentTcpSettings.msTimeout;
+        //            portTextBox.Text = currentTcpSettings.port.ToString();
+        //            localDirTextBox.Text = currentTcpSettings.directoryPath;
+        //            timeOutNumericUpDown.Value = currentTcpSettings.msTimeout;
 
-                    // If we are dealing with client on this launch - then read some extra data.
-                    if (goFor == DealingWithDataOf.Client)
-                    {
-                        ipTextBox.Text = currentTcpSettings.ip;
-                        doUploadCheckBox.Checked = currentTcpSettings.doUpload;
-                        doDownloadCheckBox.Checked = currentTcpSettings.doDownload;
-                        ifndefOnServerCheckBox.Checked = currentTcpSettings.removeIfNotOnServer;
-                        ifndefOnClientCheckBox.Checked = currentTcpSettings.removeIfNotOnClient;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // If the file isnt loading for some reason - show the exception text in messagebox.
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
+        //            // If we are dealing with client on this launch - then read some extra data.
+        //            if (goFor == DealingWithDataOf.Client)
+        //            {
+        //                ipTextBox.Text = currentTcpSettings.ip;
+        //                doUploadCheckBox.Checked = currentTcpSettings.doUpload;
+        //                doDownloadCheckBox.Checked = currentTcpSettings.doDownload;
+        //                ifndefOnServerCheckBox.Checked = currentTcpSettings.removeIfNotOnServer;
+        //                ifndefOnClientCheckBox.Checked = currentTcpSettings.removeIfNotOnClient;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // If the file isnt loading for some reason - show the exception text in messagebox.
+        //            MessageBox.Show(ex.Message);
+        //        }
+        //    }
+        //}
+
+        //private void ipTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    currentTcpSettings.ip = ipTextBox.Text;
+        //}
+
+        //private void portTextBox_TextChanged(object sender, EventArgs e)
+        //{
+        //    currentTcpSettings.port = int.Parse(portTextBox.Text);
+        //}
+
+        //private void ifndefOnServerCheckBox_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    currentTcpSettings.removeIfNotOnServer = ifndefOnServerCheckBox.Checked;
+        //}
+
+        //private void ifndefOnClientCheckBox_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    currentTcpSettings.removeIfNotOnClient = ifndefOnClientCheckBox.Checked;
+        //}
+
+        //private void timeOutNumericUpDown_ValueChanged(object sender, EventArgs e)
+        //{
+        //    currentTcpSettings.msTimeout = (int)timeOutNumericUpDown.Value;
+        //}
+
+        //private void portTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    // Setting Digit-only mode
+        //    e.Handled = !(Char.IsDigit(e.KeyChar));
+        //}
+
+        //private void doUploadCheckBox_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    currentTcpSettings.doUpload = doUploadCheckBox.Checked;
+        //}
+
+        //private void doDownloadCheckBox_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    currentTcpSettings.doDownload = doDownloadCheckBox.Checked;
+        //}
+
+        //private void makeNewSetupBtn_Click(object sender, EventArgs e)
+        //{
+        //    SetupFileHandler.InitializeSetupToFile("Setups/s.ini", "test.HaDi");
+        //}
+
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Saving setup file.
-            if (MessageBox.Show("Saving setup", "Do you want this setup to be saved?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                if (saveSetupFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    SetupFileHandler.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
-                }
-            }
-        }
-
-        private void ipTextBox_TextChanged(object sender, EventArgs e)
-        {
-            currentTcpSettings.ip = ipTextBox.Text;
-        }
-
-        private void portTextBox_TextChanged(object sender, EventArgs e)
-        {
-            currentTcpSettings.port = int.Parse(portTextBox.Text);
-        }
-
-        private void ifndefOnServerCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            currentTcpSettings.removeIfNotOnServer = ifndefOnServerCheckBox.Checked;
-        }
-
-        private void ifndefOnClientCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            currentTcpSettings.removeIfNotOnClient = ifndefOnClientCheckBox.Checked;
-        }
-
-        private void timeOutNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            currentTcpSettings.msTimeout = (int)timeOutNumericUpDown.Value;
-        }
-
-        private void portTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Setting Digit-only mode
-            e.Handled = !(Char.IsDigit(e.KeyChar));
-        }
-
-        private void doUploadCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            currentTcpSettings.doUpload = doUploadCheckBox.Checked;
-        }
-
-        private void doDownloadCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            currentTcpSettings.doDownload = doDownloadCheckBox.Checked;
+            //// Saving setup file.
+            //if (MessageBox.Show("Saving setup", "Do you want this setup to be saved?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //{
+            //    if (saveSetupFileDialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        //SetupFileHandler.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
+            //    }
+            //}
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -225,9 +241,21 @@ namespace TCPSharpFileSync
 
         }
 
-        private void makeNewSetupBtn_Click(object sender, EventArgs e)
+        private void newSessionBtn_Click(object sender, EventArgs e)
         {
-            SetupFileHandler.InitializeSetupToFile("Setups/s.ini", "test.HaDi");
+            NewSessionForm nsf = new NewSessionForm();
+            if (nsf.ShowDialog() == DialogResult.OK)
+            {
+                SessionsHandler.DisplaySessionOnDataOnDataGridView(ref dataGridView1, nsf.SD);
+                SessionsHandler.SDList.Add(nsf.SD);
+                SetupFileHandler.WriteTCPSettingToFile("Setups\\" + nsf.SD.SessionName + ".ini", nsf.SD.SessionName + ".HaDI", new TCPSettings(nsf.SD, 100000));
+                SessionsHandler.WriteAllSessionData();
+            }
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(SessionsHandler.SDList[e.RowIndex].SetupFileName);
         }
     }
 }
