@@ -16,34 +16,34 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
         /// <summary>
         /// Name of the session.
         /// </summary>
-        public string SessionName { get; private set; }
+        public string SessionName { get; set; }
         /// <summary>
         /// Path to directory that has to be syncronized.
         /// </summary>
-        public string Directory { get; private set; }
+        public string Directory { get; set; }
         /// <summary>
         /// Ip that used for connection to server.
         /// </summary>
-        public string Ip { get; private set; }
+        public string Ip { get; set; }
         /// <summary>
         /// Port that used for connection to server or hosting server.
         /// </summary>
-        public int Port { get; private set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// Last time that session used.
         /// </summary>
-        public string LastTimeUsed { get; private set; }
+        public string LastTimeUsed { get; set; }
 
         /// <summary>
         /// Flag that shows how the last time that session used as a server or a client.
         /// </summary>
-        public LaunchedAs LA { get; private set; }
+        public LaunchedAs LA { get; set; }
 
         /// <summary>
         /// Setup file name that will be used if that session will be choosed.
         /// </summary>
-        public string SetupFileName { get; private set; }
+        public string SetupFileName { get; set; }
 
         /// <summary>
         /// Constuctor for SessionData.

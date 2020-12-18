@@ -21,6 +21,8 @@ namespace TCPSharpFileSync
         /// </summary>
         Client c;
 
+        int selectedIndex;
+
         TCPSettings currentTcpSettings;
 
         public Form1()
@@ -255,7 +257,39 @@ namespace TCPSharpFileSync
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(SessionsHandler.SDList[e.RowIndex].SetupFileName);
+            if (SessionsHandler.SDList.Count > selectedIndex)
+            {
+                selectedIndex = e.RowIndex;
+                currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(SessionsHandler.SDList[e.RowIndex].SetupFileName);
+            }
+        }
+
+        private void HostBtn_Click(object sender, EventArgs e)
+        {
+            SessionsHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Server;
+            s = new Server(currentTcpSettings);
+        }
+
+        private void JoinBtn_Click(object sender, EventArgs e)
+        {
+            SessionsHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Client;
+
+            c = new Client(currentTcpSettings);
+            // Starting syncronization as a background thread so it does not freeze the main form.
+            Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
+            InstanceCaller.IsBackground = true;
+            // Start the thread.
+            InstanceCaller.Start();
+        }
+
+        private void removeSelectedBtn_Click(object sender, EventArgs e)
+        {
+            // Not effective. Has to be reworked.
+            SessionsHandler.RemoveSessionDataAndRelatedFiles(selectedIndex);
+            SessionsHandler.LoadAllDataToDataOnDataGridView(ref dataGridView1);
+            SessionsHandler.WriteAllSessionData();
         }
     }
 }

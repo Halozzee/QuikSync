@@ -2,6 +2,7 @@
 using IniParser.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using TCPSharpFileSync.LocalWorks.Attributes;
 using TCPSharpFileSync.LocalWorks.FileWorks;
@@ -67,6 +68,7 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
                 //{
                 //    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Client" });
                 //}
+
                 ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() {});
             }
             catch (Exception ex)
@@ -225,6 +227,21 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Function that delete setup file and related HashDictionary to it.
+        /// </summary>
+        /// <param name="setupFile">Path to a setup file.</param>
+        public static void DeleteSetupFileAndItsHashDictionary(string setupFile) 
+        {
+            var parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("Setups\\" + setupFile);
+
+            string hashDictionaryName = data["General"]["hashDictionaryName"];
+
+            File.Delete("HashDictionaries\\" + hashDictionaryName);
+            File.Delete("Setups\\" + setupFile);
         }
     }
 }

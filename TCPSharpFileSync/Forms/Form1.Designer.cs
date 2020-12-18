@@ -52,6 +52,7 @@
             this.HostBtn.TabIndex = 1;
             this.HostBtn.Text = "Host";
             this.HostBtn.UseVisualStyleBackColor = true;
+            this.HostBtn.Click += new System.EventHandler(this.HostBtn_Click);
             // 
             // JoinBtn
             // 
@@ -64,6 +65,7 @@
             this.JoinBtn.TabIndex = 2;
             this.JoinBtn.Text = "Join";
             this.JoinBtn.UseVisualStyleBackColor = true;
+            this.JoinBtn.Click += new System.EventHandler(this.JoinBtn_Click);
             // 
             // dataGridView1
             // 
@@ -79,7 +81,7 @@
             this.IP_PORT,
             this.LastTimeUsed});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(58)))));
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Menu;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(150)))));
@@ -129,6 +131,7 @@
             this.removeSelectedBtn.TabIndex = 4;
             this.removeSelectedBtn.Text = "Remove selected";
             this.removeSelectedBtn.UseVisualStyleBackColor = true;
+            this.removeSelectedBtn.Click += new System.EventHandler(this.removeSelectedBtn_Click);
             // 
             // newSessionBtn
             // 
