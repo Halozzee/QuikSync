@@ -4,7 +4,7 @@ using System.Linq;
 // typedef for better understanding and not using <>.
 using StringList = System.Collections.Generic.List<string>;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.NetWorks
 {
     /// <summary>
     /// Class made for solving file existance and hash conflicts.

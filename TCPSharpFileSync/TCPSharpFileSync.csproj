@@ -55,7 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IniFile\SetupFileHandler.cs" />
+    <Compile Include="LocalWorks\SetupWorks\SetupFileHandler.cs" />
     <Compile Include="LocalWorks\FileWorks\FolderHandler.cs" />
     <Compile Include="LocalWorks\FileWorks\HasherIO.cs" />
     <Compile Include="NetWorks\Client.cs" />
@@ -95,7 +95,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="IniFile\setup1.ini" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

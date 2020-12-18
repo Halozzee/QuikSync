@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.LocalWorks.FileWorks
 {
     /// <summary>
     /// Class that represents all the works with handling creating directories.

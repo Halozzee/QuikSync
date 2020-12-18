@@ -2,10 +2,10 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using TCPSharpFileSync.LocalWorks.FileWorks;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.NetWorks
 {
-
     /// <summary>
     /// Represent a parent class made for working with local files. Contains Data and Variables that Server and Client both using.
     /// </summary>

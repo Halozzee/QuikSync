@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.LocalWorks.FileWorks
 {
     /// <summary>
     /// Class that made for storing RelativePath:Hash into file. Each Pair separated with "\n". Key and value separated with ":".
@@ -75,6 +75,10 @@ namespace TCPSharpFileSync
             }
         }
 
+        /// <summary>
+        /// Function that initialize HashDictionary file.
+        /// </summary>
+        /// <param name="fileName">File name that has to be initialized.</param>
         public static void InitializeHashDictionaryFile(string fileName) 
         {
             File.Create("HashDictionaries/"+ fileName);

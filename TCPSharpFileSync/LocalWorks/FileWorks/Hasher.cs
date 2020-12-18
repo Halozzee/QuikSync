@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 // typedef for better understanding and not using <>.
 using StringList = System.Collections.Generic.List<string>;
 
-namespace TCPSharpFileSync
+namespace TCPSharpFileSync.LocalWorks.FileWorks
 {
     /// <summary>
     /// Class that represent work with MD5 hashes based on Local pathes given.
