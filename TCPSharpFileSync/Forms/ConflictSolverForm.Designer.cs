@@ -30,17 +30,17 @@ namespace TCPSharpFileSync
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Action = new System.Windows.Forms.DataGridViewImageColumn();
             this.RelativePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HostSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ClientSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HostTimeModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ClientTimeModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hostBtn = new System.Windows.Forms.Button();
+            this.joinedBtn = new System.Windows.Forms.Button();
+            this.skipBtn = new System.Windows.Forms.Button();
+            this.newCloneBtn = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -66,64 +66,6 @@ namespace TCPSharpFileSync
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(550, 421);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.SystemColors.Menu;
-            this.button1.Location = new System.Drawing.Point(6, 23);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Host";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.SystemColors.Menu;
-            this.button2.Location = new System.Drawing.Point(6, 52);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(83, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Joined";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.ForeColor = System.Drawing.SystemColors.Menu;
-            this.button3.Location = new System.Drawing.Point(6, 81);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(83, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Skip";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.ForeColor = System.Drawing.SystemColors.Menu;
-            this.button4.Location = new System.Drawing.Point(6, 110);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(83, 23);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "New Clone";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.ForeColor = System.Drawing.SystemColors.Menu;
-            this.groupBox1.Location = new System.Drawing.Point(577, 22);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(97, 145);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Actions";
             // 
             // Action
             // 
@@ -158,12 +100,70 @@ namespace TCPSharpFileSync
             this.ClientTimeModified.HeaderText = "Joined time modified";
             this.ClientTimeModified.Name = "ClientTimeModified";
             // 
+            // hostBtn
+            // 
+            this.hostBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.hostBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.hostBtn.Location = new System.Drawing.Point(6, 23);
+            this.hostBtn.Name = "hostBtn";
+            this.hostBtn.Size = new System.Drawing.Size(83, 23);
+            this.hostBtn.TabIndex = 1;
+            this.hostBtn.Text = "Host";
+            this.hostBtn.UseVisualStyleBackColor = true;
+            // 
+            // joinedBtn
+            // 
+            this.joinedBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.joinedBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.joinedBtn.Location = new System.Drawing.Point(6, 52);
+            this.joinedBtn.Name = "joinedBtn";
+            this.joinedBtn.Size = new System.Drawing.Size(83, 23);
+            this.joinedBtn.TabIndex = 2;
+            this.joinedBtn.Text = "Joined";
+            this.joinedBtn.UseVisualStyleBackColor = true;
+            // 
+            // skipBtn
+            // 
+            this.skipBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.skipBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.skipBtn.Location = new System.Drawing.Point(6, 81);
+            this.skipBtn.Name = "skipBtn";
+            this.skipBtn.Size = new System.Drawing.Size(83, 23);
+            this.skipBtn.TabIndex = 3;
+            this.skipBtn.Text = "Skip";
+            this.skipBtn.UseVisualStyleBackColor = true;
+            // 
+            // newCloneBtn
+            // 
+            this.newCloneBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newCloneBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.newCloneBtn.Location = new System.Drawing.Point(6, 110);
+            this.newCloneBtn.Name = "newCloneBtn";
+            this.newCloneBtn.Size = new System.Drawing.Size(83, 23);
+            this.newCloneBtn.TabIndex = 4;
+            this.newCloneBtn.Text = "New Clone";
+            this.newCloneBtn.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.skipBtn);
+            this.groupBox1.Controls.Add(this.newCloneBtn);
+            this.groupBox1.Controls.Add(this.joinedBtn);
+            this.groupBox1.Controls.Add(this.hostBtn);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.Menu;
+            this.groupBox1.Location = new System.Drawing.Point(569, 22);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(97, 145);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Actions";
+            // 
             // ConflictSolverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.Size = new System.Drawing.Size(779, 416);
+            this.ClientSize = new System.Drawing.Size(678, 364);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "ConflictSolverForm";
@@ -178,10 +178,10 @@ namespace TCPSharpFileSync
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button hostBtn;
+        private System.Windows.Forms.Button joinedBtn;
+        private System.Windows.Forms.Button skipBtn;
+        private System.Windows.Forms.Button newCloneBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridViewImageColumn Action;
         private System.Windows.Forms.DataGridViewTextBoxColumn RelativePath;

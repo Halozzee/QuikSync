@@ -46,7 +46,6 @@ namespace TCPSharpFileSync.NetWorks
             Hashed = new Hasher(Filed.LocalPathes);
 
             HasherIO.ReadHasherFromFile(ts.hashDictionaryName, Hashed, Filed);
-
             Hashed.ComputeAllHashesBasedOnLocalPathes();
             HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
         }

@@ -10,6 +10,7 @@ namespace TCPSharpFileSync
     public partial class ConflictSolverForm : Form
     {
         List<FileDiffData> diffs;
+        List<SyncAction> actions;
 
         public ConflictSolverForm(List<FileDiffData> fdd)
         {

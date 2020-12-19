@@ -291,6 +291,9 @@ namespace TCPSharpFileSync.NetWorks
             SyncResponse sr = SendMessage("!sessiondone");
             Filed = new Filer(Filed.RootPath);
             Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
+
+            HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
+
             UIHandler.WriteLog("Session done!");
             UIHandler.ToggleProgressBarVisibility();
 

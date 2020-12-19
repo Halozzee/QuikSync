@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TCPSharpFileSync.NetWorks.ConflictWorks
 {
-    public enum Action 
+    public enum SyncAction 
     {
         GetFromHost,
         GetFromJoined,

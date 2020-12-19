@@ -120,6 +120,7 @@ namespace TCPSharpFileSync.NetWorks
                 cmd = cmd.Replace("!sessiondone", "");
                 Filed = new Filer(Filed.RootPath);
                 Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
+                HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 UIHandler.WriteLog("Session done!", Color.Green);
             }
