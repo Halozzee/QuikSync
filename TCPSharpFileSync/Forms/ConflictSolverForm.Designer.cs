@@ -41,6 +41,7 @@ namespace TCPSharpFileSync
             this.skipBtn = new System.Windows.Forms.Button();
             this.newCloneBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.doneBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -158,14 +159,29 @@ namespace TCPSharpFileSync
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Actions";
             // 
+            // doneBtn
+            // 
+            this.doneBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.doneBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.doneBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.doneBtn.Location = new System.Drawing.Point(569, 299);
+            this.doneBtn.Name = "doneBtn";
+            this.doneBtn.Size = new System.Drawing.Size(97, 34);
+            this.doneBtn.TabIndex = 6;
+            this.doneBtn.Text = "Done";
+            this.doneBtn.UseVisualStyleBackColor = true;
+            this.doneBtn.Click += new System.EventHandler(this.doneBtn_Click);
+            // 
             // ConflictSolverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.ClientSize = new System.Drawing.Size(678, 364);
+            this.ClientSize = new System.Drawing.Size(689, 351);
+            this.Controls.Add(this.doneBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ConflictSolverForm";
             this.Text = "ConflictSolverForm";
             this.Load += new System.EventHandler(this.ConflictSolverForm_Load);
@@ -189,5 +205,6 @@ namespace TCPSharpFileSync
         private System.Windows.Forms.DataGridViewTextBoxColumn ClientSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn HostTimeModified;
         private System.Windows.Forms.DataGridViewTextBoxColumn ClientTimeModified;
+        private System.Windows.Forms.Button doneBtn;
     }
 }

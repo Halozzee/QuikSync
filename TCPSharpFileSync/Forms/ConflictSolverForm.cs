@@ -22,5 +22,10 @@ namespace TCPSharpFileSync
         {
 
         }
+
+        private void doneBtn_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+        }
     }
 }
