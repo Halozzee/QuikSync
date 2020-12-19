@@ -108,7 +108,7 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
             }
 
             // Trying to read hashes from file.
-            FilerHashesIO.ReadHashesFromFile(relatedHashDictionary, this);
+            FilerHashesIO.ReadHashesFromFile(relatedHashDictionary, RootPath, this);
 
             // If there's none hashes for some file -> compute them.
             for (int i = 0; i < FilesData.Count; i++)
@@ -118,6 +118,8 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
                     FilesData[i].hashMD5 = CalculateMD5(FilesData[i].localPath);
                 }
             }
+
+            FilerHashesIO.WriteHashesToFile(relatedHashDictionary, this);
         }
 
       

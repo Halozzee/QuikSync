@@ -25,7 +25,15 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
             {
                 for (int i = 0; i < Filed.FilesData.Count; i++)
                 {
-                    sw.WriteLine(Filed.FilesData[i].relativePath + ":" + Filed.FilesData[i].hashMD5);
+                    // We write LastWriteTime to make sure if the next time we access this file we get hash of THE SAME FILE
+                    // if LastWriteTime will be different from that we write -> recompute hash.
+                    FileInfo fi = new FileInfo(Filed.FilesData[i].localPath);
+                    sw.Write(Filed.FilesData[i].relativePath + "?" + Filed.FilesData[i].hashMD5 + "?" + fi.LastWriteTime);
+
+                    if (i != Filed.FilesData.Count - 1)
+                    {
+                        sw.Write("\n");
+                    }
                 }
             }
         }
@@ -34,9 +42,9 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
         /// Function that read Hasher object from specific file.
         /// </summary>
         /// <param name="fileName">File that will be read for data. Has to has .HaDi extension.</param>
-        /// <param name="Hashed">A Hasher object that will recieve data from the file(hashes).</param>
+        /// <param name="syncDirPath">Path to a directory that has to be syncronized.</param>
         /// <param name="Filed">A Filer object that will help to decide which hashes are goes and which are not for Hasher (if file doesnt exist hash doesnt go to hasher).</param>
-        public static void ReadHashesFromFile(string fileName, Filer Filed)
+        public static void ReadHashesFromFile(string fileName, string syncDirPath ,Filer Filed)
         {
             // Check if file doesnt exist, then Ok.
             if (File.Exists("HashDictionaries\\"+fileName))
@@ -45,11 +53,17 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
                 {
                     while (sr.Peek() >= 0)
                     {
-                        string[] splitted = sr.ReadLine().Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
 
+                        string[] splitted = sr.ReadLine().Split(new string[] { "?" }, StringSplitOptions.RemoveEmptyEntries);
+
+                        // We take LastWriteTime to make sure if the next time we access this file we get hash of THE SAME FILE
+                        // if LastWriteTime will be different from that we write -> recompute hash.
+                        FileInfo fi = new FileInfo(syncDirPath + splitted[0]);
                         int index = Filed.FilesData.FindIndex(x => x.relativePath == splitted[0]);
 
-                        if (index != -1)
+                        string fiSL = fi.LastWriteTime.ToString();
+
+                        if (index != -1 && fiSL == splitted[2])
                         {
                             Filed.FilesData[index].hashMD5 = splitted[1];
                         }
