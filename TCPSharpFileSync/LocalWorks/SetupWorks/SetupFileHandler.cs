@@ -164,7 +164,7 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
                                 id.Sections[attrVal.Section].AddKey(item.Name, hashDictionaryName);
 
                                 // Initialize HashDictionaryFile or reinitialize it if this existed.
-                                HasherIO.InitializeHashDictionaryFile(hashDictionaryName);
+                                FilerHashesIO.InitializeHashDictionaryFile(hashDictionaryName);
                             }
                             break;
                         case "Int32":

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
-// typedef for better understanding and not using <>.
-using StringList = System.Collections.Generic.List<string>;
+using TCPSharpFileSync.LocalWorks.FileWorks;
 
 namespace TCPSharpFileSync.NetWorks.ConflictWorks
 {
@@ -11,103 +9,57 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
     /// </summary>
     public class Syncronizer
     {
-        /// <summary>
-        /// List of strings. Each string represents Relative path that doesnt exist on local device.
-        /// </summary>
-        public StringList FilesDoesntExistOnLocal { get; private set; }
-        /// <summary>
-        /// List of strings. Each string represents Relative path that doesnt exist on Host device.
-        /// </summary>
-        public StringList FilesDoesntExistOnRemote { get; private set; }
+        public HashSet<FileDiffData> fdd = new HashSet<FileDiffData>();
+        public List<SyncAction> saList = new List<SyncAction>();
 
-        /// <summary>
-        /// List of strings. Each string represents Relative path of file that exists on local device.
-        /// </summary>
-        StringList LocalFiles = new StringList();
-        /// <summary>
-        /// List of strings. Each string represents Relative path of file that exists on Host device.
-        /// </summary>
-        StringList RemoteFiles = new StringList();
-        /// <summary>
-        /// List of strings. Each string represents hash of file that exists on local device and calculated from files with the same index from LocalFiles list. 
-        /// </summary>
-        StringList LocalHashes = new StringList();
-        /// <summary>
-        /// List of strings. Each string represents hash of file that exists on Host device and calculated from files with the same index from RemoteFiles list. 
-        /// </summary>
-        StringList RemoteHashes = new StringList();
-
-        /// <summary>
-        /// Function that returns list of relative pathes that doesnt exist in First but does in Second.
-        /// </summary>
-        /// <param name="First">List of relative pathes to find not existing from.</param>
-        /// <param name="Second">List of relative pathes to find not existing in.</param>
-        /// <returns></returns>
-        private StringList GetDifferenceListBasedOnFirst(StringList First, StringList Second)
+        public Syncronizer(List<FileData> Joined, List<FileData> Host) 
         {
-            HashSet<string> diff = new HashSet<string>();
-
-            for (int i = 0; i < Second.Count; i++)
+            // Computing files that could be conflicted to Host.
+            for (int i = 0; i < Joined.Count; i++)
             {
-                if (First.FindIndex(x => x == Second[i]) == -1)
+                FileData fd = GetFileDataByRelativePath(Joined[i].relativePath, Host);
+
+                if (fd != null)
                 {
-                    diff.Add(Second[i]);
+                    // Hash conflict possible.
+                    if (fd.hashMD5 != Joined[i].hashMD5)
+                    {
+                        fdd.Add(new FileDiffData(Joined[i].relativePath, Joined[i].ts, fd.ts));
+                    }
+                }
+                else
+                {
+                    fdd.Add(new FileDiffData(Joined[i].relativePath, Joined[i].ts, new TimeSize(-1, "-")));
                 }
             }
 
-            return diff.ToList();
-        }
-        /// <summary>
-        /// Constructor that initializing Syncronizer object.
-        /// </summary>
-        /// <param name="local">List of strings. Each string represents Relative path of file that exists on local device.</param>
-        /// <param name="Host">List of strings. Each string represents Relative path of file that exists on Host device.</param>
-        /// <param name="localhashes">List of strings. Each string represents hash of file that exists on local device and calculated from files with the same index from LocalFiles list.</param>
-        /// <param name="remotehashes">List of strings. Each string represents hash of file that exists on Host device and calculated from files with the same index from RemoteFiles list.</param>
-        public Syncronizer(StringList local, StringList Host, StringList localhashes, StringList remotehashes)
-        {
-            FilesDoesntExistOnLocal = GetDifferenceListBasedOnFirst(local, Host);
-            FilesDoesntExistOnRemote = GetDifferenceListBasedOnFirst(Host, local);
-            LocalFiles = local;
-            RemoteFiles = Host;
-            LocalHashes = localhashes;
-            RemoteHashes = remotehashes;
-        }
-
-        //public StringList CompareHashes()
-        //{
-        //    StringList RetVal = new StringList();
-
-        //    for (int i = 0; i < LocalHashes.Count; i++)
-        //    {
-        //        if (LocalHashes[i] != RemoteHashes[i])
-        //        {
-        //            RetVal.Add(LocalHashes[i]);
-        //        }
-        //    }
-
-        //    return RetVal;
-        //}
-
-        /// <summary>
-        /// Function that finds conflicts based on hash values both of Host and local files.
-        /// </summary>
-        /// <returns>Returns the list of indexes on local files that hashes does not match hashes from server</returns>
-        public List<int> FindConflicts()
-        {
-            List<int> ls = new List<int>();
-            for (int i = 0; i < LocalHashes.Count; i++)
+            // Computing files that could be conflicted to Join.
+            for (int i = 0; i < Host.Count; i++)
             {
-                int indexRemote = RemoteFiles.FindIndex(x => x == LocalFiles[i]);
+                FileData fd = GetFileDataByRelativePath(Host[i].relativePath, Joined);
 
-                if (indexRemote != -1)
+                if (fd != null)
                 {
-                    if (RemoteHashes[i] != LocalHashes[i] && RemoteHashes[i] != "-")
-                        ls.Add(i);
+                    // Hash conflict possible.
+                    if (fd.hashMD5 != Host[i].hashMD5)
+                    {
+                        fdd.Add(new FileDiffData(Host[i].relativePath, Host[i].ts, fd.ts));
+                    }
+                }
+                else
+                {
+                    fdd.Add(new FileDiffData(Host[i].relativePath, Host[i].ts, new TimeSize(-1, "-")));
                 }
             }
 
-            return ls;
+            ConflictSolverForm conflictSolverForm = new ConflictSolverForm(fdd.ToList());
+            conflictSolverForm.ShowDialog();
+            saList = conflictSolverForm.actions;
+        }
+
+        private FileData GetFileDataByRelativePath(string rel, List<FileData> l) 
+        {
+            return l.Find(x => x.relativePath == rel);
         }
     }
 }

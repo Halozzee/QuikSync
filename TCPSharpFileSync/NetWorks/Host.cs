@@ -55,11 +55,10 @@ namespace TCPSharpFileSync.NetWorks
         /// <returns></returns>
         //======Joined requests======
         //!qq = Exit
-        //!getHash *relative path to file* = get file hash to Joined
         //!getFile *relative path to file* = upload file to Joined
         //!catchFile *relative path to file* = get file from Joined
         //!exists *relative path to file* = check if file exists on servers side and then answer for Joined
-        //!getFileList = get all relative pathes and send it to Joined
+        //!getFileDataList = get all relative pathes and hashes to it and send it to Joined
         //!sessiondone = updates servers Filer and Hasher
         //!rm *relative path to file* = remove file on Host side
         //!getFileInfo *relative path to file* = get file info from Host
@@ -79,17 +78,12 @@ namespace TCPSharpFileSync.NetWorks
                 servH.Stop();
                 servH.Dispose();
             }
-            else if (cmd.Contains("!getHashes "))
-            {
-                cmd = cmd.Replace("!getHashes ", "");
-                string hashes = GetAllAskedHashesToSeparatedString(cmd);
-                sr = new SyncResponse(arg, GetBytesFromString(hashes));
-            }
             else if (cmd.Contains("!getFile "))
             {
                 cmd = cmd.Replace("!getFile ", "");
                 UploadFile(arg.IpPort, cmd);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
+                Filed.ChangeFileModifiedStatusByRel(cmd, FileModifiedStatus.Untouched);
             }
             else if (cmd.Contains("!catchFile "))
             {
@@ -101,6 +95,7 @@ namespace TCPSharpFileSync.NetWorks
                 DownloadFileTo = Filed.RootPath + cmd.Replace("!catchFile ", "");
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 servH.Events.StreamReceived += StreamReceived;
+                Filed.ChangeFileModifiedStatusByRel(cmd, FileModifiedStatus.Changed);
             }
             else if (cmd.Contains("!exists "))
             {
@@ -110,24 +105,25 @@ namespace TCPSharpFileSync.NetWorks
                 else
                     sr = new SyncResponse(arg, GetBytesFromString("!No"));
             }
-            else if (cmd.Contains("!getFileList"))
+            else if (cmd.Contains("!getFileDataList"))
             {
-                cmd = cmd.Replace("!getFileList", "");
+                cmd = cmd.Replace("!getFileDataList", "");
                 sr = new SyncResponse(arg, GetBytesFromString(GetFileList()));
             }
             else if (cmd.Contains("!sessiondone"))
             {
                 cmd = cmd.Replace("!sessiondone", "");
-                Filed = new Filer(Filed.RootPath);
-                Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
-                HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
+                Filed = new Filer(Filed.RootPath, ts.hashDictionaryName);
+                FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName, Filed);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 UIHandler.WriteLog("Session done!", Color.Green);
             }
             else if (cmd.Contains("!rm "))
             {
                 cmd = cmd.Replace("!rm ", "");
-                File.Delete(Filed.GetLocalFromRelative(cmd));
+                if(Filed.GetLocalFromRelative(cmd) != "?FileNotFound?")
+                    File.Delete(Filed.GetLocalFromRelative(cmd));
+                Filed.ChangeFileModifiedStatusByRel(cmd, FileModifiedStatus.Deleted);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
             }
             else if (cmd.Contains("!getFileInfo "))
@@ -186,9 +182,10 @@ namespace TCPSharpFileSync.NetWorks
 
             foreach (var item in toBeProcessed)
             {
-                if (File.Exists(Filed.RootPath + item))
+                int index = Filed.FilesData.FindIndex(x => x.relativePath == item);
+                if (index != -1)
                 {
-                    recievedHashes.Add(Hashed.GetHashMD5FromLocal(Filed.RootPath + item));
+                    recievedHashes.Add(Filed.FilesData[index].hashMD5);
                 }
                 else
                     recievedHashes.Add("-");
@@ -232,12 +229,13 @@ namespace TCPSharpFileSync.NetWorks
         /// <returns>String full of Relative pathes of existing files on this device.</returns>
         private string GetFileList()
         {
-            var fileList = Filed.RelativePathes;
+            var fileList = Filed.FilesData;
             string sendString = "";
 
             for (int i = 0; i < fileList.Count; i++)
             {
-                sendString += fileList[i];
+                FileInfo fi = new FileInfo(fileList[i].localPath);
+                sendString += fileList[i].relativePath + "?" + fileList[i].hashMD5 + "?" + fi.Length + "?" + fi.LastWriteTime.ToString("MM/dd/yyyy HH:mm");
 
                 if (i != fileList.Count - 1)
                     sendString += "\n";
