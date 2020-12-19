@@ -2,7 +2,9 @@
 using IniParser.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
+using TCPSharpFileSync.LocalWorks.Attributes;
 using TCPSharpFileSync.LocalWorks.FileWorks;
 using TCPSharpFileSync.NetWorks;
 
@@ -11,25 +13,11 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
     /// <summary>
     /// Enum that shows which 
     /// </summary>
-    public enum DealingWithDataOf
+    public enum LaunchedAs
     {
-        Server,
-        Client
-    }
-
-    /// <summary>
-    /// Attribute made for easy saving object to ini file.
-    /// </summary>
-    public class Saving : Attribute
-    {
-        public string Section;
-    }
-    /// <summary>
-    /// Attribute made for easy reading data from ini file.
-    /// </summary>
-    public class Reading : Attribute
-    {
-        public string Section;
+        Host,
+        Joined,
+        None
     }
 
     public static class SetupFileHandler
@@ -44,7 +32,7 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
 
             // Initializing sections.
             id.Sections.AddSection("General");
-            id.Sections.AddSection("Client");
+            id.Sections.AddSection("Joined");
             id.Sections.AddSection("Server");
 
             return id;
@@ -54,32 +42,34 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
         /// Function that forms a TCPSettings object based on read setup file.
         /// </summary>
         /// <param name="setupFile">Path to a setup file.</param>
-        /// <param name="ldt">Answers on a question loading server or client data.</param>
+        /// <param name="ldt">Answers on a question loading server or Joined data.</param>
         /// <returns></returns>
-        public static TCPSettings ReadTCPSettingsFromFile(string setupFile, DealingWithDataOf ldt)
+        public static TCPSettings ReadTCPSettingsFromFile(string setupFile/*, LaunchedAs ldt*/)
         {
             // Returnable value.
             TCPSettings tcp = new TCPSettings();
 
-            // General - is a section for information for both server and client.
+            // General - is a section for information for both server and Joined.
             try
             {
-                // Getting what are we going to read data for server or client.
-                string goFor = (ldt == DealingWithDataOf.Server ? "Server" : "Client");
+                //// Getting what are we going to read data for server or Joined.
+                //string goFor = (ldt == LaunchedAs.Server ? "Server" : "Joined");
 
                 // Initializing parser.
                 var parser = new FileIniDataParser();
-                IniData data = parser.ReadFile(setupFile);
+                IniData data = parser.ReadFile("Setups\\"+setupFile);
 
-                // If we are dealing with client on this launch - then read some extra data.
-                if (goFor == "Client")
-                {
-                    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Server" });
-                }
-                else
-                {
-                    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Client" });
-                }
+                //// If we are dealing with Joined on this launch - then read some extra data.
+                //if (goFor == "Joined")
+                //{
+                //    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Server" });
+                //}
+                //else
+                //{
+                //    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Joined" });
+                //}
+
+                ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() {});
             }
             catch (Exception ex)
             {
@@ -138,18 +128,18 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
         }
 
         /// <summary>
-        /// Function that saves and empty setup files with X values on all places, except HashDictionary.
+        /// Function that saves a TCPSettings object to the location new setup file path and connect it to a HashDictionary file.
         /// </summary>
         /// <param name="newSetupFile">Path to a new setup file TCPSetting will be save to.</param>
-        public static void InitializeSetupToFile(string newSetupFile, string hashDictionaryFileName) 
+        /// <param name="hashDictionaryName">Path to a HashDictionary file.</param>
+        /// <param name="tcp">TCPSetting that has to be saved.</param>
+        /// <returns></returns>
+        public static void WriteTCPSettingToFile(string newSetupFile, string hashDictionaryName, TCPSettings tcp)
         {
             IniData id = GetSectionTemplate();
 
             // Field data of the class that has to be filled up.
-            var fields = new TCPSettings().GetType().GetFields();
-
-            // Making the .HaDi file.
-            HasherIO.InitializeHashDictionaryFile(hashDictionaryFileName);
+            var fields = tcp.GetType().GetFields();
 
             foreach (var item in fields)
             {
@@ -167,17 +157,21 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
                     switch (ft.Name)
                     {
                         case "String":
-
-                            if(item.Name == "hashDictionaryName")
-                                id.Sections[attrVal.Section].AddKey(item.Name, hashDictionaryFileName);
+                            if (item.Name != "hashDictionaryName")
+                                id.Sections[attrVal.Section].AddKey(item.Name, (string)item.GetValue(tcp));
                             else
-                                id.Sections[attrVal.Section].AddKey(item.Name, "x");
+                            {
+                                id.Sections[attrVal.Section].AddKey(item.Name, hashDictionaryName);
+
+                                // Initialize HashDictionaryFile or reinitialize it if this existed.
+                                HasherIO.InitializeHashDictionaryFile(hashDictionaryName);
+                            }
                             break;
                         case "Int32":
-                            id.Sections[attrVal.Section].AddKey(item.Name, "x");
+                            id.Sections[attrVal.Section].AddKey(item.Name, ((int)item.GetValue(tcp)).ToString());
                             break;
                         case "Boolean":
-                            id.Sections[attrVal.Section].AddKey(item.Name, "x");
+                            id.Sections[attrVal.Section].AddKey(item.Name, ((bool)item.GetValue(tcp) ? "Yes" : "No"));
                             break;
                         default:
                             break;
@@ -233,6 +227,21 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Function that delete setup file and related HashDictionary to it.
+        /// </summary>
+        /// <param name="setupFile">Path to a setup file.</param>
+        public static void DeleteSetupFileAndItsHashDictionary(string setupFile) 
+        {
+            var parser = new FileIniDataParser();
+            IniData data = parser.ReadFile("Setups\\" + setupFile);
+
+            string hashDictionaryName = data["General"]["hashDictionaryName"];
+
+            File.Delete("HashDictionaries\\" + hashDictionaryName);
+            File.Delete("Setups\\" + setupFile);
         }
     }
 }

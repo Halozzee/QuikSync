@@ -7,7 +7,7 @@ using TCPSharpFileSync.LocalWorks.FileWorks;
 namespace TCPSharpFileSync.NetWorks
 {
     /// <summary>
-    /// Represent a parent class made for working with local files. Contains Data and Variables that Server and Client both using.
+    /// Represent a parent class made for working with local files. Contains Data and Variables that Server and Joined both using.
     /// </summary>
     public abstract class TCPFileWorker
     {
@@ -31,7 +31,7 @@ namespace TCPSharpFileSync.NetWorks
         protected bool gettingFile = false;
 
         /// <summary>
-        /// Package size that goes through server and client. 
+        /// Package size that goes through server and Joined. 
         /// </summary>
         public long bufferSize = 65556;
         public static int msBeforeTimeOut = 5000;
@@ -46,8 +46,8 @@ namespace TCPSharpFileSync.NetWorks
             Hashed = new Hasher(Filed.LocalPathes);
 
             HasherIO.ReadHasherFromFile(ts.hashDictionaryName, Hashed, Filed);
-
             Hashed.ComputeAllHashesBasedOnLocalPathes();
+            HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
         }
 
         ~TCPFileWorker() 

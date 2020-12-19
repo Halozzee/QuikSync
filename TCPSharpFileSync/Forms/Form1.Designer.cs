@@ -28,345 +28,217 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.logRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.asClientRadioButton = new System.Windows.Forms.RadioButton();
-            this.asServerRadioButton = new System.Windows.Forms.RadioButton();
-            this.syncBtn = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.localDirTextBox = new System.Windows.Forms.TextBox();
-            this.portTextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.ipTextBox = new System.Windows.Forms.TextBox();
-            this.timeOutNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.actionsGroupBox = new System.Windows.Forms.GroupBox();
-            this.doDownloadCheckBox = new System.Windows.Forms.CheckBox();
-            this.doUploadCheckBox = new System.Windows.Forms.CheckBox();
-            this.ifndefOnServerCheckBox = new System.Windows.Forms.CheckBox();
-            this.ifndefOnClientCheckBox = new System.Windows.Forms.CheckBox();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.chooseDirBtn = new System.Windows.Forms.Button();
-            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.setupFromFilebtn = new System.Windows.Forms.Button();
-            this.setupFileOpenDialog = new System.Windows.Forms.OpenFileDialog();
-            this.saveSetupFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.makeNewSetupBtn = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timeOutNumericUpDown)).BeginInit();
-            this.actionsGroupBox.SuspendLayout();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.HostBtn = new System.Windows.Forms.Button();
+            this.JoinBtn = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.SessionName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IP_PORT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastTimeUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.removeSelectedBtn = new System.Windows.Forms.Button();
+            this.newSessionBtn = new System.Windows.Forms.Button();
+            this.actionLabel = new System.Windows.Forms.Label();
+            this.circularProgressBar = new CircularProgressBar.CircularProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // logRichTextBox
+            // HostBtn
             // 
-            this.logRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.logRichTextBox.Location = new System.Drawing.Point(9, 219);
-            this.logRichTextBox.Name = "logRichTextBox";
-            this.logRichTextBox.Size = new System.Drawing.Size(449, 224);
-            this.logRichTextBox.TabIndex = 14;
-            this.logRichTextBox.Text = "";
+            this.HostBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.HostBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.HostBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.HostBtn.Location = new System.Drawing.Point(652, 12);
+            this.HostBtn.Name = "HostBtn";
+            this.HostBtn.Size = new System.Drawing.Size(152, 42);
+            this.HostBtn.TabIndex = 1;
+            this.HostBtn.Text = "Host";
+            this.HostBtn.UseVisualStyleBackColor = true;
+            this.HostBtn.Click += new System.EventHandler(this.HostBtn_Click);
             // 
-            // groupBox1
+            // JoinBtn
             // 
-            this.groupBox1.Controls.Add(this.asClientRadioButton);
-            this.groupBox1.Controls.Add(this.asServerRadioButton);
-            this.groupBox1.Location = new System.Drawing.Point(268, 71);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(78, 68);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Working as";
+            this.JoinBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.JoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.JoinBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.JoinBtn.Location = new System.Drawing.Point(652, 60);
+            this.JoinBtn.Name = "JoinBtn";
+            this.JoinBtn.Size = new System.Drawing.Size(152, 42);
+            this.JoinBtn.TabIndex = 2;
+            this.JoinBtn.Text = "Join";
+            this.JoinBtn.UseVisualStyleBackColor = true;
+            this.JoinBtn.Click += new System.EventHandler(this.JoinBtn_Click);
             // 
-            // asClientRadioButton
+            // dataGridView1
             // 
-            this.asClientRadioButton.AutoSize = true;
-            this.asClientRadioButton.Location = new System.Drawing.Point(6, 42);
-            this.asClientRadioButton.Name = "asClientRadioButton";
-            this.asClientRadioButton.Size = new System.Drawing.Size(65, 17);
-            this.asClientRadioButton.TabIndex = 1;
-            this.asClientRadioButton.Text = "as Client";
-            this.asClientRadioButton.UseVisualStyleBackColor = true;
-            this.asClientRadioButton.CheckedChanged += new System.EventHandler(this.asClientRadioButton_CheckedChanged);
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SessionName,
+            this.Directory,
+            this.IP_PORT,
+            this.LastTimeUsed});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(150)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(58)))));
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(621, 409);
+            this.dataGridView1.TabIndex = 3;
+            this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             // 
-            // asServerRadioButton
+            // SessionName
             // 
-            this.asServerRadioButton.AutoSize = true;
-            this.asServerRadioButton.Checked = true;
-            this.asServerRadioButton.Location = new System.Drawing.Point(6, 19);
-            this.asServerRadioButton.Name = "asServerRadioButton";
-            this.asServerRadioButton.Size = new System.Drawing.Size(70, 17);
-            this.asServerRadioButton.TabIndex = 0;
-            this.asServerRadioButton.TabStop = true;
-            this.asServerRadioButton.Text = "as Server";
-            this.asServerRadioButton.UseVisualStyleBackColor = true;
-            this.asServerRadioButton.CheckedChanged += new System.EventHandler(this.asServerRadioButton_CheckedChanged);
+            this.SessionName.HeaderText = "Session name";
+            this.SessionName.Name = "SessionName";
             // 
-            // syncBtn
+            // Directory
             // 
-            this.syncBtn.Location = new System.Drawing.Point(360, 14);
-            this.syncBtn.Name = "syncBtn";
-            this.syncBtn.Size = new System.Drawing.Size(104, 26);
-            this.syncBtn.TabIndex = 12;
-            this.syncBtn.Text = "Syncronize";
-            this.syncBtn.UseVisualStyleBackColor = true;
-            this.syncBtn.Click += new System.EventHandler(this.syncBtn_Click_1);
+            this.Directory.HeaderText = "Directory";
+            this.Directory.Name = "Directory";
+            this.Directory.ReadOnly = true;
             // 
-            // label2
+            // IP_PORT
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 2);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Local Dir";
+            this.IP_PORT.HeaderText = "Address";
+            this.IP_PORT.Name = "IP_PORT";
+            this.IP_PORT.ReadOnly = true;
             // 
-            // localDirTextBox
+            // LastTimeUsed
             // 
-            this.localDirTextBox.Location = new System.Drawing.Point(9, 18);
-            this.localDirTextBox.Name = "localDirTextBox";
-            this.localDirTextBox.Size = new System.Drawing.Size(156, 20);
-            this.localDirTextBox.TabIndex = 8;
-            this.localDirTextBox.TextChanged += new System.EventHandler(this.localDirTextBox_TextChanged);
+            this.LastTimeUsed.HeaderText = "Last time used";
+            this.LastTimeUsed.Name = "LastTimeUsed";
             // 
-            // portTextBox
+            // removeSelectedBtn
             // 
-            this.portTextBox.Location = new System.Drawing.Point(9, 120);
-            this.portTextBox.Name = "portTextBox";
-            this.portTextBox.Size = new System.Drawing.Size(156, 20);
-            this.portTextBox.TabIndex = 16;
-            this.portTextBox.TextChanged += new System.EventHandler(this.portTextBox_TextChanged);
-            this.portTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.portTextBox_KeyPress);
+            this.removeSelectedBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeSelectedBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.removeSelectedBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.removeSelectedBtn.Location = new System.Drawing.Point(652, 291);
+            this.removeSelectedBtn.Name = "removeSelectedBtn";
+            this.removeSelectedBtn.Size = new System.Drawing.Size(152, 23);
+            this.removeSelectedBtn.TabIndex = 4;
+            this.removeSelectedBtn.Text = "Remove selected";
+            this.removeSelectedBtn.UseVisualStyleBackColor = true;
+            this.removeSelectedBtn.Click += new System.EventHandler(this.removeSelectedBtn_Click);
             // 
-            // label3
+            // newSessionBtn
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 104);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 13);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Port";
+            this.newSessionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.newSessionBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.newSessionBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.newSessionBtn.Location = new System.Drawing.Point(652, 149);
+            this.newSessionBtn.Name = "newSessionBtn";
+            this.newSessionBtn.Size = new System.Drawing.Size(152, 44);
+            this.newSessionBtn.TabIndex = 5;
+            this.newSessionBtn.Text = "New session";
+            this.newSessionBtn.UseVisualStyleBackColor = true;
+            this.newSessionBtn.Click += new System.EventHandler(this.newSessionBtn_Click);
             // 
-            // label4
+            // actionLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 63);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(16, 13);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Ip";
+            this.actionLabel.AutoSize = true;
+            this.actionLabel.ForeColor = System.Drawing.SystemColors.Menu;
+            this.actionLabel.Location = new System.Drawing.Point(12, 446);
+            this.actionLabel.Name = "actionLabel";
+            this.actionLabel.Size = new System.Drawing.Size(0, 13);
+            this.actionLabel.TabIndex = 6;
             // 
-            // ipTextBox
+            // circularProgressBar
             // 
-            this.ipTextBox.Location = new System.Drawing.Point(9, 79);
-            this.ipTextBox.Name = "ipTextBox";
-            this.ipTextBox.Size = new System.Drawing.Size(156, 20);
-            this.ipTextBox.TabIndex = 18;
-            this.ipTextBox.TextChanged += new System.EventHandler(this.ipTextBox_TextChanged);
+            this.circularProgressBar.AnimationFunction = WinFormAnimation.KnownAnimationFunctions.Liner;
+            this.circularProgressBar.AnimationSpeed = 500;
+            this.circularProgressBar.BackColor = System.Drawing.Color.Transparent;
+            this.circularProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.circularProgressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.circularProgressBar.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.circularProgressBar.InnerMargin = 2;
+            this.circularProgressBar.InnerWidth = -1;
+            this.circularProgressBar.Location = new System.Drawing.Point(652, 320);
+            this.circularProgressBar.MarqueeAnimationSpeed = 2000;
+            this.circularProgressBar.Name = "circularProgressBar";
+            this.circularProgressBar.OuterColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(80)))));
+            this.circularProgressBar.OuterMargin = -25;
+            this.circularProgressBar.OuterWidth = 26;
+            this.circularProgressBar.ProgressColor = System.Drawing.Color.Lime;
+            this.circularProgressBar.ProgressWidth = 25;
+            this.circularProgressBar.SecondaryFont = new System.Drawing.Font("Microsoft Sans Serif", 36F);
+            this.circularProgressBar.Size = new System.Drawing.Size(152, 156);
+            this.circularProgressBar.StartAngle = 270;
+            this.circularProgressBar.Step = 1;
+            this.circularProgressBar.SubscriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.circularProgressBar.SubscriptMargin = new System.Windows.Forms.Padding(10, -35, 0, 0);
+            this.circularProgressBar.SubscriptText = ".23";
+            this.circularProgressBar.SuperscriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.circularProgressBar.SuperscriptMargin = new System.Windows.Forms.Padding(10, 35, 0, 0);
+            this.circularProgressBar.SuperscriptText = "°C";
+            this.circularProgressBar.TabIndex = 7;
+            this.circularProgressBar.TextMargin = new System.Windows.Forms.Padding(8, 8, 0, 0);
+            this.circularProgressBar.Value = 68;
+            this.circularProgressBar.Visible = false;
             // 
-            // timeOutNumericUpDown
+            // button1
             // 
-            this.timeOutNumericUpDown.Location = new System.Drawing.Point(360, 104);
-            this.timeOutNumericUpDown.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
-            0});
-            this.timeOutNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.timeOutNumericUpDown.Name = "timeOutNumericUpDown";
-            this.timeOutNumericUpDown.Size = new System.Drawing.Size(98, 20);
-            this.timeOutNumericUpDown.TabIndex = 20;
-            this.timeOutNumericUpDown.Value = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.timeOutNumericUpDown.ValueChanged += new System.EventHandler(this.timeOutNumericUpDown_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(363, 88);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 13);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "ms before timeout";
-            // 
-            // actionsGroupBox
-            // 
-            this.actionsGroupBox.Controls.Add(this.doDownloadCheckBox);
-            this.actionsGroupBox.Controls.Add(this.doUploadCheckBox);
-            this.actionsGroupBox.Location = new System.Drawing.Point(179, 71);
-            this.actionsGroupBox.Name = "actionsGroupBox";
-            this.actionsGroupBox.Size = new System.Drawing.Size(83, 68);
-            this.actionsGroupBox.TabIndex = 22;
-            this.actionsGroupBox.TabStop = false;
-            this.actionsGroupBox.Text = "Actions";
-            this.actionsGroupBox.Visible = false;
-            // 
-            // doDownloadCheckBox
-            // 
-            this.doDownloadCheckBox.AutoSize = true;
-            this.doDownloadCheckBox.Checked = true;
-            this.doDownloadCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.doDownloadCheckBox.Location = new System.Drawing.Point(7, 38);
-            this.doDownloadCheckBox.Name = "doDownloadCheckBox";
-            this.doDownloadCheckBox.Size = new System.Drawing.Size(74, 17);
-            this.doDownloadCheckBox.TabIndex = 1;
-            this.doDownloadCheckBox.Text = "Download";
-            this.doDownloadCheckBox.UseVisualStyleBackColor = true;
-            this.doDownloadCheckBox.CheckedChanged += new System.EventHandler(this.doDownloadCheckBox_CheckedChanged);
-            // 
-            // doUploadCheckBox
-            // 
-            this.doUploadCheckBox.AutoSize = true;
-            this.doUploadCheckBox.Checked = true;
-            this.doUploadCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.doUploadCheckBox.Location = new System.Drawing.Point(7, 20);
-            this.doUploadCheckBox.Name = "doUploadCheckBox";
-            this.doUploadCheckBox.Size = new System.Drawing.Size(60, 17);
-            this.doUploadCheckBox.TabIndex = 0;
-            this.doUploadCheckBox.Text = "Upload";
-            this.doUploadCheckBox.UseVisualStyleBackColor = true;
-            this.doUploadCheckBox.CheckedChanged += new System.EventHandler(this.doUploadCheckBox_CheckedChanged);
-            // 
-            // ifndefOnServerCheckBox
-            // 
-            this.ifndefOnServerCheckBox.AutoSize = true;
-            this.ifndefOnServerCheckBox.Location = new System.Drawing.Point(13, 159);
-            this.ifndefOnServerCheckBox.Name = "ifndefOnServerCheckBox";
-            this.ifndefOnServerCheckBox.Size = new System.Drawing.Size(219, 17);
-            this.ifndefOnServerCheckBox.TabIndex = 23;
-            this.ifndefOnServerCheckBox.Text = "If doesnt exist on server remove on client";
-            this.ifndefOnServerCheckBox.UseVisualStyleBackColor = true;
-            this.ifndefOnServerCheckBox.Visible = false;
-            this.ifndefOnServerCheckBox.CheckedChanged += new System.EventHandler(this.ifndefOnServerCheckBox_CheckedChanged);
-            // 
-            // ifndefOnClientCheckBox
-            // 
-            this.ifndefOnClientCheckBox.AutoSize = true;
-            this.ifndefOnClientCheckBox.Location = new System.Drawing.Point(238, 159);
-            this.ifndefOnClientCheckBox.Name = "ifndefOnClientCheckBox";
-            this.ifndefOnClientCheckBox.Size = new System.Drawing.Size(219, 17);
-            this.ifndefOnClientCheckBox.TabIndex = 24;
-            this.ifndefOnClientCheckBox.Text = "If doesnt exist on client remove on server";
-            this.ifndefOnClientCheckBox.UseVisualStyleBackColor = true;
-            this.ifndefOnClientCheckBox.Visible = false;
-            this.ifndefOnClientCheckBox.CheckedChanged += new System.EventHandler(this.ifndefOnClientCheckBox_CheckedChanged);
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(9, 183);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(451, 23);
-            this.progressBar.TabIndex = 25;
-            // 
-            // chooseDirBtn
-            // 
-            this.chooseDirBtn.Location = new System.Drawing.Point(171, 15);
-            this.chooseDirBtn.Name = "chooseDirBtn";
-            this.chooseDirBtn.Size = new System.Drawing.Size(100, 24);
-            this.chooseDirBtn.TabIndex = 26;
-            this.chooseDirBtn.Text = "Choose directory";
-            this.chooseDirBtn.UseVisualStyleBackColor = true;
-            this.chooseDirBtn.Click += new System.EventHandler(this.chooseDirBtn_Click);
-            // 
-            // setupFromFilebtn
-            // 
-            this.setupFromFilebtn.Location = new System.Drawing.Point(383, 46);
-            this.setupFromFilebtn.Name = "setupFromFilebtn";
-            this.setupFromFilebtn.Size = new System.Drawing.Size(70, 24);
-            this.setupFromFilebtn.TabIndex = 27;
-            this.setupFromFilebtn.Text = "Set up";
-            this.setupFromFilebtn.UseVisualStyleBackColor = true;
-            this.setupFromFilebtn.Click += new System.EventHandler(this.setupFromFilebtn_Click);
-            // 
-            // setupFileOpenDialog
-            // 
-            this.setupFileOpenDialog.Filter = "ini file|*.ini";
-            // 
-            // saveSetupFileDialog
-            // 
-            this.saveSetupFileDialog.FileName = "setup.ini";
-            this.saveSetupFileDialog.Filter = "Ini file|*.ini";
-            // 
-            // makeNewSetupBtn
-            // 
-            this.makeNewSetupBtn.Location = new System.Drawing.Point(291, 46);
-            this.makeNewSetupBtn.Name = "makeNewSetupBtn";
-            this.makeNewSetupBtn.Size = new System.Drawing.Size(86, 24);
-            this.makeNewSetupBtn.TabIndex = 28;
-            this.makeNewSetupBtn.Text = "New setup";
-            this.makeNewSetupBtn.UseVisualStyleBackColor = true;
-            this.makeNewSetupBtn.Click += new System.EventHandler(this.makeNewSetupBtn_Click);
+            this.button1.Location = new System.Drawing.Point(724, 228);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(59, 26);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(472, 450);
-            this.Controls.Add(this.makeNewSetupBtn);
-            this.Controls.Add(this.setupFromFilebtn);
-            this.Controls.Add(this.chooseDirBtn);
-            this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.ifndefOnClientCheckBox);
-            this.Controls.Add(this.ifndefOnServerCheckBox);
-            this.Controls.Add(this.actionsGroupBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.timeOutNumericUpDown);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.ipTextBox);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.portTextBox);
-            this.Controls.Add(this.logRichTextBox);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.syncBtn);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.localDirTextBox);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.ClientSize = new System.Drawing.Size(816, 479);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.circularProgressBar);
+            this.Controls.Add(this.actionLabel);
+            this.Controls.Add(this.newSessionBtn);
+            this.Controls.Add(this.removeSelectedBtn);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.JoinBtn);
+            this.Controls.Add(this.HostBtn);
+            this.HelpButton = true;
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timeOutNumericUpDown)).EndInit();
-            this.actionsGroupBox.ResumeLayout(false);
-            this.actionsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.RichTextBox logRichTextBox;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton asClientRadioButton;
-        private System.Windows.Forms.RadioButton asServerRadioButton;
-        private System.Windows.Forms.Button syncBtn;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox localDirTextBox;
-        private System.Windows.Forms.TextBox portTextBox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox ipTextBox;
-        private System.Windows.Forms.NumericUpDown timeOutNumericUpDown;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox actionsGroupBox;
-        private System.Windows.Forms.CheckBox doDownloadCheckBox;
-        private System.Windows.Forms.CheckBox doUploadCheckBox;
-        private System.Windows.Forms.CheckBox ifndefOnServerCheckBox;
-        private System.Windows.Forms.CheckBox ifndefOnClientCheckBox;
-        private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.Button chooseDirBtn;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.Button setupFromFilebtn;
-        private System.Windows.Forms.OpenFileDialog setupFileOpenDialog;
-        private System.Windows.Forms.SaveFileDialog saveSetupFileDialog;
-        private System.Windows.Forms.Button makeNewSetupBtn;
+        private System.Windows.Forms.Button HostBtn;
+        private System.Windows.Forms.Button JoinBtn;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button removeSelectedBtn;
+        private System.Windows.Forms.Button newSessionBtn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SessionName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Directory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IP_PORT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LastTimeUsed;
+        private System.Windows.Forms.Label actionLabel;
+        private CircularProgressBar.CircularProgressBar circularProgressBar;
+        private System.Windows.Forms.Button button1;
     }
 }
 

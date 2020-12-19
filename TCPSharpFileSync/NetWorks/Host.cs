@@ -8,7 +8,7 @@ using WatsonTcp;
 
 namespace TCPSharpFileSync.NetWorks
 {
-    public class Server : TCPFileWorker
+    public class Host : TCPFileWorker
     {
         /// <summary>
         /// WatsonTcpServer class for wrap TCP works.
@@ -24,16 +24,16 @@ namespace TCPSharpFileSync.NetWorks
         string DownloadFileTo;
 
         /// <summary>
-        /// Constructor that initializes Server object based on given TCPSettings.
+        /// Constructor that initializes Host object based on given TCPSettings.
         /// </summary>
-        /// <param name="c">TCPSettings for server work.</param>
-        public Server(TCPSettings c)
+        /// <param name="c">TCPSettings for Host work.</param>
+        public Host(TCPSettings c)
         {
             ts = c;
             msBeforeTimeOut = ts.msTimeout;
             servH = new WatsonTcpServer(ts.ip, ts.port);
-            servH.Events.ClientConnected += ClientConnected;
-            servH.Events.ClientDisconnected += ClientDisconnected;
+            servH.Events.ClientConnected += JoinedConnected;
+            servH.Events.ClientDisconnected += JoinedDisconnected;
             servH.Events.StreamReceived += StreamReceived;
             servH.Callbacks.SyncRequestReceived += SyncSolver;
 
@@ -44,26 +44,27 @@ namespace TCPSharpFileSync.NetWorks
 
             FileScan(ts.directoryPath);
             servH.Start();
-            UIHandler.WriteLog($"Server started!", Color.Green);
+            UIHandler.WriteLog($"Host started!", Color.Green);
+            UIHandler.ToggleProgressBarVisibility();
         }
 
         /// <summary>
-        /// Event handler for SyncRequest being received by server.
+        /// Event handler for SyncRequest being received by Host.
         /// </summary>
         /// <param name="arg">The SyncRequest that recieved.</param>
         /// <returns></returns>
-        //======Client requests======
+        //======Joined requests======
         //!qq = Exit
-        //!getHash *relative path to file* = get file hash to client
-        //!getFile *relative path to file* = upload file to client
-        //!catchFile *relative path to file* = get file from client
-        //!exists *relative path to file* = check if file exists on servers side and then answer for client
-        //!getFileList = get all relative pathes and send it to client
+        //!getHash *relative path to file* = get file hash to Joined
+        //!getFile *relative path to file* = upload file to Joined
+        //!catchFile *relative path to file* = get file from Joined
+        //!exists *relative path to file* = check if file exists on servers side and then answer for Joined
+        //!getFileList = get all relative pathes and send it to Joined
         //!sessiondone = updates servers Filer and Hasher
-        //!rm *relative path to file* = remove file on server side
-        //!getFileInfo *relative path to file* = get file info from server
+        //!rm *relative path to file* = remove file on Host side
+        //!getFileInfo *relative path to file* = get file info from Host
 
-        //======Server Respones======
+        //======Host Respones======
         //!dd = ready for next operation
         //!Yes = answer for file existance if it does exist
         //!No = answer for file existance if it does not exist
@@ -119,6 +120,7 @@ namespace TCPSharpFileSync.NetWorks
                 cmd = cmd.Replace("!sessiondone", "");
                 Filed = new Filer(Filed.RootPath);
                 Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
+                HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 UIHandler.WriteLog("Session done!", Color.Green);
             }
@@ -138,7 +140,7 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Event handler for receiving stream from client. Currently made for downloading files.
+        /// Event handler for receiving stream from Joined. Currently made for downloading files.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -172,7 +174,7 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Function made for collecting all requested by client hashed and made them into a string with delimiter.
+        /// Function made for collecting all requested by Joined hashed and made them into a string with delimiter.
         /// </summary>
         /// <param name="requested">String that contains Relative pathes to get hashes of.</param>
         /// <returns>String with delimited full of hashes that were asked.</returns>
@@ -198,7 +200,7 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Function that uploads file to a client based on Relative path and IP:Port that it has to upload to.
+        /// Function that uploads file to a Joined based on Relative path and IP:Port that it has to upload to.
         /// </summary>
         /// <param name="IpPost">IP:Port that it has to upload to.</param>
         /// <param name="rel"> Relative path of uploading file.</param>
@@ -212,13 +214,13 @@ namespace TCPSharpFileSync.NetWorks
             }
             UIHandler.WriteLog($"Uploaded {rel}", Color.Green);
         }
-        private void ClientDisconnected(object sender, ClientDisconnectedEventArgs e)
+        private void JoinedDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
             clients = servH.ListClients().ToList();
             UIHandler.WriteLog(e.IpPort + $" disconnected! (Reason: {e.Reason})", Color.Red);
         }
 
-        private void ClientConnected(object sender, ClientConnectedEventArgs e)
+        private void JoinedConnected(object sender, ClientConnectedEventArgs e)
         {
             clients = servH.ListClients().ToList();
             UIHandler.WriteLog($"{e.IpPort} connected!", Color.Green);

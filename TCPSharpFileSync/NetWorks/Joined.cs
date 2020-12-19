@@ -4,11 +4,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using TCPSharpFileSync.LocalWorks.FileWorks;
+using TCPSharpFileSync.NetWorks.ConflictWorks;
 using WatsonTcp;
 
 namespace TCPSharpFileSync.NetWorks
 {
-    public class Client : TCPFileWorker
+    public class Joined : TCPFileWorker
     {
         /// <summary>
         /// WatsonTcpClient class for wrap TCP works.
@@ -20,7 +21,7 @@ namespace TCPSharpFileSync.NetWorks
         string DownloadFileTo;
 
         /// <summary>
-        /// List of string. Each string represents a Relative path to a file existing on server.
+        /// List of string. Each string represents a Relative path to a file existing on Host.
         /// </summary>
         List<string> filesGotFromServer;
         /// <summary>
@@ -29,16 +30,16 @@ namespace TCPSharpFileSync.NetWorks
         List<string> hashesGotFromServer;
 
         /// <summary>
-        /// Constructor that initializes Client object based on given TCPSettings.
+        /// Constructor that initializes Joined object based on given TCPSettings.
         /// </summary>
-        /// <param name="c">TCPSettings for client work.</param>
-        public Client(TCPSettings c)
+        /// <param name="c">TCPSettings for Joined work.</param>
+        public Joined(TCPSettings c)
         {
             ts = c;
             msBeforeTimeOut = ts.msTimeout;
             clientH = new WatsonTcpClient(ts.ip, ts.port);
-            clientH.Events.ServerConnected += ServerConnected;
-            clientH.Events.ServerDisconnected += ServerDisconnected;
+            clientH.Events.ServerConnected += JoinedConnected;
+            clientH.Events.ServerDisconnected += JoinedDisconnected;
             clientH.Events.StreamReceived += StreamReceived;
             //clientH.Events.MessageReceived += MessageReceived;
             //clientH.Callbacks.SyncRequestReceived = SyncRequestReceived;
@@ -46,18 +47,18 @@ namespace TCPSharpFileSync.NetWorks
             clientH.Connect();
         }
 
-        private void ServerDisconnected(object sender, EventArgs e)
+        private void JoinedDisconnected(object sender, EventArgs e)
         {
-            UIHandler.WriteLog($"Disconnected from server!", Color.Red);
+            UIHandler.WriteLog($"Disconnected from Host!", Color.Red);
         }
 
-        private void ServerConnected(object sender, EventArgs e)
+        private void JoinedConnected(object sender, EventArgs e)
         {
-            UIHandler.WriteLog($"Connected to server!", Color.Green);
+            UIHandler.WriteLog($"Connected to Host!", Color.Green);
         }
 
         /// <summary>
-        /// Event handler for receiving stream from client. Currently made for downloading files.
+        /// Event handler for receiving stream from Joined. Currently made for downloading files.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -91,7 +92,7 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Function that uploads file to a client based on Relative path and IP:Port that it has to upload to.
+        /// Function that uploads file to a Joined based on Relative path and IP:Port that it has to upload to.
         /// </summary>
         /// <param name="IpPost">IP:Port that it has to upload to.</param>
         /// <param name="rel"> Relative path of uploading file.</param>
@@ -110,9 +111,9 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Function that send a request to a server for downloading file.
+        /// Function that send a request to a Host for downloading file.
         /// </summary>
-        /// <param name="rel">Relative path to download from server.</param>
+        /// <param name="rel">Relative path to download from Host.</param>
         public void DownloadFile(string rel)
         {
             // Infinite cycle to prevent downloading several files in the same time.
@@ -128,7 +129,7 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Function that send a request to a server for getting list of all the existing files on server.
+        /// Function that send a request to a Host for getting list of all the existing files on Host.
         /// </summary>
         public void GetServersFileListOfRelatieves()
         {
@@ -142,7 +143,7 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Function that send a request to a server for checking if file does exist or not.
+        /// Function that send a request to a Host for checking if file does exist or not.
         /// </summary>
         /// <param name="rel">Relative path to the file to check existance of.</param>
         /// <returns>true if does exist, false if it's not.</returns>
@@ -154,9 +155,9 @@ namespace TCPSharpFileSync.NetWorks
 
         // HAS TO BE REWORKED!
         /// <summary>
-        /// Function that send a request to a server for getting list of all hashes of all the existing files on server based on asked Relative pathes.
+        /// Function that send a request to a Host for getting list of all hashes of all the existing files on Host based on asked Relative pathes.
         /// </summary>
-        /// <returns>List of all hashes of all the existing files on server based on asked Relative pathes.</returns>
+        /// <returns>List of all hashes of all the existing files on Host based on asked Relative pathes.</returns>
         public List<string> GetAllExistingOnLocalHashesFromServer()
         {
             List<string> diffList = new List<string>();
@@ -185,7 +186,7 @@ namespace TCPSharpFileSync.NetWorks
         /// <summary>
         /// Function for solving the conflicted files.
         /// </summary>
-        /// <param name="conflicted">Indexes of Relative pathes of local devices that conflicted with remote ones.</param>
+        /// <param name="conflicted">Indexes of Relative pathes of local devices that conflicted with Host ones.</param>
         public void SolveConflicted(List<int> conflicted)
         {
             List<string> rels = Filed.RelativePathes;
@@ -211,43 +212,43 @@ namespace TCPSharpFileSync.NetWorks
 
             if (fiNames.Count > 0)
             {
-                ConflictSolverForm csf = new ConflictSolverForm(fiLoc, fiServer, fiNames);
+                ConflictSolverForm csf = new ConflictSolverForm(new List<FileDiffData>());
                 csf.ShowDialog();
 
-                for (int i = 0; i < csf.getFromServer.Count; i++)
-                {
-                    File.Delete(Filed.GetLocalFromRelative(csf.getFromServer[i]));
-                    DownloadFile(csf.getFromServer[i]);
-                }
+                //for (int i = 0; i < csf.getFromServer.Count; i++)
+                //{
+                //    File.Delete(Filed.GetLocalFromRelative(csf.getFromServer[i]));
+                //    DownloadFile(csf.getFromServer[i]);
+                //}
 
-                for (int i = 0; i < csf.uploadToServer.Count; i++)
-                {
-                    DeleteOnServer(csf.uploadToServer[i]);
-                    UploadFile(csf.uploadToServer[i]);
-                }
+                //for (int i = 0; i < csf.uploadToServer.Count; i++)
+                //{
+                //    DeleteOnServer(csf.uploadToServer[i]);
+                //    UploadFile(csf.uploadToServer[i]);
+                //}
 
-                for (int i = 0; i < csf.removeEverywhere.Count; i++)
-                {
-                    DeleteOnServer(csf.removeEverywhere[i]);
-                    File.Delete(Filed.RootPath + csf.removeEverywhere[i]);
-                }
+                //for (int i = 0; i < csf.removeEverywhere.Count; i++)
+                //{
+                //    DeleteOnServer(csf.removeEverywhere[i]);
+                //    File.Delete(Filed.RootPath + csf.removeEverywhere[i]);
+                //}
             }
         }
 
         /// <summary>
-        /// Function that send request to server for deleting the file based on Relative path.
+        /// Function that send request to Host for deleting the file based on Relative path.
         /// </summary>
-        /// <param name="rel">Relative path for the file to be deleted of server.</param>
+        /// <param name="rel">Relative path for the file to be deleted of Host.</param>
         public void DeleteOnServer(string rel)
         {
             SyncResponse sr = SendMessage($"!rm {rel}");
         }
 
         /// <summary>
-        /// Function that sends a request to a server and get answer.
+        /// Function that sends a request to a Host and get answer.
         /// </summary>
         /// <param name="msg">The message that has to be sent.</param>
-        /// <returns>Server resonse.</returns>
+        /// <returns>Host resonse.</returns>
         public SyncResponse SendMessage(string msg)
         {
             byte[] b = GetBytesFromString(msg);
@@ -260,9 +261,9 @@ namespace TCPSharpFileSync.NetWorks
         public void Syncronize()
         {
             GetServersFileListOfRelatieves();
-            UIHandler.WriteLog($"Recieved server file list!", Color.Green);
+            UIHandler.WriteLog($"Recieved Host file list!", Color.Green);
             List<string> doesntExist = GetAllExistingOnLocalHashesFromServer();
-            UIHandler.WriteLog($"Recieved server hash list!", Color.Green);
+            UIHandler.WriteLog($"Recieved Host hash list!", Color.Green);
             Syncronizer sync = new Syncronizer(Filed.RelativePathes, filesGotFromServer, Hashed.HashesMD5, hashesGotFromServer);
 
             HashSet<string> hs = new HashSet<string>(doesntExist);
@@ -275,43 +276,27 @@ namespace TCPSharpFileSync.NetWorks
             List<int> conflicted = sync.FindConflicts();
             SolveConflicted(conflicted);
 
-            if (ts.doDownload && !ts.removeIfNotOnClient)
+            foreach (var item in sync.FilesDoesntExistOnLocal)
             {
-                foreach (var item in sync.FilesDoesntExistOnLocal)
-                {
-                    DownloadFile(item);
-                }
-            }
-
-            if (ts.removeIfNotOnClient)
-            {
-                foreach (var item in sync.FilesDoesntExistOnLocal)
-                {
-                    DeleteOnServer(item);
-                }
+                DownloadFile(item);
             }
 
             List<string> ls = hs.ToList();
 
-            if (ts.doUpload && !ts.removeIfNotOnServer)
+            foreach (var item in ls)
             {
-                foreach (var item in ls)
-                {
-                    UploadFile(item);
-                }
-            }
-
-            if (ts.removeIfNotOnServer)
-            {
-                foreach (var item in ls)
-                {
-                    File.Delete(Filed.GetLocalFromRelative(item));
-                }
+                UploadFile(item);
             }
 
             SyncResponse sr = SendMessage("!sessiondone");
             Filed = new Filer(Filed.RootPath);
             Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
+
+            HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
+
+            UIHandler.WriteLog("Session done!");
+            UIHandler.ToggleProgressBarVisibility();
+
         }
     }
 }
