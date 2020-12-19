@@ -4,7 +4,7 @@ using System.Linq;
 // typedef for better understanding and not using <>.
 using StringList = System.Collections.Generic.List<string>;
 
-namespace TCPSharpFileSync.NetWorks
+namespace TCPSharpFileSync.NetWorks.ConflictWorks
 {
     /// <summary>
     /// Class made for solving file existance and hash conflicts.
@@ -16,7 +16,7 @@ namespace TCPSharpFileSync.NetWorks
         /// </summary>
         public StringList FilesDoesntExistOnLocal { get; private set; }
         /// <summary>
-        /// List of strings. Each string represents Relative path that doesnt exist on remote device.
+        /// List of strings. Each string represents Relative path that doesnt exist on Host device.
         /// </summary>
         public StringList FilesDoesntExistOnRemote { get; private set; }
 
@@ -25,7 +25,7 @@ namespace TCPSharpFileSync.NetWorks
         /// </summary>
         StringList LocalFiles = new StringList();
         /// <summary>
-        /// List of strings. Each string represents Relative path of file that exists on remote device.
+        /// List of strings. Each string represents Relative path of file that exists on Host device.
         /// </summary>
         StringList RemoteFiles = new StringList();
         /// <summary>
@@ -33,7 +33,7 @@ namespace TCPSharpFileSync.NetWorks
         /// </summary>
         StringList LocalHashes = new StringList();
         /// <summary>
-        /// List of strings. Each string represents hash of file that exists on remote device and calculated from files with the same index from RemoteFiles list. 
+        /// List of strings. Each string represents hash of file that exists on Host device and calculated from files with the same index from RemoteFiles list. 
         /// </summary>
         StringList RemoteHashes = new StringList();
 
@@ -61,15 +61,15 @@ namespace TCPSharpFileSync.NetWorks
         /// Constructor that initializing Syncronizer object.
         /// </summary>
         /// <param name="local">List of strings. Each string represents Relative path of file that exists on local device.</param>
-        /// <param name="remote">List of strings. Each string represents Relative path of file that exists on remote device.</param>
+        /// <param name="Host">List of strings. Each string represents Relative path of file that exists on Host device.</param>
         /// <param name="localhashes">List of strings. Each string represents hash of file that exists on local device and calculated from files with the same index from LocalFiles list.</param>
-        /// <param name="remotehashes">List of strings. Each string represents hash of file that exists on remote device and calculated from files with the same index from RemoteFiles list.</param>
-        public Syncronizer(StringList local, StringList remote, StringList localhashes, StringList remotehashes)
+        /// <param name="remotehashes">List of strings. Each string represents hash of file that exists on Host device and calculated from files with the same index from RemoteFiles list.</param>
+        public Syncronizer(StringList local, StringList Host, StringList localhashes, StringList remotehashes)
         {
-            FilesDoesntExistOnLocal = GetDifferenceListBasedOnFirst(local, remote);
-            FilesDoesntExistOnRemote = GetDifferenceListBasedOnFirst(remote, local);
+            FilesDoesntExistOnLocal = GetDifferenceListBasedOnFirst(local, Host);
+            FilesDoesntExistOnRemote = GetDifferenceListBasedOnFirst(Host, local);
             LocalFiles = local;
-            RemoteFiles = remote;
+            RemoteFiles = Host;
             LocalHashes = localhashes;
             RemoteHashes = remotehashes;
         }
@@ -90,7 +90,7 @@ namespace TCPSharpFileSync.NetWorks
         //}
 
         /// <summary>
-        /// Function that finds conflicts based on hash values both of remote and local files.
+        /// Function that finds conflicts based on hash values both of Host and local files.
         /// </summary>
         /// <returns>Returns the list of indexes on local files that hashes does not match hashes from server</returns>
         public List<int> FindConflicts()

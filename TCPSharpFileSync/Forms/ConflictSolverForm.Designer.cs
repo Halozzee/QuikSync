@@ -29,271 +29,165 @@ namespace TCPSharpFileSync
         /// </summary>
         private void InitializeComponent()
         {
-            this.serverListBox = new System.Windows.Forms.ListBox();
-            this.clientListBox = new System.Windows.Forms.ListBox();
-            this.currentFileNameTextBox = new System.Windows.Forms.TextBox();
-            this.clientFileInfoTextBox = new System.Windows.Forms.TextBox();
-            this.serverFileInfoTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.chooseServerVarbtn = new System.Windows.Forms.Button();
-            this.chooseClientVarbtn = new System.Windows.Forms.Button();
-            this.chooseSkipBtn = new System.Windows.Forms.Button();
-            this.removeOnAllBtn = new System.Windows.Forms.Button();
-            this.skipListBox = new System.Windows.Forms.ListBox();
-            this.removeEverywhereListBox = new System.Windows.Forms.ListBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.Action = new System.Windows.Forms.DataGridViewImageColumn();
+            this.RelativePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HostSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ClientSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HostTimeModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ClientTimeModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // serverListBox
+            // dataGridView1
             // 
-            this.serverListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.serverListBox.FormattingEnabled = true;
-            this.serverListBox.Location = new System.Drawing.Point(249, 43);
-            this.serverListBox.Name = "serverListBox";
-            this.serverListBox.Size = new System.Drawing.Size(211, 182);
-            this.serverListBox.TabIndex = 0;
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Action,
+            this.RelativePath,
+            this.HostSize,
+            this.ClientSize,
+            this.HostTimeModified,
+            this.ClientTimeModified});
+            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.dataGridView1.Location = new System.Drawing.Point(21, 22);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(550, 421);
+            this.dataGridView1.TabIndex = 0;
             // 
-            // clientListBox
+            // button1
             // 
-            this.clientListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clientListBox.FormattingEnabled = true;
-            this.clientListBox.Location = new System.Drawing.Point(6, 43);
-            this.clientListBox.Name = "clientListBox";
-            this.clientListBox.Size = new System.Drawing.Size(211, 182);
-            this.clientListBox.TabIndex = 1;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.SystemColors.Menu;
+            this.button1.Location = new System.Drawing.Point(6, 23);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(83, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Host";
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // currentFileNameTextBox
+            // button2
             // 
-            this.currentFileNameTextBox.Location = new System.Drawing.Point(12, 24);
-            this.currentFileNameTextBox.Name = "currentFileNameTextBox";
-            this.currentFileNameTextBox.ReadOnly = true;
-            this.currentFileNameTextBox.Size = new System.Drawing.Size(274, 20);
-            this.currentFileNameTextBox.TabIndex = 2;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.SystemColors.Menu;
+            this.button2.Location = new System.Drawing.Point(6, 52);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(83, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Joined";
+            this.button2.UseVisualStyleBackColor = true;
             // 
-            // clientFileInfoTextBox
+            // button3
             // 
-            this.clientFileInfoTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clientFileInfoTextBox.Location = new System.Drawing.Point(5, 23);
-            this.clientFileInfoTextBox.Multiline = true;
-            this.clientFileInfoTextBox.Name = "clientFileInfoTextBox";
-            this.clientFileInfoTextBox.Size = new System.Drawing.Size(144, 208);
-            this.clientFileInfoTextBox.TabIndex = 3;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.ForeColor = System.Drawing.SystemColors.Menu;
+            this.button3.Location = new System.Drawing.Point(6, 81);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(83, 23);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Skip";
+            this.button3.UseVisualStyleBackColor = true;
             // 
-            // serverFileInfoTextBox
+            // button4
             // 
-            this.serverFileInfoTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.serverFileInfoTextBox.Location = new System.Drawing.Point(173, 23);
-            this.serverFileInfoTextBox.Multiline = true;
-            this.serverFileInfoTextBox.Name = "serverFileInfoTextBox";
-            this.serverFileInfoTextBox.Size = new System.Drawing.Size(144, 208);
-            this.serverFileInfoTextBox.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(58, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Client";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(226, 7);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Server";
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.ForeColor = System.Drawing.SystemColors.Menu;
+            this.button4.Location = new System.Drawing.Point(6, 110);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(83, 23);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "New Clone";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.serverFileInfoTextBox);
-            this.groupBox1.Controls.Add(this.clientFileInfoTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(6, 50);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.Menu;
+            this.groupBox1.Location = new System.Drawing.Point(577, 22);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(323, 243);
-            this.groupBox1.TabIndex = 7;
+            this.groupBox1.Size = new System.Drawing.Size(97, 145);
+            this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "FileInfo";
+            this.groupBox1.Text = "Actions";
             // 
-            // groupBox2
+            // Action
             // 
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.removeEverywhereListBox);
-            this.groupBox2.Controls.Add(this.skipListBox);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.clientListBox);
-            this.groupBox2.Controls.Add(this.serverListBox);
-            this.groupBox2.Location = new System.Drawing.Point(335, 23);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(466, 422);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "File variant";
+            this.Action.HeaderText = "Action";
+            this.Action.Name = "Action";
+            this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Action.Width = 40;
             // 
-            // label5
+            // RelativePath
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(335, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Server";
+            this.RelativePath.HeaderText = "Relative path";
+            this.RelativePath.Name = "RelativePath";
             // 
-            // label4
+            // HostSize
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(89, 27);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Client";
+            this.HostSize.HeaderText = "Host size";
+            this.HostSize.Name = "HostSize";
             // 
-            // label3
+            // ClientSize
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Current File name";
+            this.ClientSize.HeaderText = "Joined size";
+            this.ClientSize.Name = "ClientSize";
             // 
-            // chooseServerVarbtn
+            // HostTimeModified
             // 
-            this.chooseServerVarbtn.Location = new System.Drawing.Point(208, 299);
-            this.chooseServerVarbtn.Name = "chooseServerVarbtn";
-            this.chooseServerVarbtn.Size = new System.Drawing.Size(87, 23);
-            this.chooseServerVarbtn.TabIndex = 10;
-            this.chooseServerVarbtn.Text = "Server variant";
-            this.chooseServerVarbtn.UseVisualStyleBackColor = true;
-            this.chooseServerVarbtn.Click += new System.EventHandler(this.chooseServerVarbtn_Click);
+            this.HostTimeModified.HeaderText = "Host time modified";
+            this.HostTimeModified.Name = "HostTimeModified";
             // 
-            // chooseClientVarbtn
+            // ClientTimeModified
             // 
-            this.chooseClientVarbtn.Location = new System.Drawing.Point(41, 299);
-            this.chooseClientVarbtn.Name = "chooseClientVarbtn";
-            this.chooseClientVarbtn.Size = new System.Drawing.Size(87, 23);
-            this.chooseClientVarbtn.TabIndex = 11;
-            this.chooseClientVarbtn.Text = "Client variant";
-            this.chooseClientVarbtn.UseVisualStyleBackColor = true;
-            this.chooseClientVarbtn.Click += new System.EventHandler(this.chooseClientVarbtn_Click);
-            // 
-            // chooseSkipBtn
-            // 
-            this.chooseSkipBtn.Location = new System.Drawing.Point(41, 337);
-            this.chooseSkipBtn.Name = "chooseSkipBtn";
-            this.chooseSkipBtn.Size = new System.Drawing.Size(87, 21);
-            this.chooseSkipBtn.TabIndex = 12;
-            this.chooseSkipBtn.Text = "Skip";
-            this.chooseSkipBtn.UseVisualStyleBackColor = true;
-            this.chooseSkipBtn.Click += new System.EventHandler(this.chooseSkipBtn_Click);
-            // 
-            // removeOnAllBtn
-            // 
-            this.removeOnAllBtn.Location = new System.Drawing.Point(193, 337);
-            this.removeOnAllBtn.Name = "removeOnAllBtn";
-            this.removeOnAllBtn.Size = new System.Drawing.Size(115, 21);
-            this.removeOnAllBtn.TabIndex = 13;
-            this.removeOnAllBtn.Text = "Remove everywhere";
-            this.removeOnAllBtn.UseVisualStyleBackColor = true;
-            this.removeOnAllBtn.Click += new System.EventHandler(this.removeOnAllBtn_Click);
-            // 
-            // skipListBox
-            // 
-            this.skipListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.skipListBox.FormattingEnabled = true;
-            this.skipListBox.Location = new System.Drawing.Point(6, 260);
-            this.skipListBox.Name = "skipListBox";
-            this.skipListBox.Size = new System.Drawing.Size(211, 156);
-            this.skipListBox.TabIndex = 8;
-            // 
-            // removeEverywhereListBox
-            // 
-            this.removeEverywhereListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.removeEverywhereListBox.FormattingEnabled = true;
-            this.removeEverywhereListBox.Location = new System.Drawing.Point(242, 260);
-            this.removeEverywhereListBox.Name = "removeEverywhereListBox";
-            this.removeEverywhereListBox.Size = new System.Drawing.Size(211, 156);
-            this.removeEverywhereListBox.TabIndex = 9;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(89, 245);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(28, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Skip";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(294, 244);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(105, 13);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Remove everywhere";
+            this.ClientTimeModified.HeaderText = "Joined time modified";
+            this.ClientTimeModified.Name = "ClientTimeModified";
             // 
             // ConflictSolverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.removeOnAllBtn);
-            this.Controls.Add(this.chooseSkipBtn);
-            this.Controls.Add(this.chooseClientVarbtn);
-            this.Controls.Add(this.chooseServerVarbtn);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.groupBox2);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.Size = new System.Drawing.Size(779, 416);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.currentFileNameTextBox);
+            this.Controls.Add(this.dataGridView1);
             this.Name = "ConflictSolverForm";
             this.Text = "ConflictSolverForm";
             this.Load += new System.EventHandler(this.ConflictSolverForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListBox serverListBox;
-        private System.Windows.Forms.ListBox clientListBox;
-        private System.Windows.Forms.TextBox currentFileNameTextBox;
-        private System.Windows.Forms.TextBox clientFileInfoTextBox;
-        private System.Windows.Forms.TextBox serverFileInfoTextBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button chooseServerVarbtn;
-        private System.Windows.Forms.Button chooseClientVarbtn;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ListBox removeEverywhereListBox;
-        private System.Windows.Forms.ListBox skipListBox;
-        private System.Windows.Forms.Button chooseSkipBtn;
-        private System.Windows.Forms.Button removeOnAllBtn;
+        private System.Windows.Forms.DataGridViewImageColumn Action;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RelativePath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HostSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ClientSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HostTimeModified;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ClientTimeModified;
     }
 }

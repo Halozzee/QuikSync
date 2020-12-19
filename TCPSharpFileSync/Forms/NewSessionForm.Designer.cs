@@ -160,6 +160,7 @@ namespace TCPSharpFileSync.Forms
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dirPathTextBox);
             this.Controls.Add(this.sessionNameTextBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "NewSessionForm";
             this.Text = "NewSessionForm";
             this.ResumeLayout(false);

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TCPSharpFileSync.LocalWorks.SetupWorks;
 
-namespace TCPSharpFileSync.LocalWorks.SessionsWorks
+namespace TCPSharpFileSync.LocalWorks.SessionWorks
 {
     /// <summary>
     /// Class that represents container for displaying data on main form about sessions.
@@ -22,11 +22,11 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
         /// </summary>
         public string Directory { get; set; }
         /// <summary>
-        /// Ip that used for connection to server.
+        /// Ip that used for connection to Host.
         /// </summary>
         public string Ip { get; set; }
         /// <summary>
-        /// Port that used for connection to server or hosting server.
+        /// Port that used for connection to Host or hosting Host.
         /// </summary>
         public int Port { get; set; }
 
@@ -36,7 +36,7 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
         public string LastTimeUsed { get; set; }
 
         /// <summary>
-        /// Flag that shows how the last time that session used as a server or a client.
+        /// Flag that shows how the last time that session used as a Host or a Joined.
         /// </summary>
         public LaunchedAs LA { get; set; }
 
@@ -49,10 +49,10 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
         /// Constuctor for SessionData.
         /// </summary>
         /// <param name="dir">Path to directory that has to be syncronized.</param>
-        /// <param name="ip">Ip that used for connection to server.</param>
-        /// <param name="port">Port that used for connection to server or hosting server.</param>
+        /// <param name="ip">Ip that used for connection to Host.</param>
+        /// <param name="port">Port that used for connection to Host or hosting Host.</param>
         /// <param name="lasttimeused">Last time that session used.</param>
-        /// <param name="lauchedas">Flag that shows how the last time that session used as a server or a client. (hosted/joined - possible values)</param>
+        /// <param name="lauchedas">Flag that shows how the last time that session used as a Host or a Joined. (hosted/joined - possible values)</param>
         /// <param name="sfn">Setup file name that will be used if that session will be choosed.</param>
         public SessionData(string sn, string dir, string ip, int port, string lauchedas, string lasttimeused, string sfn) 
         {
@@ -69,7 +69,7 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
             LastTimeUsed = lasttimeused;
 
             if (lauchedas != "none")
-                LA = lauchedas == "joined" ? LaunchedAs.Client : LaunchedAs.Server;
+                LA = lauchedas == "joined" ? LaunchedAs.Joined : LaunchedAs.Host;
             else
                 LA = LaunchedAs.None;
 

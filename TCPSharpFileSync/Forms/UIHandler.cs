@@ -12,7 +12,7 @@ namespace TCPSharpFileSync
         /// <summary>
         /// Delegate that invokes writing given text to a RichTextBox with specific color.
         /// </summary>
-        public static Action<string, Color> RichTextBoxWriteDelegate;
+        public static Action<string, Color> ActionLabelSetText;
         /// <summary>
         /// Delegate that made to set the ProgressBar max value.
         /// </summary>
@@ -26,13 +26,17 @@ namespace TCPSharpFileSync
         /// </summary>
         public static Action ResetProgressBar;
 
+        public static Action<bool> ProgressBarVisibility;
+
+        static bool visible = false;
+
         /// <summary>
         /// Function that invokes writing to the RichTextBox delegate with standart text color.
         /// </summary>
         /// <param name="s">Text that has to be written.</param>
         public static void WriteLog(string s)
         {
-            RichTextBoxWriteDelegate.Invoke(s, SystemColors.WindowText);
+            ActionLabelSetText.Invoke(s, SystemColors.WindowText);
             Application.DoEvents();
         }
 
@@ -43,7 +47,7 @@ namespace TCPSharpFileSync
         /// <param name="c">Color of the given text.</param>
         public static void WriteLog(string s, Color c)
         {
-            RichTextBoxWriteDelegate.Invoke(s, c);
+            ActionLabelSetText.Invoke(s, c);
             Application.DoEvents();
         }
 
@@ -70,6 +74,12 @@ namespace TCPSharpFileSync
         public static void ResetProgressBarValue()
         {
             ResetProgressBar.Invoke();
+        }
+
+        public static void ToggleProgressBarVisibility() 
+        {
+            visible = !visible;
+            ProgressBarVisibility.Invoke(visible);
         }
     }
 }

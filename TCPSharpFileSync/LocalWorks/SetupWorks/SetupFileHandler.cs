@@ -15,8 +15,8 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
     /// </summary>
     public enum LaunchedAs
     {
-        Server,
-        Client,
+        Host,
+        Joined,
         None
     }
 
@@ -32,7 +32,7 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
 
             // Initializing sections.
             id.Sections.AddSection("General");
-            id.Sections.AddSection("Client");
+            id.Sections.AddSection("Joined");
             id.Sections.AddSection("Server");
 
             return id;
@@ -42,31 +42,31 @@ namespace TCPSharpFileSync.LocalWorks.SetupWorks
         /// Function that forms a TCPSettings object based on read setup file.
         /// </summary>
         /// <param name="setupFile">Path to a setup file.</param>
-        /// <param name="ldt">Answers on a question loading server or client data.</param>
+        /// <param name="ldt">Answers on a question loading server or Joined data.</param>
         /// <returns></returns>
         public static TCPSettings ReadTCPSettingsFromFile(string setupFile/*, LaunchedAs ldt*/)
         {
             // Returnable value.
             TCPSettings tcp = new TCPSettings();
 
-            // General - is a section for information for both server and client.
+            // General - is a section for information for both server and Joined.
             try
             {
-                //// Getting what are we going to read data for server or client.
-                //string goFor = (ldt == LaunchedAs.Server ? "Server" : "Client");
+                //// Getting what are we going to read data for server or Joined.
+                //string goFor = (ldt == LaunchedAs.Server ? "Server" : "Joined");
 
                 // Initializing parser.
                 var parser = new FileIniDataParser();
                 IniData data = parser.ReadFile("Setups\\"+setupFile);
 
-                //// If we are dealing with client on this launch - then read some extra data.
-                //if (goFor == "Client")
+                //// If we are dealing with Joined on this launch - then read some extra data.
+                //if (goFor == "Joined")
                 //{
                 //    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Server" });
                 //}
                 //else
                 //{
-                //    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Client" });
+                //    ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() { "Joined" });
                 //}
 
                 ExtractValuesAvoidingSomeSections(tcp, data, new List<string>() {});

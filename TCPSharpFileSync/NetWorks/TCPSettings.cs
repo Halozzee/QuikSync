@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TCPSharpFileSync.LocalWorks.Attributes;
-using TCPSharpFileSync.LocalWorks.SessionsWorks;
+using TCPSharpFileSync.LocalWorks.SessionWorks;
 using TCPSharpFileSync.LocalWorks.SetupWorks;
 
 namespace TCPSharpFileSync.NetWorks
@@ -23,8 +23,8 @@ namespace TCPSharpFileSync.NetWorks
         /// <summary>
         /// IP value the connection is going to establish to/listen to.
         /// </summary>
-        [Saving(Section = "Client")]
-        [Reading(Section = "Client")]
+        [Saving(Section = "Joined")]
+        [Reading(Section = "Joined")]
         public string ip;
         /// <summary>
         /// Port value that program will be listening to/send messages out.
@@ -54,7 +54,7 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
-        /// Constructor made for client that contain all client params.
+        /// Constructor made for Joined that contain all Joined params.
         /// </summary>
         /// <param name="ptd">Path to directory that has to be syncronized.</param>
         /// <param name="i">IP value the connection is going to establish to/listen to.</param>

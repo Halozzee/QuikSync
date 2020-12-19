@@ -38,6 +38,9 @@
             this.LastTimeUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.removeSelectedBtn = new System.Windows.Forms.Button();
             this.newSessionBtn = new System.Windows.Forms.Button();
+            this.actionLabel = new System.Windows.Forms.Label();
+            this.circularProgressBar = new CircularProgressBar.CircularProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,7 +97,7 @@
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(621, 455);
+            this.dataGridView1.Size = new System.Drawing.Size(621, 409);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             // 
@@ -146,12 +149,67 @@
             this.newSessionBtn.UseVisualStyleBackColor = true;
             this.newSessionBtn.Click += new System.EventHandler(this.newSessionBtn_Click);
             // 
+            // actionLabel
+            // 
+            this.actionLabel.AutoSize = true;
+            this.actionLabel.ForeColor = System.Drawing.SystemColors.Menu;
+            this.actionLabel.Location = new System.Drawing.Point(12, 446);
+            this.actionLabel.Name = "actionLabel";
+            this.actionLabel.Size = new System.Drawing.Size(0, 13);
+            this.actionLabel.TabIndex = 6;
+            // 
+            // circularProgressBar
+            // 
+            this.circularProgressBar.AnimationFunction = WinFormAnimation.KnownAnimationFunctions.Liner;
+            this.circularProgressBar.AnimationSpeed = 500;
+            this.circularProgressBar.BackColor = System.Drawing.Color.Transparent;
+            this.circularProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.circularProgressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.circularProgressBar.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.circularProgressBar.InnerMargin = 2;
+            this.circularProgressBar.InnerWidth = -1;
+            this.circularProgressBar.Location = new System.Drawing.Point(652, 320);
+            this.circularProgressBar.MarqueeAnimationSpeed = 2000;
+            this.circularProgressBar.Name = "circularProgressBar";
+            this.circularProgressBar.OuterColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(80)))));
+            this.circularProgressBar.OuterMargin = -25;
+            this.circularProgressBar.OuterWidth = 26;
+            this.circularProgressBar.ProgressColor = System.Drawing.Color.Lime;
+            this.circularProgressBar.ProgressWidth = 25;
+            this.circularProgressBar.SecondaryFont = new System.Drawing.Font("Microsoft Sans Serif", 36F);
+            this.circularProgressBar.Size = new System.Drawing.Size(152, 156);
+            this.circularProgressBar.StartAngle = 270;
+            this.circularProgressBar.Step = 1;
+            this.circularProgressBar.SubscriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.circularProgressBar.SubscriptMargin = new System.Windows.Forms.Padding(10, -35, 0, 0);
+            this.circularProgressBar.SubscriptText = ".23";
+            this.circularProgressBar.SuperscriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
+            this.circularProgressBar.SuperscriptMargin = new System.Windows.Forms.Padding(10, 35, 0, 0);
+            this.circularProgressBar.SuperscriptText = "°C";
+            this.circularProgressBar.TabIndex = 7;
+            this.circularProgressBar.TextMargin = new System.Windows.Forms.Padding(8, 8, 0, 0);
+            this.circularProgressBar.Value = 68;
+            this.circularProgressBar.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(724, 228);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(59, 26);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(816, 479);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.circularProgressBar);
+            this.Controls.Add(this.actionLabel);
             this.Controls.Add(this.newSessionBtn);
             this.Controls.Add(this.removeSelectedBtn);
             this.Controls.Add(this.dataGridView1);
@@ -164,6 +222,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -177,6 +236,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Directory;
         private System.Windows.Forms.DataGridViewTextBoxColumn IP_PORT;
         private System.Windows.Forms.DataGridViewTextBoxColumn LastTimeUsed;
+        private System.Windows.Forms.Label actionLabel;
+        private CircularProgressBar.CircularProgressBar circularProgressBar;
+        private System.Windows.Forms.Button button1;
     }
 }
 

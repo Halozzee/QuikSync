@@ -4,7 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using TCPSharpFileSync.Forms;
 using TCPSharpFileSync.LocalWorks.FileWorks;
-using TCPSharpFileSync.LocalWorks.SessionsWorks;
+using TCPSharpFileSync.LocalWorks.SessionWorks;
 using TCPSharpFileSync.LocalWorks.SetupWorks;
 using TCPSharpFileSync.NetWorks;
 
@@ -13,13 +13,13 @@ namespace TCPSharpFileSync
     public partial class Form1 : Form
     {
         /// <summary>
-        /// Server object that used for containing everything if the program runs as server.
+        /// Host object that used for containing everything if the program runs as Host.
         /// </summary>
-        Server s;
+        Host s;
         /// <summary>
-        /// Client object that used for containing everything if the program runs as client.
+        /// Joined object that used for containing everything if the program runs as Joined.
         /// </summary>
-        Client c;
+        Joined c;
 
         int selectedIndex;
 
@@ -28,7 +28,7 @@ namespace TCPSharpFileSync
         public Form1()
         {
             InitializeComponent();
-            //InitializeUIHandler();
+            InitializeUIHandler();
 
             // Checking if all the needed folders does exist.
             FolderHandler.InitializeNeededDirectories();
@@ -36,7 +36,7 @@ namespace TCPSharpFileSync
             if (SessionsHandler.CheckSessionsStoryExistance())
             {
                 SessionsHandler.TryReadSessionData();
-                SessionsHandler.LoadAllDataToDataOnDataGridView(ref dataGridView1);
+                SessionsHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
             }
 
             // Initialization of the TCPSetting being used for work.
@@ -44,24 +44,27 @@ namespace TCPSharpFileSync
             //currentTcpSettings = new TCPSettings("//", "", 0, true, true, false, false, (int)timeOutNumericUpDown.Value);
         }
 
-        ///// <summary>
-        ///// Procedure that initialize LogHandler static object.
-        ///// </summary>
-        //private void InitializeUIHandler()
-        //{
-        //    UIHandler.RichTextBoxWriteDelegate = (string s, Color color) => logRichTextBox.BeginInvoke(new MethodInvoker(() =>
-        //    {
-        //        logRichTextBox.SelectionStart = logRichTextBox.TextLength;
-        //        logRichTextBox.SelectionLength = 0;
-
-        //        logRichTextBox.SelectionColor = color;
-        //        logRichTextBox.AppendText(s + "\n");
-        //        logRichTextBox.SelectionColor = logRichTextBox.ForeColor;
-        //    }));
-        //    UIHandler.SetProgressBarMax = (int max) => progressBar.Invoke(new MethodInvoker(() => progressBar.Maximum = max));
-        //    UIHandler.IncrementProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value++));
-        //    UIHandler.ResetProgressBar = () => progressBar.Invoke(new MethodInvoker(() => progressBar.Value = 0));
-        //}
+        /// <summary>
+        /// Procedure that initialize LogHandler static object.
+        /// </summary>
+        private void InitializeUIHandler()
+        {
+            UIHandler.ActionLabelSetText = (string s, Color color) => actionLabel.BeginInvoke(new MethodInvoker(() =>
+            {
+                actionLabel.Text = s;
+            }));
+            UIHandler.SetProgressBarMax = (int max) => circularProgressBar.Invoke(new MethodInvoker(() =>
+            {
+                circularProgressBar.Maximum = max;
+                circularProgressBar.Value = 0;
+            }));
+            UIHandler.IncrementProgressBar = () => circularProgressBar.Invoke(new MethodInvoker(() => circularProgressBar.Value++));
+            UIHandler.ResetProgressBar = () => circularProgressBar.Invoke(new MethodInvoker(() => circularProgressBar.Value = 0));
+            UIHandler.ProgressBarVisibility = (bool vs) => circularProgressBar.Invoke(new MethodInvoker(() => 
+            {
+                circularProgressBar.Visible = vs;
+            }));
+        }
 
         //private void syncBtn_Click(object sender, EventArgs e)
         //{
@@ -86,16 +89,16 @@ namespace TCPSharpFileSync
 
         //private void syncBtn_Click_1(object sender, EventArgs e)
         //{
-        //    // If starting as server.
+        //    // If starting as Host.
         //    if (asServerRadioButton.Checked)
         //    {
         //        ipTextBox.Text = TCPFileWorker.GetLocalIPAddress();
-        //        s = new Server(currentTcpSettings);
+        //        s = new Host(currentTcpSettings);
         //    }
-        //    // If starting as client.
+        //    // If starting as Joined.
         //    else
         //    {
-        //        c = new Client(currentTcpSettings);
+        //        c = new Joined(currentTcpSettings);
 
         //        // Starting syncronization as a background thread so it does not freeze the main form.
         //        Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
@@ -116,7 +119,7 @@ namespace TCPSharpFileSync
 
         //private void asClientRadioButton_CheckedChanged(object sender, EventArgs e)
         //{
-        //    // Showing every client input field for starting program as client.
+        //    // Showing every Joined input field for starting program as Joined.
         //    actionsGroupBox.Visible = true;
         //    ifndefOnClientCheckBox.Visible = true;
         //    ifndefOnServerCheckBox.Visible = true;
@@ -124,7 +127,7 @@ namespace TCPSharpFileSync
 
         //private void asServerRadioButton_CheckedChanged(object sender, EventArgs e)
         //{
-        //    // Hiding every client input field for starting program as server.
+        //    // Hiding every Joined input field for starting program as Host.
         //    actionsGroupBox.Visible = false;
         //    ifndefOnClientCheckBox.Visible = false;
         //    ifndefOnServerCheckBox.Visible = false;
@@ -149,20 +152,20 @@ namespace TCPSharpFileSync
         //    // If the dialog goes with OK result.
         //    if (setupFileOpenDialog.ShowDialog() == DialogResult.OK)
         //    {
-        //        // General - is a section for information for both server and client.
+        //        // General - is a section for information for both Host and Joined.
         //        try
         //        {
-        //            // Getting what are we going to read data for server or client.
-        //            DealingWithDataOf goFor = asServerRadioButton.Checked ? DealingWithDataOf.Server : DealingWithDataOf.Client;
+        //            // Getting what are we going to read data for Host or Joined.
+        //            DealingWithDataOf goFor = asServerRadioButton.Checked ? DealingWithDataOf.Host : DealingWithDataOf.Joined;
 
-        //            currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Client);
+        //            currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(setupFileOpenDialog.FileName, DealingWithDataOf.Joined);
 
         //            portTextBox.Text = currentTcpSettings.port.ToString();
         //            localDirTextBox.Text = currentTcpSettings.directoryPath;
         //            timeOutNumericUpDown.Value = currentTcpSettings.msTimeout;
 
-        //            // If we are dealing with client on this launch - then read some extra data.
-        //            if (goFor == DealingWithDataOf.Client)
+        //            // If we are dealing with Joined on this launch - then read some extra data.
+        //            if (goFor == DealingWithDataOf.Joined)
         //            {
         //                ipTextBox.Text = currentTcpSettings.ip;
         //                doUploadCheckBox.Checked = currentTcpSettings.doUpload;
@@ -236,6 +239,8 @@ namespace TCPSharpFileSync
             //        //SetupFileHandler.WriteTCPSettingToFile(saveSetupFileDialog.FileName, currentTcpSettings);
             //    }
             //}
+
+            SessionsHandler.WriteAllSessionData();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -248,7 +253,7 @@ namespace TCPSharpFileSync
             NewSessionForm nsf = new NewSessionForm();
             if (nsf.ShowDialog() == DialogResult.OK)
             {
-                SessionsHandler.DisplaySessionOnDataOnDataGridView(ref dataGridView1, nsf.SD);
+                SessionsHandler.DisplayThisSessionDataOnDataGridView(ref dataGridView1, nsf.SD);
                 SessionsHandler.SDList.Add(nsf.SD);
                 SetupFileHandler.WriteTCPSettingToFile("Setups\\" + nsf.SD.SessionName + ".ini", nsf.SD.SessionName + ".HaDI", new TCPSettings(nsf.SD, 100000));
                 SessionsHandler.WriteAllSessionData();
@@ -267,16 +272,17 @@ namespace TCPSharpFileSync
         private void HostBtn_Click(object sender, EventArgs e)
         {
             SessionsHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
-            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Server;
-            s = new Server(currentTcpSettings);
+            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Host;
+            UIHandler.ToggleProgressBarVisibility();
+            s = new Host(currentTcpSettings);
         }
 
         private void JoinBtn_Click(object sender, EventArgs e)
         {
             SessionsHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
-            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Client;
-
-            c = new Client(currentTcpSettings);
+            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Joined;
+            UIHandler.ToggleProgressBarVisibility();
+            c = new Joined(currentTcpSettings);
             // Starting syncronization as a background thread so it does not freeze the main form.
             Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
             InstanceCaller.IsBackground = true;
@@ -288,8 +294,14 @@ namespace TCPSharpFileSync
         {
             // Not effective. Has to be reworked.
             SessionsHandler.RemoveSessionDataAndRelatedFiles(selectedIndex);
-            SessionsHandler.LoadAllDataToDataOnDataGridView(ref dataGridView1);
+            SessionsHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
             SessionsHandler.WriteAllSessionData();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ConflictSolverForm csf = new ConflictSolverForm(new System.Collections.Generic.List<NetWorks.ConflictWorks.FileDiffData>());
+            csf.ShowDialog();
         }
     }
 }

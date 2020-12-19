@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TCPSharpFileSync.LocalWorks.SetupWorks;
 
-namespace TCPSharpFileSync.LocalWorks.SessionsWorks
+namespace TCPSharpFileSync.LocalWorks.SessionWorks
 {
     public static class SessionsHandler
     {
@@ -55,7 +55,7 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
                 {
                     string actionMade;
                     if (SDList[i].LA != LaunchedAs.None)
-                        actionMade = (SDList[i].LA == LaunchedAs.Client ? "joined" : "hosted");
+                        actionMade = (SDList[i].LA == LaunchedAs.Joined ? "joined" : "hosted");
                     else
                         actionMade = "none";
 
@@ -81,12 +81,21 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
             return new SessionData(splittedTags[0], splittedTags[1], splittedTags[2], int.Parse(splittedTags[3]), splittedTags[4], splittedTags[5], splittedTags[6]);
         }
 
-        public static void DisplaySessionOnDataOnDataGridView(ref DataGridView dgv, SessionData sd)
+        /// <summary>
+        /// Function that load specific SessionsData to DataGridView argument.
+        /// </summary>
+        /// <param name="dgv">>DataGridView that has to be displaying SessionsData.</param>
+        /// <param name="sd">SessionsData that has to be displayed of DataGridView.</param>
+        public static void DisplayThisSessionDataOnDataGridView(ref DataGridView dgv, SessionData sd)
         {
             dgv.Rows.Add(sd.SessionName, sd.Directory, sd.Ip + ":" + sd.Port.ToString(), sd.LastTimeUsed);
         }
 
-        public static void LoadAllDataToDataOnDataGridView(ref DataGridView dgv)
+        /// <summary>
+        /// Function that load all the SessionsData from SDList to DataGridView argument.
+        /// </summary>
+        /// <param name="dgv">DataGridView that has to be displaying SessionsDatas.</param>
+        public static void LoadSessionDataListToDataOnDataGridView(ref DataGridView dgv)
         {
             dgv.Rows.Clear();
             foreach (var sd in SDList)
@@ -106,6 +115,21 @@ namespace TCPSharpFileSync.LocalWorks.SessionsWorks
                 SetupFileHandler.DeleteSetupFileAndItsHashDictionary(SDList[index].SetupFileName);
                 SDList.RemoveAt(index);
             }
+        }
+
+        /// <summary>
+        /// Function that return true of false based on existance of session recording.
+        /// </summary>
+        /// <param name="recordingName">Session name that has to be checked.</param>
+        /// <returns>True if recording does exist, false if it's not.</returns>
+        public static bool CheckRecordingExistance(string recordingName)
+        {
+            foreach (var item in SDList)
+            {
+                if (item.SessionName == recordingName)
+                    return true;
+            }
+            return false;
         }
     }
 }
