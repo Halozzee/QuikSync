@@ -177,7 +177,7 @@ namespace TCPSharpFileSync
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.ClientSize = new System.Drawing.Size(689, 351);
+            this.Size = new System.Drawing.Size(700, 405);
             this.Controls.Add(this.doneBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
