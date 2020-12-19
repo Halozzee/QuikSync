@@ -144,13 +144,13 @@ namespace TCPSharpFileSync.NetWorks
         public void GetHostFileDataList()
         {
             SyncResponse sr = SendMessage("!getFileDataList");
-            List<string> filesGotFromServer = GetStringFromBytes(sr.Data).Split(new string[] { "?" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> filesGotFromServer = GetStringFromBytes(sr.Data).Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             FDGotFromServer = new List<FileData>();
 
             for (int i = 0; i < filesGotFromServer.Count; i++)
             {
-                string[] splitted = filesGotFromServer[i].Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] splitted = filesGotFromServer[i].Split(new string[] { "?" }, StringSplitOptions.RemoveEmptyEntries);
                 FDGotFromServer.Add(new FileData(splitted[0], splitted[1], long.Parse(splitted[2]), splitted[3]));
             }
         }
@@ -205,15 +205,14 @@ namespace TCPSharpFileSync.NetWorks
                     case SyncAction.GetFromHost:
                         File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
                         DownloadFile(fddList[i].FileRelativePath);
-                        Filed.ChangeFileModifiedStatusByRel(fddList[i].FileRelativePath, FileModifiedStatus.Changed);
+                        Filed.FilesData.Add(new FileData(Filed.RootPath, Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath)));
+                        Filed.ChangeFileModifiedStatusByRelativePath(fddList[i].FileRelativePath, FileModifiedStatus.Changed);
                         break;
                     case SyncAction.GetFromJoined:
                         DeleteOnHost(fddList[i].FileRelativePath);
                         UploadFile(fddList[i].FileRelativePath);
-                        Filed.ChangeFileModifiedStatusByRel(fddList[i].FileRelativePath, FileModifiedStatus.Untouched);
                         break;
                     case SyncAction.Skip:
-                        Filed.ChangeFileModifiedStatusByRel(fddList[i].FileRelativePath, FileModifiedStatus.Untouched);
                         break;
                     case SyncAction.GetNewClone:
                         string fileNameWithoutExtension = fddList[i].FileRelativePath.Remove(fddList[i].FileRelativePath.LastIndexOf("."), 
@@ -224,12 +223,13 @@ namespace TCPSharpFileSync.NetWorks
                         {
                             DownloadFile(fddList[i].FileRelativePath, fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion);
                         }
+                        Filed.FilesData.Add(new FileData(Filed.RootPath, Filed.MakeLocalPathFromRelative(fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion)));
                         // HANDLE FOR Filed.ChangeFileModifiedStatusByRel(fddList[i].FileRelativePath, FileModifiedStatus.Untouched);!!!!!!!
                         break;
                     case SyncAction.Delete:
                         File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
                         DeleteOnHost(fddList[i].FileRelativePath);
-                        Filed.ChangeFileModifiedStatusByRel(fddList[i].FileRelativePath, FileModifiedStatus.Deleted);
+                        Filed.ChangeFileModifiedStatusByRelativePath(fddList[i].FileRelativePath, FileModifiedStatus.Deleted);
                         break;
                     case SyncAction.NotChosen:
                         break;
@@ -239,8 +239,7 @@ namespace TCPSharpFileSync.NetWorks
             }
 
             SyncResponse sr = SendMessage("!sessiondone");
-            Filed = new Filer(Filed.RootPath, ts.hashDictionaryName);
-
+            Filed.RecomputeHashesBasedOnModifiedStatus();
             FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName, Filed);
             UIHandler.WriteLog("Session done!");
             UIHandler.ToggleProgressBarVisibility();

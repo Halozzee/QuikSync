@@ -77,6 +77,7 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
             relativePath = relativepath;
             hashMD5 = hashmd5;
             fms = FileModifiedStatus.Untouched;
+            ts = new TimeSize(fileSize, lastWriteTime);
         }
     }
 
@@ -201,7 +202,12 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
             }
         }
 
-        public void ChangeFileModifiedStatusByRel(string rel, FileModifiedStatus f) 
+        /// <summary>
+        /// Function that changes FileData based on based Relative path.
+        /// </summary>
+        /// <param name="rel">Relative path to file.</param>
+        /// <param name="f">Status that has to be set.</param>
+        public void ChangeFileModifiedStatusByRelativePath(string rel, FileModifiedStatus f) 
         {
             for (int i = 0; i < FilesData.Count; i++)
             {
@@ -209,6 +215,30 @@ namespace TCPSharpFileSync.LocalWorks.FileWorks
                 {
                     FilesData[i].fms = f;
                     return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Function that recomputes all hashes if file has Changed status and deletes data if file has Deleted status.
+        /// </summary>
+        public void RecomputeHashesBasedOnModifiedStatus() 
+        {
+            for (int i = 0; i < FilesData.Count; i++)
+            {
+                switch (FilesData[i].fms)
+                {
+                    case FileModifiedStatus.Deleted:
+                        FilesData.RemoveAt(i);
+                        i--;
+                        break;
+                    case FileModifiedStatus.Changed:
+                        FilesData[i].hashMD5 = CalculateMD5(FilesData[i].localPath);
+                        break;
+                    case FileModifiedStatus.Untouched:
+                        break;
+                    default:
+                        break;
                 }
             }
         }

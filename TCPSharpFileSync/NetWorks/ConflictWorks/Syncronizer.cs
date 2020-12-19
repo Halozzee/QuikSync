@@ -12,7 +12,7 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
         public HashSet<FileDiffData> fdd = new HashSet<FileDiffData>();
         public List<SyncAction> saList = new List<SyncAction>();
 
-        public Syncronizer(List<FileData> Joined, List<FileData> Host) 
+        public Syncronizer(List<FileData> Joined, List<FileData> Host)
         {
             // Computing files that could be conflicted to Host.
             for (int i = 0; i < Joined.Count; i++)
@@ -57,7 +57,7 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
             saList = conflictSolverForm.actions;
         }
 
-        private FileData GetFileDataByRelativePath(string rel, List<FileData> l) 
+        private FileData GetFileDataByRelativePath(string rel, List<FileData> l)
         {
             return l.Find(x => x.relativePath == rel);
         }

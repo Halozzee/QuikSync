@@ -26,7 +26,7 @@ namespace TCPSharpFileSync
             }
 
             DisplayFileDiffData();
-            ((DataGridViewImageColumn)(dataGridView1.Columns[0])).ImageLayout = DataGridViewImageCellLayout.Stretch;
+            ((DataGridViewImageColumn)(dataGridView1.Columns[0])).ImageLayout = DataGridViewImageCellLayout.Zoom;
         }
        
         private void ConflictSolverForm_Load(object sender, EventArgs e)
@@ -39,6 +39,9 @@ namespace TCPSharpFileSync
             this.DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Function that displays FileDiff list on DataGridView.
+        /// </summary>
         private void DisplayFileDiffData() 
         {
             foreach (var item in diffs)
@@ -47,6 +50,10 @@ namespace TCPSharpFileSync
             }
         }
 
+        /// <summary>
+        /// Applies specific SyncOption to all selected rows.
+        /// </summary>
+        /// <param name="sa">Specific SyncOption to be applied.</param>
         private void SetForSelectedRowsAction(SyncAction sa) 
         {
             for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)

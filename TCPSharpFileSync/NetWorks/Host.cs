@@ -83,7 +83,6 @@ namespace TCPSharpFileSync.NetWorks
                 cmd = cmd.Replace("!getFile ", "");
                 UploadFile(arg.IpPort, cmd);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
-                Filed.ChangeFileModifiedStatusByRel(cmd, FileModifiedStatus.Untouched);
             }
             else if (cmd.Contains("!catchFile "))
             {
@@ -95,7 +94,7 @@ namespace TCPSharpFileSync.NetWorks
                 DownloadFileTo = Filed.RootPath + cmd.Replace("!catchFile ", "");
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 servH.Events.StreamReceived += StreamReceived;
-                Filed.ChangeFileModifiedStatusByRel(cmd, FileModifiedStatus.Changed);
+                Filed.ChangeFileModifiedStatusByRelativePath(cmd, FileModifiedStatus.Changed);
             }
             else if (cmd.Contains("!exists "))
             {
@@ -113,7 +112,7 @@ namespace TCPSharpFileSync.NetWorks
             else if (cmd.Contains("!sessiondone"))
             {
                 cmd = cmd.Replace("!sessiondone", "");
-                Filed = new Filer(Filed.RootPath, ts.hashDictionaryName);
+                Filed.RecomputeHashesBasedOnModifiedStatus();
                 FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName, Filed);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 UIHandler.WriteLog("Session done!", Color.Green);
@@ -121,9 +120,11 @@ namespace TCPSharpFileSync.NetWorks
             else if (cmd.Contains("!rm "))
             {
                 cmd = cmd.Replace("!rm ", "");
-                if(Filed.GetLocalFromRelative(cmd) != "?FileNotFound?")
+                if (Filed.GetLocalFromRelative(cmd) != "?FileNotFound?")
+                {
                     File.Delete(Filed.GetLocalFromRelative(cmd));
-                Filed.ChangeFileModifiedStatusByRel(cmd, FileModifiedStatus.Deleted);
+                    Filed.ChangeFileModifiedStatusByRelativePath(cmd, FileModifiedStatus.Deleted);
+                }
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
             }
             else if (cmd.Contains("!getFileInfo "))

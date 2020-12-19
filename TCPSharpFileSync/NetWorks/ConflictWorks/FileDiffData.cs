@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TCPSharpFileSync.NetWorks.ConflictWorks
 {
+    /// <summary>
+    /// Action that has to be done with the selected diffFile.
+    /// </summary>
     public enum SyncAction 
     {
         GetFromHost,
