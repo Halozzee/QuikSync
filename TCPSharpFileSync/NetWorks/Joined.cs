@@ -20,14 +20,7 @@ namespace TCPSharpFileSync.NetWorks
         /// </summary>
         string DownloadFileTo;
 
-        /// <summary>
-        /// List of string. Each string represents a Relative path to a file existing on Host.
-        /// </summary>
-        List<string> filesGotFromServer;
-        /// <summary>
-        /// List of string. Each string represents a hash of file the same index that each of filesGotFromServer has.
-        /// </summary>
-        List<string> hashesGotFromServer;
+        List<FileData> FDGotFromServer;
 
         /// <summary>
         /// Constructor that initializes Joined object based on given TCPSettings.
@@ -51,7 +44,6 @@ namespace TCPSharpFileSync.NetWorks
         {
             UIHandler.WriteLog($"Disconnected from Host!", Color.Red);
         }
-
         private void JoinedConnected(object sender, EventArgs e)
         {
             UIHandler.WriteLog($"Connected to Host!", Color.Green);
@@ -129,16 +121,37 @@ namespace TCPSharpFileSync.NetWorks
         }
 
         /// <summary>
+        /// Function that send a request to a Host for downloading file to a specific location.
+        /// </summary>
+        /// <param name="rel">Relative path to download from Host.</param>
+        public void DownloadFile(string rel, string relLocation)
+        {
+            // Infinite cycle to prevent downloading several files in the same time.
+            while (gettingFile && clientH.Connected)
+            {
+
+            }
+
+            DownloadFileTo = Filed.RootPath + relLocation;
+            SyncResponse sr = SendMessage("!getFile " + rel);
+            clientH.Events.StreamReceived += StreamReceived;
+            UIHandler.WriteLog($"Downloaded {rel}", Color.Green);
+        }
+
+        /// <summary>
         /// Function that send a request to a Host for getting list of all the existing files on Host.
         /// </summary>
-        public void GetServersFileListOfRelatieves()
+        public void GetHostFileDataList()
         {
-            SyncResponse sr = SendMessage("!getFileList");
-            filesGotFromServer = GetStringFromBytes(sr.Data).Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            SyncResponse sr = SendMessage("!getFileDataList");
+            List<string> filesGotFromServer = GetStringFromBytes(sr.Data).Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            FDGotFromServer = new List<FileData>();
 
             for (int i = 0; i < filesGotFromServer.Count; i++)
             {
-                filesGotFromServer[i].Replace("?", "");
+                string[] splitted = filesGotFromServer[i].Split(new string[] { "?" }, StringSplitOptions.RemoveEmptyEntries);
+                FDGotFromServer.Add(new FileData(splitted[0], splitted[1], long.Parse(splitted[2]), splitted[3]));
             }
         }
 
@@ -147,99 +160,17 @@ namespace TCPSharpFileSync.NetWorks
         /// </summary>
         /// <param name="rel">Relative path to the file to check existance of.</param>
         /// <returns>true if does exist, false if it's not.</returns>
-        public bool AskServerForFileExistance(string rel)
+        public bool AskHostForFileExistance(string rel)
         {
             SyncResponse sr = SendMessage($"!exists {rel}");
             return GetStringFromBytes(sr.Data) == "!Yes";
-        }
-
-        // HAS TO BE REWORKED!
-        /// <summary>
-        /// Function that send a request to a Host for getting list of all hashes of all the existing files on Host based on asked Relative pathes.
-        /// </summary>
-        /// <returns>List of all hashes of all the existing files on Host based on asked Relative pathes.</returns>
-        public List<string> GetAllExistingOnLocalHashesFromServer()
-        {
-            List<string> diffList = new List<string>();
-            List<string> locFiles = Filed.RelativePathes;
-
-            hashesGotFromServer = new List<string>();
-
-            //1 billion chars is max so, you have to track these values
-            // ? - is restricted char in file naming on windows so use it as separator for requests
-            string askStringRequest = string.Join("?", locFiles.ToArray());
-
-            SyncResponse sr = SendMessage("!getHashes " + askStringRequest);
-
-            hashesGotFromServer = GetStringFromBytes(sr.Data).Split(new string[] { "?" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            List<int> indx = Enumerable.Range(0, hashesGotFromServer.Count).Where(i => hashesGotFromServer[i] == "-").ToList();
-
-            for (int i = 0; i < indx.Count; i++)
-            {
-                diffList.Add(locFiles[indx[i]]);
-            }
-
-            return diffList;
-        }
-
-        /// <summary>
-        /// Function for solving the conflicted files.
-        /// </summary>
-        /// <param name="conflicted">Indexes of Relative pathes of local devices that conflicted with Host ones.</param>
-        public void SolveConflicted(List<int> conflicted)
-        {
-            List<string> rels = Filed.RelativePathes;
-            List<string> fiLoc = new List<string>();
-            List<string> fiServer = new List<string>();
-            List<string> fiNames = new List<string>();
-
-            for (int i = 0; i < conflicted.Count; i++)
-            {
-                string confFile = rels[conflicted[i]];
-                fiNames.Add(confFile);
-
-                FileInfo locfi = new FileInfo(Filed.GetLocalFromRelative(confFile));
-
-                SyncResponse sr = SendMessage("!getFileInfo " + confFile);
-
-                string fileInfoFromServer = GetStringFromBytes(sr.Data);
-                string fileInfoFromLocal = locfi.Length.ToString() + "\n" + locfi.LastAccessTime.ToString();
-
-                fiLoc.Add(fileInfoFromLocal);
-                fiServer.Add(fileInfoFromServer);
-            }
-
-            if (fiNames.Count > 0)
-            {
-                ConflictSolverForm csf = new ConflictSolverForm(new List<FileDiffData>());
-                csf.ShowDialog();
-
-                //for (int i = 0; i < csf.getFromServer.Count; i++)
-                //{
-                //    File.Delete(Filed.GetLocalFromRelative(csf.getFromServer[i]));
-                //    DownloadFile(csf.getFromServer[i]);
-                //}
-
-                //for (int i = 0; i < csf.uploadToServer.Count; i++)
-                //{
-                //    DeleteOnServer(csf.uploadToServer[i]);
-                //    UploadFile(csf.uploadToServer[i]);
-                //}
-
-                //for (int i = 0; i < csf.removeEverywhere.Count; i++)
-                //{
-                //    DeleteOnServer(csf.removeEverywhere[i]);
-                //    File.Delete(Filed.RootPath + csf.removeEverywhere[i]);
-                //}
-            }
         }
 
         /// <summary>
         /// Function that send request to Host for deleting the file based on Relative path.
         /// </summary>
         /// <param name="rel">Relative path for the file to be deleted of Host.</param>
-        public void DeleteOnServer(string rel)
+        public void DeleteOnHost(string rel)
         {
             SyncResponse sr = SendMessage($"!rm {rel}");
         }
@@ -260,43 +191,57 @@ namespace TCPSharpFileSync.NetWorks
         /// </summary>
         public void Syncronize()
         {
-            GetServersFileListOfRelatieves();
-            UIHandler.WriteLog($"Recieved Host file list!", Color.Green);
-            List<string> doesntExist = GetAllExistingOnLocalHashesFromServer();
-            UIHandler.WriteLog($"Recieved Host hash list!", Color.Green);
-            Syncronizer sync = new Syncronizer(Filed.RelativePathes, filesGotFromServer, Hashed.HashesMD5, hashesGotFromServer);
+            GetHostFileDataList();
+            UIHandler.WriteLog($"Recieved Host FileData list!", Color.Green);
+            Syncronizer sync = new Syncronizer(Filed.FilesData, FDGotFromServer);
 
-            HashSet<string> hs = new HashSet<string>(doesntExist);
+            var fddList = sync.fdd.ToList();
 
-            foreach (var item in sync.FilesDoesntExistOnRemote)
+            for (int i = 0; i < sync.saList.Count; i++)
             {
-                hs.Add(item);
-            }
-
-            List<int> conflicted = sync.FindConflicts();
-            SolveConflicted(conflicted);
-
-            foreach (var item in sync.FilesDoesntExistOnLocal)
-            {
-                DownloadFile(item);
-            }
-
-            List<string> ls = hs.ToList();
-
-            foreach (var item in ls)
-            {
-                UploadFile(item);
+                // Switch that makes stuff specified on what was chosen.
+                switch (sync.saList[i])
+                {
+                    case SyncAction.GetFromHost:
+                        File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
+                        DownloadFile(fddList[i].FileRelativePath);
+                        Filed.ChangeFileModifiedStatusByRelativePath(fddList[i].FileRelativePath, FileModifiedStatus.Changed);
+                        break;
+                    case SyncAction.GetFromJoined:
+                        DeleteOnHost(fddList[i].FileRelativePath);
+                        UploadFile(fddList[i].FileRelativePath);
+                        break;
+                    case SyncAction.Skip:
+                        break;
+                    case SyncAction.GetNewClone:
+                        string fileNameWithoutExtension = fddList[i].FileRelativePath.Remove(fddList[i].FileRelativePath.LastIndexOf("."), 
+                            fddList[i].FileRelativePath.Length);
+                        string extenstion = fddList[i].FileRelativePath.Remove(0,fddList[i].FileRelativePath.LastIndexOf("."));
+                        int cntr = 1;
+                        while (File.Exists(Filed.RootPath + fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion))
+                        {
+                            DownloadFile(fddList[i].FileRelativePath, fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion);
+                        }
+                        Filed.FilesData.Add(new FileData(Filed.RootPath, Filed.MakeLocalPathFromRelative(fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion)));
+                        // HANDLE FOR Filed.ChangeFileModifiedStatusByRel(fddList[i].FileRelativePath, FileModifiedStatus.Untouched);!!!!!!!
+                        break;
+                    case SyncAction.Delete:
+                        File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
+                        DeleteOnHost(fddList[i].FileRelativePath);
+                        Filed.ChangeFileModifiedStatusByRelativePath(fddList[i].FileRelativePath, FileModifiedStatus.Deleted);
+                        break;
+                    case SyncAction.NotChosen:
+                        break;
+                    default:
+                        break;
+                }
             }
 
             SyncResponse sr = SendMessage("!sessiondone");
-            Filed = new Filer(Filed.RootPath);
-            Hashed.UpdateHasherBasedOnUpdatedFiler(Filed);
-
-            HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
-
+            Filed.RecomputeHashesBasedOnModifiedStatus();
+            FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName, Filed);
             UIHandler.WriteLog("Session done!");
             UIHandler.ToggleProgressBarVisibility();
-
         }
     }
 }

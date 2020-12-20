@@ -29,13 +29,14 @@ namespace TCPSharpFileSync.Forms
                 sessionNameTextBox.Text != "Your session name" && dirPathTextBox.Text != "Your directory" && ipTextBox.Text != "IP address" 
                 && portTextBox.Text != "Port")
             {
-                if (SessionsHandler.CheckRecordingExistance(sessionNameTextBox.Text))
+                if (SessionHandler.CheckRecordingExistance(sessionNameTextBox.Text))
                 {
                     MessageBox.Show("This session already exists!");
                 }
                 else
                 {
-                    SD = new SessionData(sessionNameTextBox.Text, dirPathTextBox.Text, ipTextBox.Text, int.Parse(portTextBox.Text), "none", DateTime.Now.ToString("MM/dd/yyyy HH:mm"), sessionNameTextBox.Text + ".ini");
+                    SD = new SessionData(sessionNameTextBox.Text, dirPathTextBox.Text, ipTextBox.Text, int.Parse(portTextBox.Text), "none",
+                        DateTime.Now.ToString("MM/dd/yyyy HH:mm"), sessionNameTextBox.Text + ".ini");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

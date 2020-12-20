@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace TCPSharpFileSync.NetWorks.ConflictWorks
 {
+    /// <summary>
+    /// Action that has to be done with the selected diffFile.
+    /// </summary>
     public enum SyncAction 
     {
         GetFromHost,
         GetFromJoined,
         Skip,
-        GetNewClone
+        GetNewClone,
+        Delete,
+        NotChosen
     }
     /// <summary>
     /// Structure that represents data about file.
@@ -46,10 +51,17 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
         /// <summary>
         /// Files Local fileinfo.
         /// </summary>
-        public TimeSize Local { get; private set; }
+        public TimeSize Joined { get; private set; }
         /// <summary>
         /// Files Host fileinfo.
         /// </summary>
         public TimeSize Host { get; private set; }
+
+        public FileDiffData(string rel, TimeSize j, TimeSize h) 
+        {
+            FileRelativePath = rel;
+            Joined = j;
+            Host = h;
+        }
     }
 }

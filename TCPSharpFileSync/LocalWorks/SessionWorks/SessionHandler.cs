@@ -9,7 +9,7 @@ using TCPSharpFileSync.LocalWorks.SetupWorks;
 
 namespace TCPSharpFileSync.LocalWorks.SessionWorks
 {
-    public static class SessionsHandler
+    public static class SessionHandler
     {
         public static List<SessionData> SDList = new List<SessionData>();
 
@@ -25,7 +25,8 @@ namespace TCPSharpFileSync.LocalWorks.SessionWorks
             }
             else
             {
-                File.Create("Sessions.txt");
+                using (StreamWriter wr = new StreamWriter("Sessions.txt"))
+                { }
                 return false;
             }
         }

@@ -15,10 +15,6 @@ namespace TCPSharpFileSync.NetWorks
         /// Filer that contain everything filer should but for this TCPFileWorker
         /// </summary>
         public Filer Filed { get; set; }
-        /// <summary>
-        /// Hasher that contain all the Hasher should but for this TCPFileWorker 
-        /// </summary>
-        public Hasher Hashed { get; set; }
 
         /// <summary>
         /// This TCPFileWorker
@@ -42,17 +38,12 @@ namespace TCPSharpFileSync.NetWorks
         /// <param name="pathToDir"></param>
         protected void FileScan(string pathToDir)
         {
-            Filed = new Filer(pathToDir);
-            Hashed = new Hasher(Filed.LocalPathes);
-
-            HasherIO.ReadHasherFromFile(ts.hashDictionaryName, Hashed, Filed);
-            Hashed.ComputeAllHashesBasedOnLocalPathes();
-            HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
+            Filed = new Filer(pathToDir, ts.hashDictionaryName);
         }
 
         ~TCPFileWorker() 
         {
-            HasherIO.WriteHasherToFile(ts.hashDictionaryName, Hashed, Filed);
+            FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName,  Filed);
         }
 
         /// <summary>

@@ -33,10 +33,10 @@ namespace TCPSharpFileSync
             // Checking if all the needed folders does exist.
             FolderHandler.InitializeNeededDirectories();
 
-            if (SessionsHandler.CheckSessionsStoryExistance())
+            if (SessionHandler.CheckSessionsStoryExistance())
             {
-                SessionsHandler.TryReadSessionData();
-                SessionsHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
+                SessionHandler.TryReadSessionData();
+                SessionHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
             }
 
             // Initialization of the TCPSetting being used for work.
@@ -240,7 +240,7 @@ namespace TCPSharpFileSync
             //    }
             //}
 
-            SessionsHandler.WriteAllSessionData();
+            SessionHandler.WriteAllSessionData();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -253,34 +253,34 @@ namespace TCPSharpFileSync
             NewSessionForm nsf = new NewSessionForm();
             if (nsf.ShowDialog() == DialogResult.OK)
             {
-                SessionsHandler.DisplayThisSessionDataOnDataGridView(ref dataGridView1, nsf.SD);
-                SessionsHandler.SDList.Add(nsf.SD);
+                SessionHandler.DisplayThisSessionDataOnDataGridView(ref dataGridView1, nsf.SD);
+                SessionHandler.SDList.Add(nsf.SD);
                 SetupFileHandler.WriteTCPSettingToFile("Setups\\" + nsf.SD.SessionName + ".ini", nsf.SD.SessionName + ".HaDI", new TCPSettings(nsf.SD, 100000));
-                SessionsHandler.WriteAllSessionData();
+                SessionHandler.WriteAllSessionData();
             }
         }
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (SessionsHandler.SDList.Count > selectedIndex)
+            if (SessionHandler.SDList.Count > selectedIndex)
             {
                 selectedIndex = e.RowIndex;
-                currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(SessionsHandler.SDList[e.RowIndex].SetupFileName);
+                currentTcpSettings = SetupFileHandler.ReadTCPSettingsFromFile(SessionHandler.SDList[e.RowIndex].SetupFileName);
             }
         }
 
         private void HostBtn_Click(object sender, EventArgs e)
         {
-            SessionsHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
-            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Host;
+            SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Host;
             UIHandler.ToggleProgressBarVisibility();
             s = new Host(currentTcpSettings);
         }
 
         private void JoinBtn_Click(object sender, EventArgs e)
         {
-            SessionsHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
-            SessionsHandler.SDList[selectedIndex].LA = LaunchedAs.Joined;
+            SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Joined;
             UIHandler.ToggleProgressBarVisibility();
             c = new Joined(currentTcpSettings);
             // Starting syncronization as a background thread so it does not freeze the main form.
@@ -293,15 +293,9 @@ namespace TCPSharpFileSync
         private void removeSelectedBtn_Click(object sender, EventArgs e)
         {
             // Not effective. Has to be reworked.
-            SessionsHandler.RemoveSessionDataAndRelatedFiles(selectedIndex);
-            SessionsHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
-            SessionsHandler.WriteAllSessionData();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ConflictSolverForm csf = new ConflictSolverForm(new System.Collections.Generic.List<NetWorks.ConflictWorks.FileDiffData>());
-            csf.ShowDialog();
+            SessionHandler.RemoveSessionDataAndRelatedFiles(selectedIndex);
+            SessionHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
+            SessionHandler.WriteAllSessionData();
         }
     }
 }
