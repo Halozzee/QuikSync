@@ -297,10 +297,5 @@ namespace TCPSharpFileSync
             SessionHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
             SessionHandler.WriteAllSessionData();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Filer f = new Filer(currentTcpSettings.directoryPath, currentTcpSettings.hashDictionaryName);
-        }
     }
 }

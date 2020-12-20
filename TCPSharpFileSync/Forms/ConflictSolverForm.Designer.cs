@@ -29,21 +29,22 @@ namespace TCPSharpFileSync
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.hostBtn = new System.Windows.Forms.Button();
-            this.joinedBtn = new System.Windows.Forms.Button();
-            this.skipBtn = new System.Windows.Forms.Button();
-            this.newCloneBtn = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.doneBtn = new System.Windows.Forms.Button();
             this.Action = new System.Windows.Forms.DataGridViewImageColumn();
             this.RelativePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HostFS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.JoinedFS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HostTimeModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ClientTimeModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hostBtn = new System.Windows.Forms.Button();
+            this.joinedBtn = new System.Windows.Forms.Button();
+            this.skipBtn = new System.Windows.Forms.Button();
+            this.newCloneBtn = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.deleteBtn = new System.Windows.Forms.Button();
+            this.doneBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +55,14 @@ namespace TCPSharpFileSync
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(170)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(170)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Action,
@@ -62,10 +71,10 @@ namespace TCPSharpFileSync
             this.JoinedFS,
             this.HostTimeModified,
             this.ClientTimeModified});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Menu;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(150)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Menu;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -74,9 +83,43 @@ namespace TCPSharpFileSync
             this.dataGridView1.Location = new System.Drawing.Point(21, 22);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(548, 311);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // Action
+            // 
+            this.Action.HeaderText = "Action";
+            this.Action.Name = "Action";
+            this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Action.Width = 40;
+            // 
+            // RelativePath
+            // 
+            this.RelativePath.HeaderText = "Relative path";
+            this.RelativePath.Name = "RelativePath";
+            // 
+            // HostFS
+            // 
+            this.HostFS.HeaderText = "Host size";
+            this.HostFS.Name = "HostFS";
+            // 
+            // JoinedFS
+            // 
+            this.JoinedFS.HeaderText = "Joined size";
+            this.JoinedFS.Name = "JoinedFS";
+            // 
+            // HostTimeModified
+            // 
+            this.HostTimeModified.HeaderText = "Host time modified";
+            this.HostTimeModified.Name = "HostTimeModified";
+            // 
+            // ClientTimeModified
+            // 
+            this.ClientTimeModified.HeaderText = "Joined time modified";
+            this.ClientTimeModified.Name = "ClientTimeModified";
             // 
             // hostBtn
             // 
@@ -141,6 +184,18 @@ namespace TCPSharpFileSync
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Actions";
             // 
+            // deleteBtn
+            // 
+            this.deleteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deleteBtn.ForeColor = System.Drawing.SystemColors.Menu;
+            this.deleteBtn.Location = new System.Drawing.Point(7, 139);
+            this.deleteBtn.Name = "deleteBtn";
+            this.deleteBtn.Size = new System.Drawing.Size(83, 23);
+            this.deleteBtn.TabIndex = 5;
+            this.deleteBtn.Text = "Delete";
+            this.deleteBtn.UseVisualStyleBackColor = true;
+            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
+            // 
             // doneBtn
             // 
             this.doneBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -153,51 +208,6 @@ namespace TCPSharpFileSync
             this.doneBtn.Text = "Done";
             this.doneBtn.UseVisualStyleBackColor = true;
             this.doneBtn.Click += new System.EventHandler(this.doneBtn_Click);
-            // 
-            // Action
-            // 
-            this.Action.HeaderText = "Action";
-            this.Action.Name = "Action";
-            this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Action.Width = 40;
-            // 
-            // RelativePath
-            // 
-            this.RelativePath.HeaderText = "Relative path";
-            this.RelativePath.Name = "RelativePath";
-            // 
-            // HostFS
-            // 
-            this.HostFS.HeaderText = "Host size";
-            this.HostFS.Name = "HostFS";
-            // 
-            // JoinedFS
-            // 
-            this.JoinedFS.HeaderText = "Joined size";
-            this.JoinedFS.Name = "JoinedFS";
-            // 
-            // HostTimeModified
-            // 
-            this.HostTimeModified.HeaderText = "Host time modified";
-            this.HostTimeModified.Name = "HostTimeModified";
-            // 
-            // ClientTimeModified
-            // 
-            this.ClientTimeModified.HeaderText = "Joined time modified";
-            this.ClientTimeModified.Name = "ClientTimeModified";
-            // 
-            // deleteBtn
-            // 
-            this.deleteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteBtn.ForeColor = System.Drawing.SystemColors.Menu;
-            this.deleteBtn.Location = new System.Drawing.Point(7, 139);
-            this.deleteBtn.Name = "deleteBtn";
-            this.deleteBtn.Size = new System.Drawing.Size(83, 23);
-            this.deleteBtn.TabIndex = 5;
-            this.deleteBtn.Text = "Delete";
-            this.deleteBtn.UseVisualStyleBackColor = true;
-            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
             // 
             // ConflictSolverForm
             // 

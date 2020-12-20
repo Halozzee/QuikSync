@@ -10,8 +10,16 @@ namespace TCPSharpFileSync
 {
     public partial class ConflictSolverForm : Form
     {
+        public enum FileExistanceStatus
+        {
+            ExistsOnHost,
+            ExistsOnJoined,
+            ExistsOnBoth
+        }
+
         public List<FileDiffData> diffs;
         public List<SyncAction> actions;
+        public List<FileExistanceStatus> existanceStatuses;
 
         public ConflictSolverForm(List<FileDiffData> fdd)
         {
@@ -19,6 +27,8 @@ namespace TCPSharpFileSync
             diffs = fdd;
 
             actions = new List<SyncAction>();
+            existanceStatuses = new List<FileExistanceStatus>();
+
 
             for (int i = 0; i < diffs.Count; i++)
             {
@@ -46,7 +56,22 @@ namespace TCPSharpFileSync
         {
             foreach (var item in diffs)
             {
-                dataGridView1.Rows.Add(Resources.NotChosen, item.FileRelativePath, item.Host.byteSize, item.Joined.byteSize, item.Host.lastTime, item.Joined.lastTime);
+                string hs = item.Host.byteSize      == -1  ? "-" : item.Host.byteSize.ToString();
+                string js = item.Joined.byteSize    == -1  ? "-" : item.Joined.byteSize.ToString();
+                dataGridView1.Rows.Add(Resources.NotChosen, item.FileRelativePath, hs, js, item.Host.lastTime, item.Joined.lastTime);
+
+                if (hs == "-")
+                {
+                    existanceStatuses.Add(FileExistanceStatus.ExistsOnJoined);
+                }
+                else if (js == "-")
+                {
+                    existanceStatuses.Add(FileExistanceStatus.ExistsOnHost);
+                }
+                else
+                {
+                    existanceStatuses.Add(FileExistanceStatus.ExistsOnBoth);
+                }
             }
         }
 
@@ -58,6 +83,37 @@ namespace TCPSharpFileSync
         {
             for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
             {
+                // Check if the file does exist on host or joined before assigning it's SyncAction. Bcoz we cant download the file that doesnt exist.
+
+                bool SyncActionCouldBeAssigned = true;
+
+                switch (sa)
+                {
+                    case SyncAction.GetFromHost:
+                        if (existanceStatuses[dataGridView1.SelectedRows[i].Index] == FileExistanceStatus.ExistsOnJoined)
+                            SyncActionCouldBeAssigned = false;
+                        break;
+                    case SyncAction.GetFromJoined:
+                        if (existanceStatuses[dataGridView1.SelectedRows[i].Index] == FileExistanceStatus.ExistsOnHost)
+                            SyncActionCouldBeAssigned = false;
+                        break;
+                    case SyncAction.Skip:
+                        break;
+                    case SyncAction.GetNewClone:
+                        if (existanceStatuses[dataGridView1.SelectedRows[i].Index] == FileExistanceStatus.ExistsOnJoined)
+                            SyncActionCouldBeAssigned = false;
+                        break;
+                    case SyncAction.Delete:
+                        break;
+                    case SyncAction.NotChosen:
+                        break;
+                    default:
+                        break;
+                }
+
+                if (!SyncActionCouldBeAssigned)
+                    continue;
+
                 actions[dataGridView1.SelectedRows[i].Index] = sa;
 
                 // Assign action image 

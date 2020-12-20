@@ -42,6 +42,7 @@ namespace TCPSharpFileSync.NetWorks
             servH.Keepalive.TcpKeepAliveTime = msBeforeTimeOut;
             servH.Keepalive.TcpKeepAliveRetryCount = 10;
 
+            UIHandler.ToggleProgressBarVisibility();
             FileScan(ts.directoryPath);
             servH.Start();
             UIHandler.WriteLog($"Host started!", Color.Green);

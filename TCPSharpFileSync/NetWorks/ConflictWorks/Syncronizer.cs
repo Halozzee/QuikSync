@@ -11,6 +11,7 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
     {
         public HashSet<FileDiffData> fdd = new HashSet<FileDiffData>();
         public List<SyncAction> saList = new List<SyncAction>();
+        public HashSet<string> ProcessedRelativePathes = new HashSet<string>();
 
         public Syncronizer(List<FileData> Joined, List<FileData> Host)
         {
@@ -18,6 +19,16 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
             for (int i = 0; i < Joined.Count; i++)
             {
                 FileData fd = GetFileDataByRelativePath(Joined[i].relativePath, Host);
+
+                // We remember all the files we processed so we dont process the same file twice.
+                if (ProcessedRelativePathes.Contains(Joined[i].relativePath))
+                {
+                    continue;
+                }
+                else 
+                {
+                    ProcessedRelativePathes.Add(Joined[i].relativePath);
+                }
 
                 if (fd != null)
                 {
@@ -38,17 +49,27 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
             {
                 FileData fd = GetFileDataByRelativePath(Host[i].relativePath, Joined);
 
+                // We remember all the files we processed so we dont process the same file twice.
+                if (ProcessedRelativePathes.Contains(Host[i].relativePath))
+                {
+                    continue;
+                }
+                else
+                {
+                    ProcessedRelativePathes.Add(Host[i].relativePath);
+                }
+
                 if (fd != null)
                 {
                     // Hash conflict possible.
                     if (fd.hashMD5 != Host[i].hashMD5)
                     {
-                        fdd.Add(new FileDiffData(Host[i].relativePath, Host[i].ts, fd.ts));
+                        fdd.Add(new FileDiffData(Host[i].relativePath, fd.ts, Host[i].ts));
                     }
                 }
                 else
                 {
-                    fdd.Add(new FileDiffData(Host[i].relativePath, Host[i].ts, new TimeSize(-1, "-")));
+                    fdd.Add(new FileDiffData(Host[i].relativePath, new TimeSize(-1, "-"), Host[i].ts));
                 }
             }
 
