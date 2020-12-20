@@ -58,7 +58,7 @@ namespace TCPSharpFileSync
                 circularProgressBar.Maximum = max;
                 circularProgressBar.Value = 0;
             }));
-            UIHandler.IncrementProgressBar = () => circularProgressBar.Invoke(new MethodInvoker(() => circularProgressBar.Value++));
+            UIHandler.IncrementProgressBar = (int val) => circularProgressBar.Invoke(new MethodInvoker(() => circularProgressBar.Value+= val));
             UIHandler.ResetProgressBar = () => circularProgressBar.Invoke(new MethodInvoker(() => circularProgressBar.Value = 0));
             UIHandler.ProgressBarVisibility = (bool vs) => circularProgressBar.Invoke(new MethodInvoker(() => 
             {
@@ -273,7 +273,7 @@ namespace TCPSharpFileSync
         {
             SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
             SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Host;
-            UIHandler.ToggleProgressBarVisibility();
+            UIHandler.ToggleProgressBarVisibility(true);
             s = new Host(currentTcpSettings);
         }
 
@@ -281,7 +281,7 @@ namespace TCPSharpFileSync
         {
             SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
             SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Joined;
-            UIHandler.ToggleProgressBarVisibility();
+            UIHandler.ToggleProgressBarVisibility(true);
             c = new Joined(currentTcpSettings);
             // Starting syncronization as a background thread so it does not freeze the main form.
             Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));

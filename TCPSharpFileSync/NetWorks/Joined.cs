@@ -56,11 +56,16 @@ namespace TCPSharpFileSync.NetWorks
         /// <param name="args"></param>
         private void StreamReceived(object sender, StreamReceivedFromServerEventArgs args)
         {
+            UIHandler.WriteLog($"Downloading {DownloadFileTo.Replace(Filed.RootPath, "")}...");
             gettingFile = true;
+
+            UIHandler.ResetProgressBar();
 
             long bytesRemaining = args.ContentLength;
             int bytesRead = 0;
             byte[] buffer = new byte[bufferSize];
+
+            UIHandler.SetProgressBarMaxValue((int)bytesRemaining);
 
             Directory.CreateDirectory(Path.GetDirectoryName(DownloadFileTo));
 
@@ -72,6 +77,7 @@ namespace TCPSharpFileSync.NetWorks
                     if (bytesRead > 0)
                     {
                         fs.Write(buffer, 0, bytesRead);
+                        UIHandler.IncrementProgressBarValue(bytesRead);
                         bytesRemaining -= bytesRead;
                     }
                 }
@@ -242,7 +248,7 @@ namespace TCPSharpFileSync.NetWorks
             Filed.RecomputeHashesBasedOnModifiedStatus();
             FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName, Filed);
             UIHandler.WriteLog("Session done!");
-            UIHandler.ToggleProgressBarVisibility();
+            UIHandler.ToggleProgressBarVisibility(false);
         }
     }
 }

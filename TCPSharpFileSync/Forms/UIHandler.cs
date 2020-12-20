@@ -18,9 +18,9 @@ namespace TCPSharpFileSync
         /// </summary>
         public static Action<int> SetProgressBarMax;
         /// <summary>
-        /// Delegate that made to increment ProgressBar value by 1.
+        /// Delegate that made to increment ProgressBar value by some value.
         /// </summary>
-        public static Action IncrementProgressBar;
+        public static Action<int> IncrementProgressBar;
         /// <summary>
         /// Delegate that made to set ProgressBar value to 0.
         /// </summary>
@@ -63,9 +63,9 @@ namespace TCPSharpFileSync
         /// <summary>
         /// Function that invokes delegate that increments ProgressBar value by 1.
         /// </summary>
-        public static void IncrementProgressBarValue()
+        public static void IncrementProgressBarValue(int value = 1)
         {
-            IncrementProgressBar.Invoke();
+            IncrementProgressBar.Invoke(value);
         }
 
         /// <summary>
@@ -76,9 +76,10 @@ namespace TCPSharpFileSync
             ResetProgressBar.Invoke();
         }
 
-        public static void ToggleProgressBarVisibility() 
+        public static void ToggleProgressBarVisibility(bool tgl) 
         {
-            visible = !visible;
+            visible = tgl;
+            ResetProgressBarValue();
             ProgressBarVisibility.Invoke(visible);
         }
     }

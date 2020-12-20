@@ -42,11 +42,9 @@ namespace TCPSharpFileSync.NetWorks
             servH.Keepalive.TcpKeepAliveTime = msBeforeTimeOut;
             servH.Keepalive.TcpKeepAliveRetryCount = 10;
 
-            UIHandler.ToggleProgressBarVisibility();
             FileScan(ts.directoryPath);
             servH.Start();
             UIHandler.WriteLog($"Host started!", Color.Green);
-            UIHandler.ToggleProgressBarVisibility();
         }
 
         /// <summary>
@@ -143,10 +141,15 @@ namespace TCPSharpFileSync.NetWorks
         /// <param name="args"></param>
         private void StreamReceived(object sender, StreamReceivedFromClientEventArgs args)
         {
+            UIHandler.WriteLog($"Downloading {DownloadFileTo.Replace(Filed.RootPath, "")}...", Color.Green);
+            UIHandler.ResetProgressBarValue();
+
             gettingFile = true;
             long bytesRemaining = args.ContentLength;
             int bytesRead = 0;
             byte[] buffer = new byte[bufferSize];
+
+            UIHandler.SetProgressBarMaxValue((int)bytesRemaining);
 
             Directory.CreateDirectory(Path.GetDirectoryName(DownloadFileTo));
 
@@ -158,6 +161,7 @@ namespace TCPSharpFileSync.NetWorks
                     if (bytesRead > 0)
                     {
                         fs.Write(buffer, 0, bytesRead);
+                        UIHandler.IncrementProgressBar(bytesRead);
                         bytesRemaining -= bytesRead;
                     }
                 }
