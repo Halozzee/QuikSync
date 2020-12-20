@@ -4,6 +4,8 @@ What's that?
 -----------------------
 That's just another way of syncronizing files but via TCP protocol.
 
+![](Downloading.gif)
+
 What it could be needed for?
 -----------------------
 That's personal, but I do use this one myself for syncronizing files between different devices via the wifi.
@@ -34,20 +36,33 @@ How to use it
 
 ### Now it's only local network tested!
 
-The usage of this is really simple. You have 2 options to choose from
+Since now, it's simplier than it was before. If you dont get something - write it in issues but first - check out the GIF instructions!
 
-* Server
-* Client
+1. You have to make the session. It stores IP that it has to be connecting and port that will be used. Also dont forget about the directory that has to be syncronized!
+To make that just start the program and press "New session" button. If you are hosting, local device IP will be used with the same port.
 
-Server option say to the program that it has to be answering on requests sent from client, and as you already might figured out, client sents these requests and gets responses.
+![](SessionMaking.gif)
 
-To start working you have to host the server with the Directory and port textboxes filled. After you have the server up, you have to connect that one with a client. 
+2. After you've made the session you have to host somewhere! Just because otherwise it's not impossible to download from nowhere.
 
-Client is a bit complicated.
+To make the host just select the row in the table of the session you want to be using and press Host.
 
-Since the client do all the work about calcualating mismatches (atleast for now), it has more options that you have to deal with. on client you can choose do you want to download the files or upload them or both or none of them. You can choose what files has to be removed based on their existance on client or their existance on server or both or none of them, as well.
-To connect to the server you have to insert the ip address that shown on the servers side (it's a local ip address).
-You also can edit the timeout option. It's responsable for keeping connection even if server isnt responsing to the client (the time is in milliseconds). After the timeout it's throwing an exception about server not responding in time.
+![](host.gif)
+
+3. After the Host is started (you may know by the message that came in the left down corner on Host window), it's time to start the Joined one!
+
+To Join some Host you have to make the right session(see the 1st point), and press Join.
+
+After the conflicts will be found you will see the Conflict Solver Form where you can decide what to do! When you are done with deciding press "Done" button.
+After that all that you've made will be done by the program!
+
+![](Downloading.gif)
+
+## !Important Hint!
+
+Do not force close the window since it's done. It's making some hash storing job for you so you could use it fast! If you close it, it will have some issues that you have to solve. There's no guide yet, so write what you've got in issues.
+
+Also bugs possible. Issues page is open - write that down.
 
 Contributing
 ========================
