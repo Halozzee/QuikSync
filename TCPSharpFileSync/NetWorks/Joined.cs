@@ -214,16 +214,17 @@ namespace TCPSharpFileSync.NetWorks
                     case SyncAction.Skip:
                         break;
                     case SyncAction.GetNewClone:
-                        string fileNameWithoutExtension = fddList[i].FileRelativePath.Remove(fddList[i].FileRelativePath.LastIndexOf("."), 
-                            fddList[i].FileRelativePath.Length);
-                        string extenstion = fddList[i].FileRelativePath.Remove(0,fddList[i].FileRelativePath.LastIndexOf("."));
+                        string tempFileName = Filed.RootPath + fddList[i].FileRelativePath;
+                        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(tempFileName);
+                        string extenstion = Path.GetExtension(tempFileName);
                         int cntr = 1;
                         while (File.Exists(Filed.RootPath + fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion))
                         {
-                            DownloadFile(fddList[i].FileRelativePath, fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion);
+                            cntr++;
                         }
+                        DownloadFile(fddList[i].FileRelativePath, fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion);
                         Filed.FilesData.Add(new FileData(Filed.RootPath, Filed.MakeLocalPathFromRelative(fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion)));
-                        // HANDLE FOR Filed.ChangeFileModifiedStatusByRel(fddList[i].FileRelativePath, FileModifiedStatus.Untouched);!!!!!!!
+                        Filed.ChangeFileModifiedStatusByRelativePath(fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion, FileModifiedStatus.Changed);
                         break;
                     case SyncAction.Delete:
                         File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
