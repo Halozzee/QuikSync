@@ -205,7 +205,6 @@ namespace TCPSharpFileSync.NetWorks
                     case SyncAction.GetFromHost:
                         File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
                         DownloadFile(fddList[i].FileRelativePath);
-                        Filed.FilesData.Add(new FileData(Filed.RootPath, Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath)));
                         Filed.ChangeFileModifiedStatusByRelativePath(fddList[i].FileRelativePath, FileModifiedStatus.Changed);
                         break;
                     case SyncAction.GetFromJoined:

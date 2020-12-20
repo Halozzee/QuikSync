@@ -56,8 +56,8 @@ namespace TCPSharpFileSync
         {
             foreach (var item in diffs)
             {
-                string hs = item.Host.byteSize      == -1  ? "-" : item.Host.byteSize.ToString();
-                string js = item.Joined.byteSize    == -1  ? "-" : item.Joined.byteSize.ToString();
+                string hs = item.Host.byteSize      == -1  ? "-" : FormatBytes(item.Host.byteSize);
+                string js = item.Joined.byteSize    == -1  ? "-" : FormatBytes(item.Joined.byteSize);
                 dataGridView1.Rows.Add(Resources.NotChosen, item.FileRelativePath, hs, js, item.Host.lastTime, item.Joined.lastTime);
 
                 if (hs == "-")
@@ -143,6 +143,23 @@ namespace TCPSharpFileSync
             }
         }
 
+        /// <summary>
+        /// Function made for displaying not just Bytes but GB and MB and so on, so user could see more common things.
+        /// </summary>
+        /// <param name="bytes">Size that has to be formated from bytes.</param>
+        /// <returns>Formated string for displaying size.</returns>
+        private static string FormatBytes(long bytes)
+        {
+            string[] Suffix = { "B", "KB", "MB", "GB", "TB" };
+            int i;
+            double dblSByte = bytes;
+            for (i = 0; i < Suffix.Length && bytes >= 1024; i++, bytes /= 1024)
+            {
+                dblSByte = bytes / 1024.0;
+            }
+
+            return String.Format("{0:0.##} {1}", dblSByte, Suffix[i]);
+        }
         private void hostBtn_Click(object sender, EventArgs e)
         {
             SetForSelectedRowsAction(SyncAction.GetFromHost);

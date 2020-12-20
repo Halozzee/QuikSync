@@ -95,7 +95,6 @@ namespace TCPSharpFileSync.NetWorks
                 DownloadFileTo = Filed.RootPath + cmd.Replace("!catchFile ", "");
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 servH.Events.StreamReceived += StreamReceived;
-                Filed.ChangeFileModifiedStatusByRelativePath(cmd, FileModifiedStatus.Changed);
             }
             else if (cmd.Contains("!exists "))
             {
@@ -164,6 +163,8 @@ namespace TCPSharpFileSync.NetWorks
                 }
             }
 
+            Filed.FilesData.Add(new FileData(Filed.RootPath, DownloadFileTo));
+            Filed.ChangeFileModifiedStatusByRelativePath(DownloadFileTo.Replace(Filed.RootPath, ""), FileModifiedStatus.Changed);
             UIHandler.WriteLog($"Downloaded {DownloadFileTo.Replace(Filed.RootPath, "")}", Color.Green);
 
             DownloadFileTo = "";
