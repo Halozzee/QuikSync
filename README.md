@@ -25,9 +25,9 @@ Concept
 ----------------------
 For now its just a pretty simple algorithm that resolves some file mismatches by asking user what is supposed to happen if they has different hashes and downloading/uploading files if they doesnt exist on another side. 
 After resolving what is supposed to happen it actually goes for file tranfer based on TCP protocol.
-Resolving goes with the commands that are written in the comments in server.cs, and the answers that goes to the client.
+Resolving goes with the commands that hidden inside Host, and the answers that goes to the Joined.
 
-For now all the calculations are made on the clients side ~~which is not quite right, but I had to mention that~~ and then client decides what to ask the server side about the file content.
+For now all the calculations are made on the Joined side ~~which is not quite right, but I had to mention that~~ and then Joined decides what to ask the server side about the file content.
 
 It's all pretty raw and I guess it will comeout to something greater than that.
 
