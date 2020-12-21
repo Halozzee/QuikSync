@@ -43,7 +43,7 @@ To make that just start the program and press "New session" button. If you are h
 
 ![](SessionMaking.gif)
 
-2. After you've made the session you have to host somewhere! Just because otherwise it's not impossible to download from nowhere.
+2. After you've made the session you have to host somewhere! Just because otherwise it's impossible to download from nowhere.
 
 To make the host just select the row in the table of the session you want to be using and press Host.
 
