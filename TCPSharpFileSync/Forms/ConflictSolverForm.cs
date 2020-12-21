@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using TCPSharpFileSync.NetWorks.ConflictWorks;
@@ -37,6 +38,8 @@ namespace TCPSharpFileSync
 
             DisplayFileDiffData();
             ((DataGridViewImageColumn)(dataGridView1.Columns[0])).ImageLayout = DataGridViewImageCellLayout.Zoom;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45,45,48);
+            dataGridView1.EnableHeadersVisualStyles = false;
         }
        
         private void ConflictSolverForm_Load(object sender, EventArgs e)

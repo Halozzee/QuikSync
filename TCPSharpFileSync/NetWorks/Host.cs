@@ -29,6 +29,7 @@ namespace TCPSharpFileSync.NetWorks
         /// <param name="c">TCPSettings for Host work.</param>
         public Host(TCPSettings c)
         {
+            UIHandler.PlayColorfulBarAnimation(true);
             ts = c;
             msBeforeTimeOut = ts.msTimeout;
             servH = new WatsonTcpServer(ts.ip, ts.port);
@@ -76,6 +77,7 @@ namespace TCPSharpFileSync.NetWorks
                 servH.DisconnectClients();
                 servH.Stop();
                 servH.Dispose();
+                UIHandler.StopColorfulBarAnimation();
             }
             else if (cmd.Contains("!getFile "))
             {

@@ -147,5 +147,17 @@
   <ItemGroup>
     <None Include="Resources\Delete.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_btn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minimize_btn-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LogoNotext.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

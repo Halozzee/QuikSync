@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -7,6 +8,7 @@ using TCPSharpFileSync.LocalWorks.FileWorks;
 using TCPSharpFileSync.LocalWorks.SessionWorks;
 using TCPSharpFileSync.LocalWorks.SetupWorks;
 using TCPSharpFileSync.NetWorks;
+using WinFormAnimation;
 
 namespace TCPSharpFileSync
 {
@@ -39,6 +41,9 @@ namespace TCPSharpFileSync
                 SessionHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
             }
 
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45,45,48);
+            dataGridView1.EnableHeadersVisualStyles = false;
+
             // Initialization of the TCPSetting being used for work.
             // "//" used for skipping through the validation that were throwing out exceptions of out of index.
             //currentTcpSettings = new TCPSettings("//", "", 0, true, true, false, false, (int)timeOutNumericUpDown.Value);
@@ -64,6 +69,15 @@ namespace TCPSharpFileSync
             {
                 circularProgressBar.Visible = vs;
             }));
+
+            UIHandler.ColorfulBar = colorfulBar;
+
+            List<Path3D> pathes = new List<Path3D>();
+
+            pathes.Add(new Path3D(Color.Blue.ToFloat3D(), Color.Red.ToFloat3D(), 2000, 0, AnimationFunctions.CubicEaseIn));
+            pathes.Add(new Path3D(Color.Red.ToFloat3D(), Color.Blue.ToFloat3D(), 2000, 0, AnimationFunctions.CubicEaseIn));
+
+            UIHandler.colorfulBarAnimation = new Animator3D(pathes.ToArray(), FPSLimiterKnownValues.LimitOneHundred);
         }
 
         //private void syncBtn_Click(object sender, EventArgs e)
@@ -245,18 +259,19 @@ namespace TCPSharpFileSync
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void newSessionBtn_Click(object sender, EventArgs e)
         {
             NewSessionForm nsf = new NewSessionForm();
+            nsf.StartPosition = FormStartPosition.CenterParent;
             if (nsf.ShowDialog() == DialogResult.OK)
             {
                 SessionHandler.DisplayThisSessionDataOnDataGridView(ref dataGridView1, nsf.SD);
                 SessionHandler.SDList.Add(nsf.SD);
                 SetupFileHandler.WriteTCPSettingToFile("Setups\\" + nsf.SD.SessionName + ".ini", nsf.SD.SessionName + ".HaDI", new TCPSettings(nsf.SD, 100000));
                 SessionHandler.WriteAllSessionData();
+                dataGridView1.Rows[dataGridView1.Rows.Count - 1].Selected = true;
             }
         }
 
@@ -296,6 +311,42 @@ namespace TCPSharpFileSync
             SessionHandler.RemoveSessionDataAndRelatedFiles(selectedIndex);
             SessionHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
             SessionHandler.WriteAllSessionData();
+        }
+
+        #region Magic code for dragging window wihout boarder!
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        #endregion
+
+        private void closeWindowBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void minimizeBtn_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -28,6 +28,7 @@ namespace TCPSharpFileSync.NetWorks
         /// <param name="c">TCPSettings for Joined work.</param>
         public Joined(TCPSettings c)
         {
+            UIHandler.PlayColorfulBarAnimation(true);
             ts = c;
             msBeforeTimeOut = ts.msTimeout;
             clientH = new WatsonTcpClient(ts.ip, ts.port);
@@ -38,6 +39,7 @@ namespace TCPSharpFileSync.NetWorks
             //clientH.Callbacks.SyncRequestReceived = SyncRequestReceived;
             FileScan(ts.directoryPath);
             clientH.Connect();
+            UIHandler.StopColorfulBarAnimation();
         }
 
         private void JoinedDisconnected(object sender, EventArgs e)
@@ -197,6 +199,7 @@ namespace TCPSharpFileSync.NetWorks
         /// </summary>
         public void Syncronize()
         {
+            UIHandler.PlayColorfulBarAnimation(true);
             GetHostFileDataList();
             UIHandler.WriteLog($"Recieved Host FileData list!", Color.Green);
             Syncronizer sync = new Syncronizer(Filed.FilesData, FDGotFromServer);
@@ -209,7 +212,8 @@ namespace TCPSharpFileSync.NetWorks
                 switch (sync.saList[i])
                 {
                     case SyncAction.GetFromHost:
-                        File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
+                        if(File.Exists(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath)))
+                            File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
                         DownloadFile(fddList[i].FileRelativePath);
                         Filed.ChangeFileModifiedStatusByRelativePath(fddList[i].FileRelativePath, FileModifiedStatus.Changed);
                         break;
@@ -233,7 +237,8 @@ namespace TCPSharpFileSync.NetWorks
                         Filed.ChangeFileModifiedStatusByRelativePath(fileNameWithoutExtension + $"(Cloned {cntr})" + extenstion, FileModifiedStatus.Changed);
                         break;
                     case SyncAction.Delete:
-                        File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
+                        if (File.Exists(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath)))
+                            File.Delete(Filed.MakeLocalPathFromRelative(fddList[i].FileRelativePath));
                         DeleteOnHost(fddList[i].FileRelativePath);
                         Filed.ChangeFileModifiedStatusByRelativePath(fddList[i].FileRelativePath, FileModifiedStatus.Deleted);
                         break;
@@ -249,6 +254,7 @@ namespace TCPSharpFileSync.NetWorks
             FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName, Filed);
             UIHandler.WriteLog("Session done!");
             UIHandler.ToggleProgressBarVisibility(false);
+            UIHandler.StopColorfulBarAnimation();
         }
     }
 }

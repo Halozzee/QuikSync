@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using WinFormAnimation;
 
 namespace TCPSharpFileSync
 {
@@ -27,6 +28,24 @@ namespace TCPSharpFileSync
         public static Action ResetProgressBar;
 
         public static Action<bool> ProgressBarVisibility;
+
+        public static Animator3D colorfulBarAnimation;
+
+        private static Color colorfulBarInitialColor;
+        private static Panel colorfulBar;
+
+        public static Panel ColorfulBar
+        {
+            get 
+            {
+                return colorfulBar;
+            }
+            set 
+            {
+                colorfulBar = value;
+                colorfulBarInitialColor = colorfulBar.BackColor;
+            } 
+        }
 
         static bool visible = false;
 
@@ -76,11 +95,23 @@ namespace TCPSharpFileSync
             ResetProgressBar.Invoke();
         }
 
-        public static void ToggleProgressBarVisibility(bool tgl) 
+        public static void ToggleProgressBarVisibility(bool tgl)
         {
             visible = tgl;
             ResetProgressBarValue();
             ProgressBarVisibility.Invoke(visible);
+        }
+
+        public static void PlayColorfulBarAnimation(bool repeatFlag = false) 
+        {
+            colorfulBarAnimation.Repeat = true;
+            colorfulBarAnimation.Play(colorfulBar, "BackColor");
+        }
+
+        public static void StopColorfulBarAnimation()
+        {
+            colorfulBarAnimation.Stop();
+            colorfulBar.BackColor = colorfulBarInitialColor;
         }
     }
 }

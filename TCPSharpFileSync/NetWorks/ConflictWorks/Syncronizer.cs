@@ -74,6 +74,7 @@ namespace TCPSharpFileSync.NetWorks.ConflictWorks
             }
 
             ConflictSolverForm conflictSolverForm = new ConflictSolverForm(fdd.ToList());
+            conflictSolverForm.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             conflictSolverForm.ShowDialog();
             saList = conflictSolverForm.actions;
         }
