@@ -116,6 +116,8 @@ namespace QuikSync.NetWorks
                 FilerHashesIO.WriteHashesToFile(ts.hashDictionaryName, Filed);
                 sr = new SyncResponse(arg, GetBytesFromString("!dd"));
                 UIHandler.WriteLog("Session done!", Color.Green);
+                UIHandler.ResetProgressBarValue();
+                UIHandler.ToggleProgressBarVisibility(false);
             }
             else if (cmd.Contains("!rm "))
             {

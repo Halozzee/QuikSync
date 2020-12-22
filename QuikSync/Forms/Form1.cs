@@ -73,9 +73,9 @@ namespace QuikSync
             UIHandler.ColorfulBar = colorfulBar;
 
             List<Path3D> pathes = new List<Path3D>();
-
-            pathes.Add(new Path3D(Color.Blue.ToFloat3D(), Color.Red.ToFloat3D(), 2000, 0, AnimationFunctions.CubicEaseIn));
-            pathes.Add(new Path3D(Color.Red.ToFloat3D(), Color.Blue.ToFloat3D(), 2000, 0, AnimationFunctions.CubicEaseIn));
+            pathes.Add(new Path3D(Color.FromArgb(93, 245, 215).ToFloat3D(), Color.FromArgb(107, 163, 246).ToFloat3D(), 1000, 0, AnimationFunctions.CubicEaseIn));
+            pathes.Add(new Path3D(Color.FromArgb(107, 163, 246).ToFloat3D(), Color.FromArgb(133, 251, 96).ToFloat3D(), 1000, 0, AnimationFunctions.CubicEaseIn));
+            pathes.Add(new Path3D(Color.FromArgb(133, 251, 96).ToFloat3D(), Color.FromArgb(93, 245, 215).ToFloat3D(), 1000, 0, AnimationFunctions.CubicEaseIn));
 
             UIHandler.colorfulBarAnimation = new Animator3D(pathes.ToArray(), FPSLimiterKnownValues.LimitOneHundred);
         }
@@ -342,11 +342,6 @@ namespace QuikSync
         private void minimizeBtn_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

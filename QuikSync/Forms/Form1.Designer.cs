@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.HostBtn = new System.Windows.Forms.Button();
             this.JoinBtn = new System.Windows.Forms.Button();
@@ -43,10 +43,10 @@
             this.actionLabel = new System.Windows.Forms.Label();
             this.circularProgressBar = new CircularProgressBar.CircularProgressBar();
             this.colorfulBar = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.minimizeBtn = new System.Windows.Forms.Button();
             this.closeWindowBtn = new System.Windows.Forms.Button();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +56,7 @@
             this.HostBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HostBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.HostBtn.ForeColor = System.Drawing.SystemColors.Menu;
-            this.HostBtn.Location = new System.Drawing.Point(652, 39);
+            this.HostBtn.Location = new System.Drawing.Point(652, 44);
             this.HostBtn.Name = "HostBtn";
             this.HostBtn.Size = new System.Drawing.Size(152, 42);
             this.HostBtn.TabIndex = 1;
@@ -69,7 +69,7 @@
             this.JoinBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.JoinBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.JoinBtn.ForeColor = System.Drawing.SystemColors.Menu;
-            this.JoinBtn.Location = new System.Drawing.Point(652, 87);
+            this.JoinBtn.Location = new System.Drawing.Point(652, 92);
             this.JoinBtn.Name = "JoinBtn";
             this.JoinBtn.Size = new System.Drawing.Size(152, 42);
             this.JoinBtn.TabIndex = 2;
@@ -84,30 +84,30 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Menu;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SessionName,
             this.Directory,
             this.IP_PORT,
             this.LastTimeUsed});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.Menu;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(150)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.Menu;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.Menu;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(58)))));
-            this.dataGridView1.Location = new System.Drawing.Point(12, 39);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 44);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
@@ -146,7 +146,7 @@
             this.removeSelectedBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeSelectedBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.removeSelectedBtn.ForeColor = System.Drawing.SystemColors.Menu;
-            this.removeSelectedBtn.Location = new System.Drawing.Point(652, 303);
+            this.removeSelectedBtn.Location = new System.Drawing.Point(652, 308);
             this.removeSelectedBtn.Name = "removeSelectedBtn";
             this.removeSelectedBtn.Size = new System.Drawing.Size(152, 23);
             this.removeSelectedBtn.TabIndex = 4;
@@ -159,7 +159,7 @@
             this.newSessionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.newSessionBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.newSessionBtn.ForeColor = System.Drawing.SystemColors.Menu;
-            this.newSessionBtn.Location = new System.Drawing.Point(652, 176);
+            this.newSessionBtn.Location = new System.Drawing.Point(652, 181);
             this.newSessionBtn.Name = "newSessionBtn";
             this.newSessionBtn.Size = new System.Drawing.Size(152, 44);
             this.newSessionBtn.TabIndex = 5;
@@ -179,7 +179,7 @@
             // circularProgressBar
             // 
             this.circularProgressBar.AnimationFunction = WinFormAnimation.KnownAnimationFunctions.Liner;
-            this.circularProgressBar.AnimationSpeed = 500;
+            this.circularProgressBar.AnimationSpeed = 10;
             this.circularProgressBar.BackColor = System.Drawing.Color.Transparent;
             this.circularProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.circularProgressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -191,9 +191,9 @@
             this.circularProgressBar.Name = "circularProgressBar";
             this.circularProgressBar.OuterColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(80)))));
             this.circularProgressBar.OuterMargin = -25;
-            this.circularProgressBar.OuterWidth = 26;
-            this.circularProgressBar.ProgressColor = System.Drawing.Color.Lime;
-            this.circularProgressBar.ProgressWidth = 10;
+            this.circularProgressBar.OuterWidth = 25;
+            this.circularProgressBar.ProgressColor = System.Drawing.Color.MediumTurquoise;
+            this.circularProgressBar.ProgressWidth = 2;
             this.circularProgressBar.SecondaryFont = new System.Drawing.Font("Microsoft Sans Serif", 36F);
             this.circularProgressBar.Size = new System.Drawing.Size(27, 27);
             this.circularProgressBar.StartAngle = 270;
@@ -216,6 +216,17 @@
             this.colorfulBar.Name = "colorfulBar";
             this.colorfulBar.Size = new System.Drawing.Size(830, 10);
             this.colorfulBar.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Cooper Black", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.Menu;
+            this.label1.Location = new System.Drawing.Point(31, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "QUIKSYNC";
             // 
             // minimizeBtn
             // 
@@ -248,23 +259,12 @@
             // 
             this.logoPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.logoPictureBox.Image = global::QuikSync.Properties.Resources.LogoNotext;
-            this.logoPictureBox.Location = new System.Drawing.Point(1, 3);
+            this.logoPictureBox.Location = new System.Drawing.Point(10, 7);
             this.logoPictureBox.Name = "logoPictureBox";
-            this.logoPictureBox.Size = new System.Drawing.Size(31, 32);
+            this.logoPictureBox.Size = new System.Drawing.Size(25, 25);
             this.logoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.logoPictureBox.TabIndex = 8;
             this.logoPictureBox.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Cooper Black", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.Menu;
-            this.label1.Location = new System.Drawing.Point(31, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "QUIKSYNC";
             // 
             // Form1
             // 

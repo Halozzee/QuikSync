@@ -27,13 +27,29 @@ namespace QuikSync
         /// </summary>
         public static Action ResetProgressBar;
 
+        /// <summary>
+        /// Delegate that made to switch ProgressBar visibility.
+        /// </summary>
         public static Action<bool> ProgressBarVisibility;
 
+        /// <summary>
+        /// Animator3D that made for making color animation for colorfulBar.
+        /// </summary>
         public static Animator3D colorfulBarAnimation;
 
+        /// <summary>
+        /// Initial color of the colorfulBar for getting color back after.
+        /// </summary>
         private static Color colorfulBarInitialColor;
+
+        /// <summary>
+        /// ColorfulBar that will be indication if the app is working or not.
+        /// </summary>
         private static Panel colorfulBar;
 
+        /// <summary>
+        /// ColorfulBar that will be indication if the app is working or not.
+        /// </summary>
         public static Panel ColorfulBar
         {
             get 
@@ -46,8 +62,6 @@ namespace QuikSync
                 colorfulBarInitialColor = colorfulBar.BackColor;
             } 
         }
-
-        static bool visible = false;
 
         /// <summary>
         /// Function that invokes writing to the RichTextBox delegate with standart text color.
@@ -97,9 +111,8 @@ namespace QuikSync
 
         public static void ToggleProgressBarVisibility(bool tgl)
         {
-            visible = tgl;
             ResetProgressBarValue();
-            ProgressBarVisibility.Invoke(visible);
+            ProgressBarVisibility.Invoke(tgl);
         }
 
         public static void PlayColorfulBarAnimation(bool repeatFlag = false) 
