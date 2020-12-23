@@ -29,6 +29,7 @@ namespace QuikSync.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewSessionForm));
             this.sessionNameTextBox = new System.Windows.Forms.TextBox();
             this.dirPathTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,6 +40,7 @@ namespace QuikSync.Forms
             this.portTextBox = new System.Windows.Forms.TextBox();
             this.doneBtn = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.closeWindowBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // sessionNameTextBox
@@ -46,7 +48,7 @@ namespace QuikSync.Forms
             this.sessionNameTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.sessionNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.sessionNameTextBox.ForeColor = System.Drawing.SystemColors.Menu;
-            this.sessionNameTextBox.Location = new System.Drawing.Point(49, 19);
+            this.sessionNameTextBox.Location = new System.Drawing.Point(49, 30);
             this.sessionNameTextBox.Name = "sessionNameTextBox";
             this.sessionNameTextBox.Size = new System.Drawing.Size(221, 31);
             this.sessionNameTextBox.TabIndex = 0;
@@ -145,12 +147,26 @@ namespace QuikSync.Forms
             this.doneBtn.UseVisualStyleBackColor = true;
             this.doneBtn.Click += new System.EventHandler(this.doneBtn_Click);
             // 
+            // closeWindowBtn
+            // 
+            this.closeWindowBtn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("closeWindowBtn.BackgroundImage")));
+            this.closeWindowBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.closeWindowBtn.FlatAppearance.BorderSize = 0;
+            this.closeWindowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.closeWindowBtn.Location = new System.Drawing.Point(293, 7);
+            this.closeWindowBtn.Name = "closeWindowBtn";
+            this.closeWindowBtn.Size = new System.Drawing.Size(20, 18);
+            this.closeWindowBtn.TabIndex = 10;
+            this.closeWindowBtn.UseVisualStyleBackColor = true;
+            this.closeWindowBtn.Click += new System.EventHandler(this.closeWindowBtn_Click);
+            // 
             // NewSessionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(320, 319);
+            this.Controls.Add(this.closeWindowBtn);
             this.Controls.Add(this.doneBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.portTextBox);
@@ -160,9 +176,12 @@ namespace QuikSync.Forms
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dirPathTextBox);
             this.Controls.Add(this.sessionNameTextBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "NewSessionForm";
             this.Text = "NewSessionForm";
+            this.Load += new System.EventHandler(this.NewSessionForm_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.NewSessionForm_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NewSessionForm_MouseDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -180,5 +199,6 @@ namespace QuikSync.Forms
         private System.Windows.Forms.TextBox portTextBox;
         private System.Windows.Forms.Button doneBtn;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.Button closeWindowBtn;
     }
 }

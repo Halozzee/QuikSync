@@ -343,5 +343,10 @@ namespace QuikSync
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        private void dataGridView1_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawRectangle(new Pen(Color.FromArgb(38, 38, 42), 2), this.DisplayRectangle);
+        }
     }
 }

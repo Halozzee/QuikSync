@@ -41,11 +41,6 @@ namespace QuikSync
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45,45,48);
             dataGridView1.EnableHeadersVisualStyles = false;
         }
-       
-        private void ConflictSolverForm_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void doneBtn_Click(object sender, EventArgs e)
         {
@@ -186,6 +181,42 @@ namespace QuikSync
         private void skipBtn_Click(object sender, EventArgs e)
         {
             SetForSelectedRowsAction(SyncAction.Skip);
+        }
+
+        private void closeWindowBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void minimizeBtn_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        #region Magic code for dragging window wihout boarder!
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void ConflictSolverForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        #endregion
+
+        private void ConflictSolverForm_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawRectangle(new Pen(Color.FromArgb(38,38,42), 2), this.DisplayRectangle);
         }
     }
 }
