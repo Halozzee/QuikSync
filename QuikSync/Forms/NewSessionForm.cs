@@ -23,11 +23,61 @@ namespace QuikSync.Forms
             InitializeComponent();
         }
 
+
+        /// <summary>
+        /// Function made for validation IP addresses.
+        /// </summary>
+        /// <param name="ip">IP address that has to be validated.</param>
+        /// <returns>Answer true if it's OK and false if there's some mistakes.</returns>
+        private bool ValidateIp(string ip)
+        {
+            string[] splitted = ip.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (splitted.Length != 4)
+                return false;
+
+            for (int i = 0; i < splitted.Length; i++)
+            {
+                int crnt = 0;
+                bool tried = int.TryParse(splitted[i], out crnt);
+
+                if (!tried)
+                    return false;
+
+                if (crnt < 0 || crnt > 255)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Function made for validation Ports.
+        /// </summary>
+        /// <param name="port">Port that has to be validated.</param>
+        /// <returns>Answer true if it's OK and false if there's some mistakes.</returns>
+        private bool ValidatePort(string port)
+        {
+            int p;
+
+            bool tried = int.TryParse(port, out p);
+
+            if (!tried)
+                return false;
+
+            return p >= 0 && p < 65536;
+        }
+
         private void doneBtn_Click(object sender, EventArgs e)
         {
-            if (sessionNameTextBox.Text != "" && dirPathTextBox.Text != "" && ipTextBox.Text != "" && portTextBox.Text != "" &&
-                sessionNameTextBox.Text != "Your session name" && dirPathTextBox.Text != "Your directory" && ipTextBox.Text != "IP address" 
-                && portTextBox.Text != "Port")
+            // Validating IP address
+            bool validateIPAnswer = ValidateIp(ipTextBox.Text);
+
+            // Validating Port
+            bool validatePortAnswer = ValidatePort(portTextBox.Text);
+
+            if (sessionNameTextBox.Text != "" && dirPathTextBox.Text != "" &&
+                sessionNameTextBox.Text != "Your session name" && dirPathTextBox.Text != "Your directory" && validateIPAnswer && validatePortAnswer)
             {
                 if (SessionHandler.CheckRecordingExistance(sessionNameTextBox.Text))
                 {
@@ -41,11 +91,20 @@ namespace QuikSync.Forms
                     this.Close();
                 }
             }
+            else if (!validateIPAnswer)
+            {
+                MessageBox.Show("Wrong IP address!");
+            }
+            else if (!validatePortAnswer)
+            {
+                MessageBox.Show("Wrong Port!");
+            }
             else
             {
                 MessageBox.Show("Not everything is filled!");
             }
         }
+
 
         private void browseFolderBtn_Click(object sender, EventArgs e)
         {
