@@ -36,7 +36,7 @@ How to use it
 
 ### Now it's only local network tested!
 
-Since now, it's simplier than it was before. If you dont get something - write it in issues but first - check out the GIF instructions!
+Since now, it's much simplier than it was before. If you dont get something - write it in issues but first - check out the GIF instructions!
 
 1. You have to make the session. It stores IP that it has to be connecting and port that will be used. Also dont forget about the directory that has to be syncronized!
 To make that just start the program and press "New session" button. If you are hosting, local device IP will be used with the same port.
