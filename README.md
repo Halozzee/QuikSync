@@ -2,7 +2,8 @@ Explanation of this existing
 ========================
 What's that?
 -----------------------
-That's just another way of syncronizing files but via TCP protocol.
+That's just another way of syncronizing files via TCP protocol.
+With this you can syncronize all your media files and even more!
 
 ![](Downloading.gif)
 
