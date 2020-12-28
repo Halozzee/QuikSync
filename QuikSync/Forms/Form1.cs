@@ -273,10 +273,10 @@ namespace QuikSync
             nsf.StartPosition = FormStartPosition.CenterParent;
             if (nsf.ShowDialog() == DialogResult.OK)
             {
-                SessionHandler.DisplayThisSessionDataOnDataGridView(ref dataGridView1, nsf.SD);
                 SessionHandler.SDList.Add(nsf.SD);
                 SetupFileHandler.WriteTCPSettingToFile("Setups\\" + nsf.SD.SessionName + ".ini", nsf.SD.SessionName + ".HaDI", new TCPSettings(nsf.SD, 100000));
                 SessionHandler.WriteAllSessionData();
+                SessionHandler.DisplayThisSessionDataOnDataGridView(ref dataGridView1, nsf.SD);
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].Selected = true;
             }
         }
