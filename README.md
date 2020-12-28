@@ -39,7 +39,7 @@ After that all that you've made will be done by the program!
 
 Do not force close the window since it's done. It's making some hash storing job for you so you could use it fast! If you close it, it will have some issues that you have to solve. There's no guide yet, so write what you've got in issues.
 
-Also some bugs possible. Issues page is open - write that down and I will fix this most of them in the same day.
+Got some errors? - feel free to post the log file to the issues page with some explanations if you will!
 
 Contributing
 ========================
