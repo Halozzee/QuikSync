@@ -49,10 +49,6 @@ namespace QuikSync.NetWorks
             FileScan(ts.directoryPath);
             servH.Start();
             UIHandler.WriteLog($"Host started!", Color.Green);
-
-            int[] a = new int[123];
-
-            a[1242] = 1;
         }
 
         public void Stop() 
