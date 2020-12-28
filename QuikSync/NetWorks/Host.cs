@@ -29,7 +29,6 @@ namespace QuikSync.NetWorks
         /// <param name="c">TCPSettings for Host work.</param>
         public Host(TCPSettings c)
         {
-            UIHandler.PlayColorfulBarAnimation(true);
             ts = c;
             msBeforeTimeOut = ts.msTimeout;
             servH = new WatsonTcpServer(ts.ip, ts.port);
@@ -42,10 +41,25 @@ namespace QuikSync.NetWorks
             servH.Keepalive.TcpKeepAliveInterval = 10;
             servH.Keepalive.TcpKeepAliveTime = msBeforeTimeOut;
             servH.Keepalive.TcpKeepAliveRetryCount = 10;
+        }
 
+        public void Start() 
+        {
+            UIHandler.PlayColorfulBarAnimation(true);
             FileScan(ts.directoryPath);
             servH.Start();
             UIHandler.WriteLog($"Host started!", Color.Green);
+
+            int[] a = new int[123];
+
+            a[1242] = 1;
+        }
+
+        public void Stop() 
+        {
+            UIHandler.StopColorfulBarAnimation();
+            servH.Stop();
+            UIHandler.WriteLog($"Host closed!", Color.Green);
         }
 
         /// <summary>

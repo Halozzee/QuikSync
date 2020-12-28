@@ -28,7 +28,6 @@ namespace QuikSync.NetWorks
         /// <param name="c">TCPSettings for Joined work.</param>
         public Joined(TCPSettings c)
         {
-            UIHandler.PlayColorfulBarAnimation(true);
             ts = c;
             msBeforeTimeOut = ts.msTimeout;
             clientH = new WatsonTcpClient(ts.ip, ts.port);
@@ -37,9 +36,21 @@ namespace QuikSync.NetWorks
             clientH.Events.StreamReceived += StreamReceived;
             //clientH.Events.MessageReceived += MessageReceived;
             //clientH.Callbacks.SyncRequestReceived = SyncRequestReceived;
+
+            UIHandler.StopColorfulBarAnimation();
+        }
+
+        public void Connect()
+        {
+            UIHandler.PlayColorfulBarAnimation(true);
             FileScan(ts.directoryPath);
             clientH.Connect();
+        }
+
+        public void Disconnect()
+        {
             UIHandler.StopColorfulBarAnimation();
+            clientH.Disconnect();
         }
 
         private void JoinedDisconnected(object sender, EventArgs e)
