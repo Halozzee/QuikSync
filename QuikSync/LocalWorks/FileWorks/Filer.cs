@@ -7,6 +7,7 @@ using StringList = System.Collections.Generic.List<string>;
 using System;
 using System.Security.Cryptography;
 using QuikSync.NetWorks.ConflictWorks;
+using QuikSync.LocalWorks.LogWorks;
 
 namespace QuikSync.LocalWorks.FileWorks
 {
@@ -99,27 +100,41 @@ namespace QuikSync.LocalWorks.FileWorks
         /// <param name="pathToDir">Path to a directory that has to be syncronized.</param>
         public Filer(string pathToDir, string relatedHashDictionary)
         {
-            RootPath = pathToDir;
-            List<string> LocalPathesToFillData = Directory.GetFiles(pathToDir, "*.*", SearchOption.AllDirectories).ToList();
-
-            for (int i = 0; i < LocalPathesToFillData.Count; i++)
+            try
             {
-                FilesData.Add(new FileData(RootPath, LocalPathesToFillData[i]));
-            }
+                RootPath = pathToDir;
+                List<string> LocalPathesToFillData = Directory.GetFiles(pathToDir, "*.*", SearchOption.AllDirectories).ToList();
 
-            // Trying to read hashes from file.
-            FilerHashesIO.ReadHashesFromFile(relatedHashDictionary, RootPath, this);
-
-            // If there's none hashes for some file -> compute them.
-            for (int i = 0; i < FilesData.Count; i++)
-            {
-                if (FilesData[i].hashMD5 == "")
+                for (int i = 0; i < LocalPathesToFillData.Count; i++)
                 {
-                    FilesData[i].hashMD5 = CalculateMD5(FilesData[i].localPath);
+                    FilesData.Add(new FileData(RootPath, LocalPathesToFillData[i]));
                 }
-            }
 
-            FilerHashesIO.WriteHashesToFile(relatedHashDictionary, this);
+                UIHandler.WriteLog("Reading hashes...");
+
+                // Trying to read hashes from file.
+                FilerHashesIO.ReadHashesFromFile(relatedHashDictionary, RootPath, this);
+
+                UIHandler.WriteLog("Calculating hashes...");
+
+                // If there's none hashes for some file -> compute them.
+                for (int i = 0; i < FilesData.Count; i++)
+                {
+                    if (FilesData[i].hashMD5 == "")
+                    {
+                        UIHandler.WriteLog($"Calculating {FilesData[i].relativePath} hash...");
+                        FilesData[i].hashMD5 = CalculateMD5(FilesData[i].localPath);
+                    }
+                }
+
+                UIHandler.WriteLog("Saving hashes...");
+                FilerHashesIO.WriteHashesToFile(relatedHashDictionary, this);
+            }
+            catch (Exception ex)
+            {
+                LogHandler.LCW.Write(ex, "Filer", "Initialization");
+                throw ex;
+            }
         }
 
       

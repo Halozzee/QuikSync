@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using QuikSync.Forms;
 using QuikSync.LocalWorks.FileWorks;
+using QuikSync.LocalWorks.LogWorks;
 using QuikSync.LocalWorks.SessionWorks;
 using QuikSync.LocalWorks.SetupWorks;
 using QuikSync.NetWorks;
@@ -22,9 +23,14 @@ namespace QuikSync
         /// Joined object that used for containing everything if the program runs as Joined.
         /// </summary>
         Joined c;
-
+        /// <summary>
+        /// Index of the selected row in datagridview
+        /// </summary>
         int selectedIndex;
 
+        /// <summary>
+        /// Current TCP settings that were made for current session.
+        /// </summary>
         TCPSettings currentTcpSettings;
 
         public Form1()
@@ -284,25 +290,87 @@ namespace QuikSync
             }
         }
 
+        // Flag for starting\closing Host
+        bool Hosted = false;
+
         private void HostBtn_Click(object sender, EventArgs e)
         {
-            SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
-            SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Host;
-            UIHandler.ToggleProgressBarVisibility(true);
-            s = new Host(currentTcpSettings);
+            if (!Hosted)
+            {
+                try
+                {
+                    SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+                    SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Host;
+                    LogHandler.ChangeSession(SessionHandler.SDList[selectedIndex].SessionName);
+                    UIHandler.ToggleProgressBarVisibility(true);
+                    Hosted = true;
+                    HostBtn.Text = "Close";
+                    s = new Host(currentTcpSettings);
+                    s.Start();
+                    LogHandler.LCW.Write("Host started", "Host", "Start");
+                }
+                catch (Exception ex)
+                {
+                    LogHandler.LCW.Write(ex, "Host", "Start");
+                    throw ex;
+                }
+            }
+            else 
+            {
+                try
+                {
+                    Hosted = false;
+                    s.Stop();
+                    HostBtn.Text = "Host";
+                    LogHandler.LCW.Write("Host Stopped", "Host", "Stop");
+                }
+                catch (Exception ex)
+                {
+                    LogHandler.LCW.Write(ex, "Host", "Stop");
+                    throw ex;
+                }
+            }
         }
 
+        //========== future feature
+        bool Joined = false;
+        Thread InstanceCaller;
         private void JoinBtn_Click(object sender, EventArgs e)
         {
-            SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
-            SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Joined;
-            UIHandler.ToggleProgressBarVisibility(true);
-            c = new Joined(currentTcpSettings);
-            // Starting syncronization as a background thread so it does not freeze the main form.
-            Thread InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
-            InstanceCaller.IsBackground = true;
-            // Start the thread.
-            InstanceCaller.Start();
+            //if (!Joined)
+            //{
+
+            //========== future feature
+
+            try
+            {
+                SessionHandler.SDList[selectedIndex].LastTimeUsed = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+                SessionHandler.SDList[selectedIndex].LA = LaunchedAs.Joined;
+                LogHandler.ChangeSession(SessionHandler.SDList[selectedIndex].SessionName);
+                UIHandler.ToggleProgressBarVisibility(true);
+                Joined = true;
+                c = new Joined(currentTcpSettings);
+                c.Connect();
+                LogHandler.LCW.Write("Joined connected", "Joined", "Start");
+                // Starting syncronization as a background thread so it does not freeze the main form.
+                InstanceCaller = new Thread(new ThreadStart(c.Syncronize));
+                InstanceCaller.IsBackground = true;
+                // Start the thread.
+                InstanceCaller.Start();
+            }
+            catch (Exception ex)
+            {
+                LogHandler.LCW.Write(ex, "Joined", "Start");
+                throw ex;
+            }
+
+            //}
+            //else 
+            //{
+            //    Joined = false;
+            //    InstanceCaller.Abort();
+            //    c.Disconnect();
+            //}
         }
 
         private void removeSelectedBtn_Click(object sender, EventArgs e)

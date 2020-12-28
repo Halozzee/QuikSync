@@ -69,6 +69,10 @@
     </Compile>
     <Compile Include="LocalWorks\Attributes\Reading.cs" />
     <Compile Include="LocalWorks\Attributes\Saving.cs" />
+    <Compile Include="LocalWorks\LogWorks\Attributes.cs" />
+    <Compile Include="LocalWorks\LogWorks\LogHandler.cs" />
+    <Compile Include="LocalWorks\LogWorks\LogStreamWriter.cs" />
+    <Compile Include="LocalWorks\LogWorks\LogViewer.cs" />
     <Compile Include="LocalWorks\SessionWorks\SessionData.cs" />
     <Compile Include="LocalWorks\SessionWorks\SessionHandler.cs" />
     <Compile Include="LocalWorks\SetupWorks\SetupFileHandler.cs" />
@@ -162,5 +166,6 @@
   <ItemGroup>
     <None Include="Resources\Logo.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
