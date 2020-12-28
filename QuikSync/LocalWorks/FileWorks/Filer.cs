@@ -119,6 +119,7 @@ namespace QuikSync.LocalWorks.FileWorks
             {
                 if (FilesData[i].hashMD5 == "")
                 {
+                    UIHandler.WriteLog($"Calculating {FilesData[i].relativePath} hash...");
                     FilesData[i].hashMD5 = CalculateMD5(FilesData[i].localPath);
                 }
             }
