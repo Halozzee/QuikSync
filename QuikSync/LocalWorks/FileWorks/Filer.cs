@@ -107,8 +107,12 @@ namespace QuikSync.LocalWorks.FileWorks
                 FilesData.Add(new FileData(RootPath, LocalPathesToFillData[i]));
             }
 
+            UIHandler.WriteLog("Reading hashes...");
+
             // Trying to read hashes from file.
             FilerHashesIO.ReadHashesFromFile(relatedHashDictionary, RootPath, this);
+
+            UIHandler.WriteLog("Calculating hashes...");
 
             // If there's none hashes for some file -> compute them.
             for (int i = 0; i < FilesData.Count; i++)
@@ -119,6 +123,7 @@ namespace QuikSync.LocalWorks.FileWorks
                 }
             }
 
+            UIHandler.WriteLog("Saving hashes...");
             FilerHashesIO.WriteHashesToFile(relatedHashDictionary, this);
         }
 

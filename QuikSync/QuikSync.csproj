@@ -162,5 +162,8 @@
   <ItemGroup>
     <None Include="Resources\Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LocalWorks\LogWorks\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
