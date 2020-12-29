@@ -44,7 +44,7 @@ namespace QuikSync.NetWorks
         }
 
         public void Start() 
-        {
+        { 
             UIHandler.PlayColorfulBarAnimation(true);
             FileScan(ts.directoryPath);
             servH.Start();

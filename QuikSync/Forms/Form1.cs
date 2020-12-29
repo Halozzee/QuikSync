@@ -35,24 +35,43 @@ namespace QuikSync
 
         public Form1()
         {
+            SplashScreen ss = new SplashScreen();
+            ss.Show();
+            ss.MaxValue = 6;
+            ss.SetText("Making components...");
             InitializeComponent();
+            ss.IncrementValue(1);
+            ss.SetText("Initializing UI works...");
             InitializeUIHandler();
+            ss.IncrementValue(1);
 
+            ss.SetText("Looking for needed directories...");
             // Checking if all the needed folders does exist.
             FolderHandler.InitializeNeededDirectories();
+            ss.IncrementValue(1);
 
+            ss.SetText("Looking for session story...");
             if (SessionHandler.CheckSessionsStoryExistance())
             {
+                ss.SetText("Loading session story...");
                 SessionHandler.TryReadSessionData();
                 SessionHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
+                ss.IncrementValue(1);
             }
+            ss.IncrementValue(1);
 
+            ss.SetText("Changing styles...");
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45,45,48);
             dataGridView1.EnableHeadersVisualStyles = false;
+            ss.IncrementValue(1);
 
             // Initialization of the TCPSetting being used for work.
             // "//" used for skipping through the validation that were throwing out exceptions of out of index.
             //currentTcpSettings = new TCPSettings("//", "", 0, true, true, false, false, (int)timeOutNumericUpDown.Value);
+
+            ss.SetText("Done!");
+            Thread.Sleep(1000);
+            ss.Close();
         }
 
         /// <summary>
@@ -415,6 +434,12 @@ namespace QuikSync
         private void dataGridView1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawRectangle(new Pen(Color.FromArgb(38, 38, 42), 2), this.DisplayRectangle);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SplashScreen ss = new SplashScreen();
+            ss.ShowDialog();
         }
     }
 }
