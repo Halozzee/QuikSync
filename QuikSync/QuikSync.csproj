@@ -67,6 +67,12 @@
     <Compile Include="Forms\NewSessionForm.Designer.cs">
       <DependentUpon>NewSessionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocalWorks\Attributes\Reading.cs" />
     <Compile Include="LocalWorks\Attributes\Saving.cs" />
     <Compile Include="LocalWorks\LogWorks\Attributes.cs" />
@@ -108,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewSessionForm.resx">
       <DependentUpon>NewSessionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
