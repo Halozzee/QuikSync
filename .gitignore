@@ -183,3 +183,6 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 .vs
+
+# Install project
+QuikSyncInstall/
