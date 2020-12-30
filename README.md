@@ -1,7 +1,5 @@
-Explanation of this existing
-========================
 What is that?
------------------------
+========================
 That is an application that would allow you to share and choose what to share between several devices.
 With this you can syncronize all your media files and even more!
 That's personal, but I do use this one myself for syncronizing files between different devices via the wifi , which is really hard to made with USB drive, although I dont know which files should I write to it and which are not.
