@@ -10,8 +10,14 @@ That's personal, but I do use this one myself for syncronizing files between dif
 
 How to use it
 ========================
-
 ### Now it's only local network tested!
+
+First, you have to install it: 
+1. Download .zip of the latest release. 
+2. Extract files. 
+3. Start setup file.
+
+After that you has to be pretty much ready to go. If something wrong with the app - make sure to post issue in the issues tab. I'll fix this ASAP.
 
 Since now, it's much simplier than it was before. If you dont get something - write it in issues but first - check out the GIF instructions!
 
@@ -46,6 +52,9 @@ Contributing
 ========================
 Making your own contribute
 ------------------------
+note: you have to **clone** project with your git **DO NOT** download just .zip from the site.
+I have no idea why, but sometimes .zip does not contain all the files that are needed for starting up the project.
+
 The [contributing guide](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/CONTRIBUTING.md) for this project.
 
 Still dont know what to do?
