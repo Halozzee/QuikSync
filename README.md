@@ -6,6 +6,16 @@ That's personal, but I do use this one myself for syncronizing files between dif
 
 ![](Downloading.gif)
 
+What that could used for?
+========================
+With that application you can syncronize all your files on several devices and it means:
+
+1. You can share files wireless.
+2. Be able to see files latest information (size and last write time).
+3. Decide which is the file you want to have (if there's different on several devices).
+
+Basically, imagine this as a windows explorer but it's wireless and works in case if there's some conflicts.
+
 How to use it
 ========================
 ### Now it's only local network tested!
