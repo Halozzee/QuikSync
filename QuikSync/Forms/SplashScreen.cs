@@ -33,7 +33,7 @@ namespace QuikSync.Forms
         public void IncrementValue(int inc = 1)
         {
             CurrentValue += inc;
-            progressPanel.Width = (int)((CurrentValue / (double)MaxValue * 100) * (this.Width/(double)100));
+            ReDrawProgressBar();
             this.Update();
         }
 
@@ -43,7 +43,13 @@ namespace QuikSync.Forms
             this.Update();
         }
 
-        public int MaxValue {get; set;}
+        public void ReDrawProgressBar() 
+        {
+            progressPanel.Width = (int)((CurrentValue / (double)MaxValue * 100) * (this.Width / (double)100));
+        }
+
+        private int maxVal;
+        public int MaxValue { get { return maxVal; } set { maxVal = value;  ReDrawProgressBar(); } }
         public int CurrentValue {get; set;}
     }
 }

@@ -37,33 +37,40 @@ namespace QuikSync
         {
             SplashScreen ss = new SplashScreen();
             ss.Show();
-            ss.MaxValue = 6;
+            ss.MaxValue = 5;
             ss.SetText("Making components...");
             InitializeComponent();
             ss.IncrementValue(1);
+            Thread.Sleep(1000);
             ss.SetText("Initializing UI works...");
             InitializeUIHandler();
             ss.IncrementValue(1);
+            Thread.Sleep(1000);
 
             ss.SetText("Looking for needed directories...");
             // Checking if all the needed folders does exist.
             FolderHandler.InitializeNeededDirectories();
             ss.IncrementValue(1);
+            Thread.Sleep(1000);
 
             ss.SetText("Looking for session story...");
             if (SessionHandler.CheckSessionsStoryExistance())
             {
+                ss.MaxValue = 6;
                 ss.SetText("Loading session story...");
                 SessionHandler.TryReadSessionData();
                 SessionHandler.LoadSessionDataListToDataOnDataGridView(ref dataGridView1);
                 ss.IncrementValue(1);
+                Thread.Sleep(1000);
             }
             ss.IncrementValue(1);
+            Thread.Sleep(1000);
 
             ss.SetText("Changing styles...");
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45,45,48);
             dataGridView1.EnableHeadersVisualStyles = false;
             ss.IncrementValue(1);
+            Thread.Sleep(1000);
 
             // Initialization of the TCPSetting being used for work.
             // "//" used for skipping through the validation that were throwing out exceptions of out of index.
