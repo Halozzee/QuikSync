@@ -1,17 +1,32 @@
-Explanation of this existing
-========================
 What is that?
------------------------
+========================
 That is an application that would allow you to share and choose what to share between several devices.
 With this you can syncronize all your media files and even more!
+
 That's personal, but I do use this one myself for syncronizing files between different devices via the wifi , which is really hard to made with USB drive, although I dont know which files should I write to it and which are not.
 
 ![](Downloading.gif)
 
+What that could used for?
+========================
+With that application you can syncronize all your files on several devices and it means:
+
+1. You can share files wireless.
+2. Be able to see files latest information (size and last write time).
+3. Decide which is the file you want to have (if there's different on several devices).
+
+Basically, imagine this as a windows explorer but it's wireless and works in case if there's some conflicts.
+
 How to use it
 ========================
-
 ### Now it's only local network tested!
+
+First, you have to install it: 
+1. Download .zip of the latest release. 
+2. Extract files. 
+3. Start setup file.
+
+After that you has to be pretty much ready to go. If something wrong with the app - make sure to post issue in the issues tab. I'll fix this ASAP.
 
 Since now, it's much simplier than it was before. If you dont get something - write it in issues but first - check out the GIF instructions!
 
@@ -46,6 +61,9 @@ Contributing
 ========================
 Making your own contribute
 ------------------------
+note: you have to **clone** project with your git **DO NOT** download just .zip from the site.
+I have no idea why, but sometimes .zip does not contain all the files that are needed for starting up the project.
+
 The [contributing guide](https://github.com/Halozzee/TcpDirectorySyncronizer/blob/master/CONTRIBUTING.md) for this project.
 
 Still dont know what to do?
